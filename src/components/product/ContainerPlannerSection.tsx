@@ -61,7 +61,7 @@ const PLANNER_I18N = {
     itemThcVal: 'Included in FOB',
     itemCert: 'Phytosanitary & IMO Non-DG Certificate SP925:',
     itemCertVal: 'Complimentary',
-    btnWhatsapp: 'Send RFQ Directly to WhatsApp Export Director →',
+    btnWhatsapp: 'Send RFQ Directly to WhatsApp Export Director',
     waMsg: 'Hello Export Director at NusantaraOrigin, I am {name} from {company}. I simulated {qty}x {type} ({mt} MT) and would like to receive the official stamped proforma invoice.',
   },
   id: {
@@ -118,7 +118,7 @@ const PLANNER_I18N = {
     itemThcVal: 'Included in FOB',
     itemCert: 'Phytosanitary & IMO Non-DG Certificate SP925:',
     itemCertVal: 'Complimentary',
-    btnWhatsapp: 'Kirim RFQ Langsung ke WhatsApp Direktur Ekspor →',
+    btnWhatsapp: 'Kirim RFQ Langsung ke WhatsApp Direktur Ekspor',
     waMsg: 'Halo Direktur Ekspor NusantaraOrigin, saya {name} dari {company}. Saya telah melakukan simulasi kargo kontainer {qty}x {type} ({mt} MT) dan ingin mendapatkan Official Proforma Invoice resmi.',
   },
   ar: {
@@ -175,7 +175,7 @@ const PLANNER_I18N = {
     itemThcVal: 'مشمول في سعر FOB',
     itemCert: 'الشهادة النباتية وشهادة IMO Non-DG SP925:',
     itemCertVal: 'مقدمة مجاناً',
-    btnWhatsapp: 'إرسال طلب السعر مباشرة إلى واتساب مدير التصدير →',
+    btnWhatsapp: 'إرسال طلب السعر مباشرة إلى واتساب مدير التصدير',
     waMsg: 'مرحباً مدير التصدير بشركة NusantaraOrigin، أنا {name} من شركة {company}. قمت بمحاكاة شحن {qty}x {type} ({mt} طن متري) وأود الحصول على الفاتورة المبدئية الرسمية.',
   },
   zh: {
@@ -232,7 +232,7 @@ const PLANNER_I18N = {
     itemThcVal: '包含在 FOB 报价内',
     itemCert: '植物检疫与 IMO Non-DG 特别条款 925 证书:',
     itemCertVal: '免费附赠提供',
-    btnWhatsapp: '将 RFQ 询盘直接发送至出口总监 WhatsApp →',
+    btnWhatsapp: '将 RFQ 询盘直接发送至出口总监 WhatsApp',
     waMsg: '您好 NusantaraOrigin 出口总监，我是来自 {company} 的 {name}。我们刚模拟了 {qty}x {type} ({mt} MT) 货物，希望获取盖章版形式发票 (Proforma Invoice)。',
   },
 };
@@ -582,9 +582,9 @@ export default function ContainerPlannerSection() {
                     <div className="sm:col-span-2 pt-1">
                       <button
                         type="submit"
-                        className="w-full py-2.5 px-4 rounded-md bg-[#16110E] hover:bg-[#2B231E] text-white font-headline text-[12px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow"
+                        className="w-full py-3 px-4 rounded-xl bg-[#16110E] hover:bg-[#2B231E] text-white font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-colors shadow-md"
                       >
-                        <Unlock className="w-4 h-4 text-primary" />
+                        <Unlock className="w-4 h-4 text-primary shrink-0" />
                         <span>{t.btnUnlock}</span>
                       </button>
                     </div>
@@ -633,10 +633,11 @@ export default function ContainerPlannerSection() {
                     href={`https://wa.me/628113000000?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-3 px-4 rounded-lg bg-primary-container hover:bg-[#D94E13] text-white font-headline text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md"
+                    className="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-[#D94E13] text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
                   >
-                    <MessageCircle className="w-5 h-5 text-white" />
+                    <MessageCircle className="w-5 h-5 text-on-primary-container shrink-0" />
                     <span>{t.btnWhatsapp}</span>
+                    <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
                   </a>
                 </div>
               )}

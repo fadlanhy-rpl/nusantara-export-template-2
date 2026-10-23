@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FileText, Download, Truck, CheckCircle2, ShieldCheck, X } from 'lucide-react';
+import { FileText, Download, Truck, CheckCircle2, ShieldCheck, X, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 const COA_I18N = {
@@ -29,7 +29,7 @@ const COA_I18N = {
     lblShape: 'Briquette Shape',
     lblEmail: 'Business Email',
     lblPhone: 'WhatsApp Number',
-    btnSubmit: 'Submit Sample Request via Trade Desk →',
+    btnSubmit: 'Submit Sample Request via Trade Desk',
     successTitle: 'Sample Request Successfully Received!',
     successDesc: 'Our export logistics team will promptly contact your WhatsApp with the DHL Air Waybill (AWB) tracking number and 3–5 day delivery ETA.',
     btnClose: 'Close',
@@ -116,7 +116,7 @@ const COA_I18N = {
     lblShape: 'Bentuk Briket',
     lblEmail: 'Email Bisnis',
     lblPhone: 'Nomor WhatsApp',
-    btnSubmit: 'Kirim Permintaan Sampel via Trade Desk →',
+    btnSubmit: 'Kirim Permintaan Sampel via Trade Desk',
     successTitle: 'Permintaan Sampel Berhasil Diterima!',
     successDesc: 'Tim logistik ekspor kami akan segera menghubungi WhatsApp Anda dengan nomor Air Waybill (AWB) DHL dan estimasi tiba 3–5 hari kerja.',
     btnClose: 'Tutup',
@@ -203,7 +203,7 @@ const COA_I18N = {
     lblShape: 'شكل الفحم',
     lblEmail: 'البريد الإلكتروني للعمل',
     lblPhone: 'رقم الواتساب',
-    btnSubmit: 'إرسال طلب العينة عبر مكتب التجارة →',
+    btnSubmit: 'إرسال طلب العينة عبر مكتب التجارة',
     successTitle: 'تم استلام طلب العينة بنجاح!',
     successDesc: 'سيتواصل فريق اللوجستيات مع واتساب الخاص بك برقم التتبع DHL AWB خلال 24-48 ساعة، وموعد وصول 3-5 أيام عمل.',
     btnClose: 'إغلاق',
@@ -290,7 +290,7 @@ const COA_I18N = {
     lblShape: '炭块规格形状',
     lblEmail: '企业工作邮箱',
     lblPhone: 'WhatsApp / 手机号',
-    btnSubmit: '提交样品申请至出口外贸部 →',
+    btnSubmit: '提交样品申请至出口外贸部',
     successTitle: '样品申请已成功受理！',
     successDesc: '我们的外贸物流团队将立即通过 WhatsApp 发送 DHL 运单号 (AWB)，预计 3–5 个工作日内送达。',
     btnClose: '关闭',
@@ -444,17 +444,17 @@ export default function CoaWhitepaperMatrix() {
           <a
             href="/database/seed.sql"
             download="TDS-NusantaraOrigin-Charcoal-2026.pdf"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container border border-outline-variant/40 text-on-surface hover:text-primary transition-all font-headline text-[12px] uppercase font-semibold tracking-wider shadow-sm"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant/40 text-on-surface hover:text-primary transition-all font-headline text-[13px] font-semibold shadow-sm"
           >
-            <Download className="w-4 h-4 text-primary" />
+            <Download className="w-4 h-4 text-primary shrink-0" />
             <span>{t.btnDownload}</span>
           </a>
 
           <button
             onClick={() => setSampleModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-[#D94E13] transition-all font-headline text-[12px] uppercase tracking-wider font-bold shadow-[0_0_16px_rgba(255,138,82,0.35)]"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container hover:bg-[#D94E13] transition-all font-headline text-[13px] font-semibold shadow-[0_0_16px_rgba(255,138,82,0.35)]"
           >
-            <Truck className="w-4 h-4 text-on-primary-container" />
+            <Truck className="w-4 h-4 text-on-primary-container shrink-0" />
             <span>{t.btnSample}</span>
           </button>
         </div>
@@ -551,9 +551,10 @@ export default function CoaWhitepaperMatrix() {
 
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3 rounded-lg bg-primary-container text-on-primary-container font-headline text-[13px] font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-colors"
+                  className="w-full mt-2 py-3 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold hover:bg-[#D94E13] transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
-                  {t.btnSubmit}
+                  <span>{t.btnSubmit}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
                 </button>
               </form>
             ) : (
@@ -567,7 +568,7 @@ export default function CoaWhitepaperMatrix() {
                 </p>
                 <button
                   onClick={() => setSampleModalOpen(false)}
-                  className="mt-3 px-6 py-2 rounded-lg bg-surface-container text-primary font-headline text-[12px] uppercase font-bold"
+                  className="mt-3 px-6 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-headline text-[13px] font-semibold transition-colors"
                 >
                   {t.btnClose}
                 </button>

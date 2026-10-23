@@ -619,17 +619,17 @@ export default function CommodityShowcase3D() {
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <Link
               href={activeCommodity.link}
-              className="flex-1 py-2.5 px-4 rounded-xl text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
+              className="flex-1 py-2.5 px-4 rounded-xl text-on-primary-container font-headline text-[13px] font-semibold flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
               style={{ backgroundColor: activeCommodity.accentColor }}
             >
               <span>{t.btnVerify}</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
             </Link>
             <Link
               href="/container-planner"
-              className="py-2.5 px-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-headline text-[12px] uppercase font-bold tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="py-2.5 px-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
-              <Scale className="w-4 h-4 text-primary" />
+              <Scale className="w-4 h-4 text-primary shrink-0" />
               <span>{t.btnSimulate}</span>
             </Link>
           </div>

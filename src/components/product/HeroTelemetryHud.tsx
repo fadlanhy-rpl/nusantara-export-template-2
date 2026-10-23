@@ -288,17 +288,17 @@ export default function HeroTelemetryHud() {
       <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-outline-variant/20">
         <Link
           href="#lab-specs"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container border border-outline-variant/40 text-on-surface hover:text-primary transition-colors font-headline text-[13px] uppercase tracking-wider font-semibold"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container border border-outline-variant/40 text-on-surface hover:text-primary transition-colors font-headline text-[13px] font-semibold"
         >
-          <Download className="w-4 h-4 text-primary" />
+          <Download className="w-4 h-4 text-primary shrink-0" />
           <span>{t.actions.tds}</span>
         </Link>
         <Link
           href="/container-planner"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-[#D94E13] transition-colors font-headline text-[13px] uppercase tracking-wider font-bold shadow-[0_0_16px_rgba(255,138,82,0.35)]"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container hover:bg-[#D94E13] transition-colors font-headline text-[13px] font-semibold shadow-[0_0_16px_rgba(255,138,82,0.35)]"
         >
           <span>{t.actions.planner}</span>
-          <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
+          <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
         </Link>
         <span className="font-mono text-[11px] text-outline ml-auto">
           {t.actions.port}

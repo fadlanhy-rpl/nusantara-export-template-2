@@ -85,9 +85,9 @@ export default function OemPreviewSection() {
         </div>
         <div className="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between font-mono text-[11px]">
           <span className="text-tertiary">{t.card1Badge}</span>
-          <Link href="/oem-studio" className="text-primary hover:underline flex items-center gap-1">
+          <Link href="/oem-studio" className="text-primary hover:underline flex items-center gap-1.5 font-headline font-semibold text-[13px]">
             <span>{t.card1Cta}</span>
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
           </Link>
         </div>
       </div>
@@ -107,9 +107,9 @@ export default function OemPreviewSection() {
         </div>
         <div className="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between font-mono text-[11px]">
           <span className="text-primary">{t.card2Badge}</span>
-          <Link href="/oem-studio" className="text-primary hover:underline flex items-center gap-1">
+          <Link href="/oem-studio" className="text-primary hover:underline flex items-center gap-1.5 font-headline font-semibold text-[13px]">
             <span>{t.card2Cta}</span>
-            <ArrowRight className="w-3 h-3" />
+            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
           </Link>
         </div>
       </div>
@@ -132,7 +132,7 @@ export default function OemPreviewSection() {
             href={`https://wa.me/628113000000?text=${encodeURIComponent(t.waText)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full text-center py-2.5 px-4 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-colors block shadow-md"
+            className="w-full text-center py-2.5 px-4 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] font-semibold hover:bg-[#D94E13] transition-colors block shadow-md"
           >
             {t.card3Cta}
           </a>

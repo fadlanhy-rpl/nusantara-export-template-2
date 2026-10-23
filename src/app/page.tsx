@@ -15,7 +15,7 @@ const HOME_I18N = {
     heroH1Italic: 'Lab-Tested',
     heroH1Post: ' to Global Export Standards.',
     heroDesc: 'Supplying 350+ Metric Tons monthly to international shisha lounges in Dubai, Berlin, and Los Angeles. Guaranteed < 2.2% snow white ash, zero smoke, zero chemical odor, and consistent 2.5-hour burn duration.',
-    heroCtaVerify: 'Verify Quality & SGS Lab Results →',
+    heroCtaVerify: 'Verify Quality & SGS Lab Results',
     heroCtaCalc: 'Calculate Container & FOB Price',
     metric1Val: '350 MT',
     metric1Lbl: 'Kiln Output / Month',
@@ -92,7 +92,7 @@ const HOME_I18N = {
     heroH1Italic: 'Teruji Mutu',
     heroH1Post: ' Laboratorium Dunia.',
     heroDesc: 'Memasok 350+ Metrik Ton per bulan untuk shisha lounge internasional di Dubai, Berlin, dan Los Angeles. Garansi kadar abu < 2.2% putih alami, tanpa asap, tanpa bau kimia, dan durasi bara 2.5 jam konsisten.',
-    heroCtaVerify: 'Verifikasi Mutu & Hasil Lab SGS →',
+    heroCtaVerify: 'Verifikasi Mutu & Hasil Lab SGS',
     heroCtaCalc: 'Kalkulasi Kontainer & Harga FOB',
     metric1Val: '350 MT',
     metric1Lbl: 'Output Kiln / Bulan',
@@ -169,7 +169,7 @@ const HOME_I18N = {
     heroH1Italic: 'معتمد ومختبر',
     heroH1Post: ' بأعلى المعايير العالمية.',
     heroDesc: 'توريد أكثر من 350 طن متري شهرياً لمقاهي الشيشة في دبي وبرلين ولوس أنجلوس. رماد أبيض ناصع < 2.2%، بدون دخان أو رائحة كيميائية، واشتعال متواصل لمدة ساعتين ونصف.',
-    heroCtaVerify: 'فحص الجودة ونتائج مختبرات SGS ←',
+    heroCtaVerify: 'فحص الجودة ونتائج مختبرات SGS',
     heroCtaCalc: 'حساب حمولة الحاوية وأسعار FOB',
     metric1Val: '350 طن',
     metric1Lbl: 'إنتاج المصنع / شهرياً',
@@ -246,7 +246,7 @@ const HOME_I18N = {
     heroH1Italic: '严苛实验室认证',
     heroH1Post: ' 达到全球出口交付标准。',
     heroDesc: '每月向迪拜、柏林和洛杉矶的国际顶级水烟馆及烧烤餐厅出口 350+ 公吨。保证灰分 < 2.2% 纯白自然、无烟、无刺鼻异味、稳定燃烧 2.5 小时。',
-    heroCtaVerify: '查验 SGS 官方实验室检测报告 →',
+    heroCtaVerify: '查验 SGS 官方实验室检测报告',
     heroCtaCalc: '集装箱配载与 FOB 价格计算',
     metric1Val: '350 MT',
     metric1Lbl: '月度回转窑产能',
@@ -354,15 +354,16 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-3 items-center pt-2 w-full sm:w-auto">
               <Link
                 href="/products/100-briket-arang-batok-kelapa"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-lg bg-primary-container text-on-primary-container font-headline text-[13px] font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_4px_20px_rgba(196,68,15,0.4)] flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold hover:bg-[#D94E13] transition-all shadow-[0_4px_20px_rgba(196,68,15,0.4)] flex items-center justify-center gap-2"
               >
                 <span>{t.heroCtaVerify}</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
               </Link>
               <Link
                 href="/container-planner"
-                className="w-full sm:w-auto px-5 py-3.5 rounded-lg border border-outline-variant/40 bg-surface-container-high/60 hover:bg-surface-container text-on-surface font-headline text-[13px] transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-5 py-3.5 rounded-xl border border-outline-variant/40 hover:border-primary-container bg-surface-container-high/60 hover:bg-surface-container text-on-surface font-headline text-[13px] sm:text-[14px] font-semibold transition-all flex items-center justify-center gap-2"
               >
-                <Calculator className="w-4 h-4 text-primary" />
+                <Calculator className="w-4 h-4 text-primary shrink-0" />
                 <span>{t.heroCtaCalc}</span>
               </Link>
             </div>
@@ -432,10 +433,10 @@ export default function HomePage() {
             </div>
             <Link
               href="/products/100-briket-arang-batok-kelapa"
-              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[12px] uppercase font-bold text-primary flex items-center gap-1 group-hover:underline"
+              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[13px] font-semibold text-primary flex items-center gap-1.5 group-hover:underline"
             >
               <span>{t.bento1Cta}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
             </Link>
           </div>
 
@@ -454,10 +455,10 @@ export default function HomePage() {
             </div>
             <Link
               href="/oem-studio"
-              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[12px] uppercase font-bold text-primary flex items-center gap-1 group-hover:underline"
+              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[13px] font-semibold text-primary flex items-center gap-1.5 group-hover:underline"
             >
               <span>{t.bento2Cta}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
             </Link>
           </div>
 
@@ -476,10 +477,10 @@ export default function HomePage() {
             </div>
             <Link
               href="/container-planner"
-              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[12px] uppercase font-bold text-primary flex items-center gap-1 group-hover:underline"
+              className="mt-6 pt-3 border-t border-outline-variant/20 font-headline text-[13px] font-semibold text-primary flex items-center gap-1.5 group-hover:underline"
             >
               <span>{t.bento3Cta}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
             </Link>
           </div>
         </div>
@@ -518,10 +519,10 @@ export default function HomePage() {
           </div>
           <Link
             href="/products"
-            className="font-headline text-[12px] uppercase font-bold text-primary hover:underline flex items-center gap-1"
+            className="font-headline text-[13px] font-semibold text-primary hover:underline flex items-center gap-1.5"
           >
             <span>{t.catalogAll}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
           </Link>
         </div>
 
@@ -578,10 +579,10 @@ export default function HomePage() {
                 </div>
                 <Link
                   href={c.link}
-                  className="font-headline text-[12px] uppercase font-bold text-primary hover:underline flex items-center gap-1"
+                  className="font-headline text-[13px] font-semibold text-primary hover:underline flex items-center gap-1.5"
                 >
                   <span>{t.detailCta}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
                 </Link>
               </div>
             </div>

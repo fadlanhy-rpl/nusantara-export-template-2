@@ -684,10 +684,11 @@ export default function OemConfiguratorStudio() {
                   href={`https://wa.me/628113000000?text=${encodeURIComponent(dynamicWaText)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-colors shadow"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] font-semibold hover:bg-[#D94E13] transition-colors shadow-md"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="w-4 h-4 shrink-0" />
                   <span>{t.btnSendWa}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
                 </a>
               </div>
             </div>

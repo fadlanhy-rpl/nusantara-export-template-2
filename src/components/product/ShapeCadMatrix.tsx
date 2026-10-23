@@ -503,10 +503,10 @@ export default function ShapeCadMatrix() {
             </div>
             <Link
               href="/oem-studio"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container-high text-primary hover:bg-primary-container hover:text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container-high text-primary hover:bg-primary-container hover:text-on-primary-container font-headline text-[13px] font-semibold transition-colors"
             >
               <span>{t.ctaOem}</span>
-              <ArrowRight className={`w-4 h-4 ${isRtl ? 'rotate-180' : ''}`} />
+              <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
             </Link>
           </div>
         </div>

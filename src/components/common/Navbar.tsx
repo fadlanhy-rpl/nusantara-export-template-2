@@ -3,13 +3,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Download, Flame, Globe, ChevronDown, Check } from 'lucide-react';
+import { Menu, X, ArrowRight, Flame, Globe, ChevronDown, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { LOCALES, LOCALE_LABELS, LocaleCode } from '@/lib/i18n';
+import { LOCALES, LOCALE_LABELS } from '@/lib/i18n';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { locale, setLocale, dict, isRtl } = useLanguage();
+  const { locale, setLocale, isRtl } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
@@ -36,42 +36,56 @@ export default function Navbar() {
     };
   }, []);
 
-  const getNavLabel = (key: string, fallback: string) => {
+  const getNavLabel = (key: string) => {
     switch (key) {
       case 'briquette':
-        return locale === 'id' ? 'Briket Utama' : locale === 'ar' ? 'فحم الشيشة' : locale === 'zh' ? '主打椰炭' : 'Core Briquettes';
+        return locale === 'id' ? 'Briket Utama' : locale === 'ar' ? 'فحم الشيشة' : locale === 'zh' ? '主打椰炭' : 'Briquettes';
       case 'commodities':
-        return locale === 'id' ? 'Katalog Komoditas' : locale === 'ar' ? 'المنتجات والسلع' : locale === 'zh' ? '大宗商品' : 'Commodities';
+        return locale === 'id' ? 'Komoditas' : locale === 'ar' ? 'المنتجات' : locale === 'zh' ? '大宗商品' : 'Commodities';
       case 'oem':
         return locale === 'id' ? 'Kemasan OEM' : locale === 'ar' ? 'تصميم العبوات' : locale === 'zh' ? 'OEM包装' : 'OEM Packaging';
       case 'audit':
         return locale === 'id' ? 'Pabrik & Audit' : locale === 'ar' ? 'المصنع والتدقيق' : locale === 'zh' ? '工厂验资' : 'Factory & Audit';
       case 'planner':
-        return locale === 'id' ? 'Container Planner' : locale === 'ar' ? 'حاسبة الحاويات' : locale === 'zh' ? '集装箱测算' : 'Container Planner';
+        return locale === 'id' ? 'Kalkulator Kargo' : locale === 'ar' ? 'حاسبة الحاويات' : locale === 'zh' ? '集装箱测算' : 'Cargo Planner';
       default:
-        return fallback;
+        return '';
     }
   };
 
   const navLinks = [
-    { name: getNavLabel('briquette', 'Briket Utama'), href: '/products/100-briket-arang-batok-kelapa' },
-    { name: getNavLabel('commodities', 'Katalog Komoditas'), href: '/products' },
-    { name: getNavLabel('oem', 'Kemasan OEM'), href: '/oem-studio' },
-    { name: getNavLabel('audit', 'Pabrik & Audit'), href: '/factory-audit' },
-    { name: getNavLabel('planner', 'Container Planner'), href: '/container-planner' },
+    { name: getNavLabel('briquette'), href: '/products/100-briket-arang-batok-kelapa' },
+    { name: getNavLabel('commodities'), href: '/products' },
+    { name: getNavLabel('oem'), href: '/oem-studio' },
+    { name: getNavLabel('audit'), href: '/factory-audit' },
+    { name: getNavLabel('planner'), href: '/container-planner' },
   ];
+
+  const getCtaLabel = () => {
+    switch (locale) {
+      case 'id':
+        return 'Penawaran FCL';
+      case 'ar':
+        return 'طلب تسعير FCL';
+      case 'zh':
+        return '集装箱报价';
+      case 'en':
+      default:
+        return 'Request FCL Quote';
+    }
+  };
 
   return (
     <header className="sticky top-3.5 z-50 w-full px-3 sm:px-6">
-      {/* Floating Pill Navbar — Width is wider than sections (max-w-[1360px] vs max-w-[1280px]) */}
-      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/90 backdrop-blur-xl border border-white/10 px-4 sm:px-6 md:px-7 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
-        {/* Left: Brandmark with Rounded-Full Icon Badge + Balanced Spacing */}
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-4 lg:mr-6 xl:mr-8">
+      {/* Floating Pill Navbar — Generous inner padding (px-6 sm:px-8) guarantees buttons never touch curved ends */}
+      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-5 sm:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
+        {/* Left: Brandmark */}
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-2 lg:mr-4 xl:mr-6">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform">
             <Flame className="w-5 h-5 text-on-primary-container fill-current" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline font-extrabold text-[16px] sm:text-[17px] text-on-surface tracking-tight leading-none uppercase">
+            <span className="font-headline font-extrabold text-[15px] sm:text-[17px] text-on-surface tracking-tight leading-none uppercase">
               Nusantara<span className="text-primary font-bold">Origin</span>
             </span>
             <span className="font-mono text-[9px] text-primary tracking-widest uppercase mt-0.5">
@@ -81,14 +95,14 @@ export default function Navbar() {
         </Link>
 
         {/* Center: Desktop Navigation with Rounded Pills */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+        <nav className="hidden xl:flex items-center gap-1 xl:gap-2 mx-auto">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-1.5 xl:px-3.5 rounded-full font-headline text-[12px] xl:text-[13px] transition-all whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded-full font-headline text-[13px] transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-surface-container-high text-primary font-semibold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/70'
@@ -100,9 +114,9 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right: Actions, Language Switcher (Language Only) & Rounded-Full CTA */}
-        <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0 ml-auto pl-3 lg:pl-4 xl:pl-6">
-          {/* Language Selector Dropdown (Language Selection Only — Clean Pill Button) */}
+        {/* Right: Actions, Language Switcher & Primary CTA */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto xl:ml-0">
+          {/* Language Selector Dropdown */}
           <div className="relative" ref={langDropdownRef}>
             <button
               type="button"
@@ -162,36 +176,19 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Quick TDS Download Button (Visible on >= 1280px xl screens to avoid crowding) */}
-          <Link
-            href="/products/100-briket-arang-batok-kelapa#lab-specs"
-            className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/40 text-on-surface hover:border-primary-container hover:text-primary transition-all font-mono text-[11px] bg-surface-container/40"
-          >
-            <Download className="w-3.5 h-3.5 text-primary" />
-            <span>TDS (.PDF)</span>
-          </Link>
-
-          {/* Primary Action Button — Rounded-Full Pill (Well inset from the right curve) */}
+          {/* Primary Action Button — Well proportioned, rounded-full, with consistent styling */}
           <Link
             href="/container-planner"
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[11px] sm:text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_0_18px_rgba(255,138,82,0.4)] whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[12px] sm:text-[13px] font-semibold tracking-normal hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] whitespace-nowrap"
           >
-            <span>
-              {locale === 'id'
-                ? 'Penawaran FCL'
-                : locale === 'ar'
-                ? 'طلب عرض أسعار FCL'
-                : locale === 'zh'
-                ? '集装箱报价'
-                : 'Request FCL Quote'}
-            </span>
-            <ArrowRight className={`w-3.5 h-3.5 ${isRtl ? 'rotate-180' : ''}`} />
+            <span>{getCtaLabel()}</span>
+            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
           </Link>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile / Tablet Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30"
+            className="xl:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30 transition-colors"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -201,7 +198,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Menu (Rounded-2xl floating card) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden max-w-[1360px] mx-auto mt-2 bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-4 flex flex-col gap-3 shadow-2xl">
+        <div className="xl:hidden max-w-[1360px] mx-auto mt-2 bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-4 flex flex-col gap-3 shadow-2xl">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -250,7 +247,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-4 rounded-xl font-mono text-[12px] text-outline hover:text-on-surface"
             >
-              Internal Deal Desk & RFQ Pipeline →
+              {locale === 'id' ? 'Internal Deal Desk (Admin) →' : locale === 'ar' ? 'مكتب الصفقات الداخلي (لوحة التحكم) ←' : locale === 'zh' ? '内部订单大厅 (Admin) →' : 'Internal Deal Desk (Admin) →'}
             </Link>
           </div>
         </div>

@@ -285,10 +285,10 @@ export default function CommoditiesCatalogPage() {
 
               <Link
                 href={c.link}
-                className="w-full mt-2 py-2.5 px-4 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline text-[12px] uppercase font-bold tracking-wider flex items-center justify-center gap-2 transition-colors"
+                className="w-full mt-2 py-2.5 px-4 rounded-xl bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-colors"
               >
                 <span>{t.btnInspect}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
               </Link>
             </div>
           </div>
