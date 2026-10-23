@@ -302,7 +302,7 @@ export default function FactoryMediaReel() {
   const activeReel = t.reels[activeReelIdx] || t.reels[0];
 
   return (
-    <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+    <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-outline-variant/30 pb-4">
         <div>

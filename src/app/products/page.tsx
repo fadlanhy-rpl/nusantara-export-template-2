@@ -209,7 +209,7 @@ export default function CommoditiesCatalogPage() {
   const t = CATALOG_I18N[locale] || CATALOG_I18N.en;
 
   return (
-    <div className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8">
+    <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
       {/* Header */}
       <div className="flex flex-col gap-2">
         <nav className="font-mono text-[11px] text-outline uppercase tracking-wider">
@@ -228,22 +228,22 @@ export default function CommoditiesCatalogPage() {
         {t.commodities.map((c) => (
           <div
             key={c.slug}
-            className="p-6 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/60 transition-all shadow-xl group overflow-hidden"
+            className="p-6 sm:p-7 md:p-8 bg-surface-container rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/60 transition-all shadow-xl group overflow-hidden"
           >
             <div className="flex flex-col gap-4">
-              {/* Product Visual Stage */}
-              <div className="relative w-full h-48 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-center overflow-hidden p-4 group-hover:border-primary/40 transition-colors">
-                <div className="absolute top-2 left-2 z-10 px-2.5 py-0.5 rounded bg-black/75 backdrop-blur-md border border-white/10 font-mono text-[10px] text-primary font-bold">
+              {/* Product Visual Stage with Generous Padding */}
+              <div className="relative w-full h-52 sm:h-56 rounded-xl bg-surface-container-lowest/90 border border-outline-variant/20 flex items-center justify-center overflow-hidden p-6 pt-9 group-hover:border-primary/40 transition-colors">
+                <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-white/10 font-mono text-[10px] text-primary font-bold shadow-sm">
                   HS: {c.hs_code}
                 </div>
-                <div className="absolute top-2 right-2 z-10 px-2.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-mono text-[10px] font-bold">
+                <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-tertiary-container/30 text-tertiary font-mono text-[10px] font-bold border border-tertiary/20 shadow-sm">
                   {c.badge}
                 </div>
 
                 <img
                   src={c.image}
                   alt={c.name}
-                  className="max-h-full max-w-[85%] object-contain drop-shadow-[0_14px_24px_rgba(0,0,0,0.7)] group-hover:scale-108 transition-transform duration-500"
+                  className="max-h-[145px] sm:max-h-[160px] max-w-[85%] object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.7)] group-hover:scale-108 transition-transform duration-500"
                 />
               </div>
 
@@ -251,7 +251,7 @@ export default function CommoditiesCatalogPage() {
                 <span className="font-mono text-[11px] text-tertiary font-semibold block">
                   {c.grade}
                 </span>
-                <h3 className="font-headline text-[18px] font-bold text-on-surface mt-0.5 group-hover:text-primary transition-colors">
+                <h3 className="font-headline text-[18px] sm:text-[19px] font-bold text-on-surface mt-0.5 group-hover:text-primary transition-colors leading-snug">
                   {c.name}
                 </h3>
               </div>
@@ -265,7 +265,7 @@ export default function CommoditiesCatalogPage() {
                 {c.highlights.map((h, i) => (
                   <span
                     key={i}
-                    className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px]"
+                    className="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[10px] border border-outline-variant/20"
                   >
                     {h}
                   </span>
@@ -285,7 +285,7 @@ export default function CommoditiesCatalogPage() {
 
               <Link
                 href={c.link}
-                className="w-full mt-2 py-2.5 px-4 rounded-xl bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-colors"
+                className="w-full mt-2 py-3 px-5 rounded-xl bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all shadow-sm"
               >
                 <span>{t.btnInspect}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />

@@ -326,7 +326,7 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col gap-16 py-8">
       {/* 1. HERO SECTION WITH 3D WEBGL BRIQUETTE */}
-      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0">
+      <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Hero Content (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col items-start gap-4">
@@ -369,7 +369,7 @@ export default function HomePage() {
             </div>
 
             {/* Key Metric Strip */}
-            <div className="w-full bg-surface-container/90 border border-outline-variant/30 rounded-xl p-5 grid grid-cols-1 sm:grid-cols-3 gap-4 shadow-md mt-4">
+            <div className="w-full bg-surface-container/90 border border-outline-variant/30 rounded-2xl p-6 grid grid-cols-1 sm:grid-cols-3 gap-4 shadow-md mt-4">
               <div className="flex flex-col border-b sm:border-b-0 sm:border-r border-outline-variant/20 pb-3 sm:pb-0 sm:pr-4">
                 <span className="font-mono text-[24px] font-bold text-on-surface">{t.metric1Val}</span>
                 <span className="font-mono text-[10px] text-outline uppercase tracking-wider mt-0.5">
@@ -393,8 +393,8 @@ export default function HomePage() {
 
           {/* Right Hero 3D Stage (5 Cols) */}
           <div className="lg:col-span-5 relative">
-            <div className="relative w-full rounded-2xl bg-surface-container-low border border-outline-variant/40 p-3 shadow-2xl overflow-hidden">
-              <div className="w-full h-[440px] rounded-xl overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+            <div className="relative w-full rounded-3xl bg-surface-container-low border border-outline-variant/40 p-4 sm:p-5 shadow-2xl overflow-hidden">
+              <div className="w-full h-[440px] rounded-2xl overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
                 <Hero3DScene />
                 <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-lg bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant/30 flex items-center justify-between font-mono text-[11px] pointer-events-none">
                   <span className="text-on-surface">{t.stage3dTag1}</span>
@@ -407,7 +407,7 @@ export default function HomePage() {
       </section>
 
       {/* 2. THE THREE CORE CAPABILITIES (BENTO GRID) */}
-      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
             {t.bentoKicker}
@@ -419,7 +419,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1: 100% Batok Kelapa Murni */}
-          <div className="p-6 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
+          <div className="p-7 sm:p-8 bg-surface-container rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
             <div className="flex flex-col gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
                 <Flame className="w-5 h-5 text-primary" />
@@ -441,7 +441,7 @@ export default function HomePage() {
           </div>
 
           {/* Card 2: 2.5D OEM Packaging Studio */}
-          <div className="p-6 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
+          <div className="p-7 sm:p-8 bg-surface-container rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
             <div className="flex flex-col gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
                 <Package className="w-5 h-5 text-primary" />
@@ -463,7 +463,7 @@ export default function HomePage() {
           </div>
 
           {/* Card 3: Container Load Planner */}
-          <div className="p-6 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
+          <div className="p-7 sm:p-8 bg-surface-container rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-colors shadow-lg group">
             <div className="flex flex-col gap-3">
               <div className="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
                 <Scale className="w-5 h-5 text-primary" />
@@ -490,7 +490,7 @@ export default function HomePage() {
       <FactoryMediaReel />
 
       {/* 4. INTERACTIVE 3D COMMODITY SHOWCASE STAGE */}
-      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
             {t.showcaseKicker}
@@ -507,7 +507,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. MULTI-COMMODITY CATALOG OVERVIEW WITH REAL CUTOUTS */}
-      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6">
         <div className="flex items-center justify-between border-b border-outline-variant/30 pb-3">
           <div>
             <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
@@ -530,31 +530,31 @@ export default function HomePage() {
           {t.commodities.map((c) => (
             <div
               key={c.slug}
-              className="p-5 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-all shadow-lg group overflow-hidden"
+              className="p-6 sm:p-7 md:p-8 bg-surface-container rounded-2xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-all shadow-xl group overflow-hidden"
             >
-              <div className="flex flex-col gap-3">
-                {/* Product Thumbnail Header */}
-                <div className="relative w-full h-44 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-center overflow-hidden p-3">
-                  <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-black/75 backdrop-blur-md border border-white/10 font-mono text-[10px] text-primary font-bold">
+              <div className="flex flex-col gap-4">
+                {/* Product Thumbnail Header with Generous Padding */}
+                <div className="relative w-full h-52 sm:h-56 rounded-xl bg-surface-container-lowest/90 border border-outline-variant/20 flex items-center justify-center overflow-hidden p-6 pt-9 group-hover:border-primary/40 transition-colors">
+                  <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-white/10 font-mono text-[10px] text-primary font-bold shadow-sm">
                     HS: {c.hs_code}
                   </div>
-                  <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-mono text-[10px] font-bold">
+                  <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-tertiary-container/30 text-tertiary font-mono text-[10px] font-bold border border-tertiary/20 shadow-sm">
                     {c.badge}
                   </div>
 
                   <img
                     src={c.image}
                     alt={c.name}
-                    className="max-h-full max-w-[85%] object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-500"
+                    className="max-h-[145px] sm:max-h-[160px] max-w-[85%] object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.7)] group-hover:scale-108 transition-transform duration-500"
                   />
                 </div>
 
-                <div className="flex flex-col gap-1 mt-1">
-                  <span className="font-mono text-[11px] text-tertiary">{c.grade}</span>
-                  <h4 className="font-headline font-bold text-[16px] text-on-surface group-hover:text-primary transition-colors">
+                <div className="flex flex-col gap-1.5 mt-1">
+                  <span className="font-mono text-[11px] text-tertiary font-medium">{c.grade}</span>
+                  <h4 className="font-headline font-bold text-[17px] sm:text-[18px] text-on-surface group-hover:text-primary transition-colors leading-snug">
                     {c.name}
                   </h4>
-                  <p className="font-body text-[13px] text-outline line-clamp-2">
+                  <p className="font-body text-[13px] text-outline leading-relaxed line-clamp-2">
                     {c.desc}
                   </p>
                 </div>
@@ -564,7 +564,7 @@ export default function HomePage() {
                   {c.highlights.map((h, i) => (
                     <span
                       key={i}
-                      className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px]"
+                      className="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-mono text-[10px] border border-outline-variant/20"
                     >
                       {h}
                     </span>
@@ -572,14 +572,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-5 pt-3 border-t border-outline-variant/20 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-outline-variant/20 flex items-center justify-between">
                 <div>
-                  <span className="font-mono text-[10px] text-outline block">{t.fobLabel}</span>
-                  <span className="font-mono text-[13px] font-bold text-on-surface">{c.fob}</span>
+                  <span className="font-mono text-[10px] text-outline uppercase block tracking-wider">{t.fobLabel}</span>
+                  <span className="font-mono text-[14px] sm:text-[15px] font-bold text-on-surface">{c.fob}</span>
                 </div>
                 <Link
                   href={c.link}
-                  className="font-headline text-[13px] font-semibold text-primary hover:underline flex items-center gap-1.5"
+                  className="font-headline text-[13px] font-semibold text-primary hover:underline flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high/60 hover:bg-primary-container hover:text-on-primary-container transition-all"
                 >
                   <span>{t.detailCta}</span>
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />

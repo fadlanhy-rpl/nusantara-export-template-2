@@ -15,7 +15,7 @@ export const metadata = {
 
 export default function ProductDetailPage() {
   return (
-    <div className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-10">
+    <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-10">
       {/* 1. Hero & HS Telemetry */}
       <HeroTelemetryHud />
 

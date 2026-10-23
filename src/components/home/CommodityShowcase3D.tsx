@@ -453,7 +453,7 @@ export default function CommodityShowcase3D() {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative w-full h-[520px] sm:h-[560px] rounded-2xl overflow-hidden select-none transition-shadow duration-500 border border-outline-variant/40 shadow-2xl"
+        className="relative w-full h-[620px] sm:h-[680px] md:h-[720px] rounded-3xl overflow-hidden select-none transition-shadow duration-500 border border-outline-variant/40 shadow-2xl"
         style={{
           perspective: '1200px',
           transformStyle: 'preserve-3d',
@@ -492,7 +492,7 @@ export default function CommodityShowcase3D() {
 
         {/* Top HUD Telemetry */}
         <div
-          className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-start justify-between gap-3 pointer-events-none z-20 transition-transform duration-300"
+          className="absolute top-0 inset-x-0 p-6 sm:p-8 md:p-10 flex items-start justify-between gap-3 pointer-events-none z-20 transition-transform duration-300"
           style={{ transform: `translateZ(40px) translate(${tilt.ry * 0.5}px, ${-tilt.rx * 0.5}px)` }}
         >
           <div className="space-y-1">
@@ -524,7 +524,7 @@ export default function CommodityShowcase3D() {
         {/* Sub-variant toggle if secondary image available */}
         {activeCommodity.secondaryImage && (
           <div
-            className="absolute top-20 right-5 sm:right-6 z-20 flex flex-col gap-1.5 transition-transform duration-300"
+            className="absolute top-24 right-6 sm:right-8 md:right-10 z-20 flex flex-col gap-1.5 transition-transform duration-300"
             style={{ transform: 'translateZ(45px)' }}
           >
             <button
@@ -554,7 +554,7 @@ export default function CommodityShowcase3D() {
 
         {/* Floating 3D Product PNG Cutout */}
         <div
-          className="absolute inset-0 flex items-center justify-center p-8 z-10 pointer-events-none"
+          className="absolute inset-0 flex items-center justify-center p-8 z-10 pointer-events-none -translate-y-16 sm:-translate-y-20"
           style={{
             transform: `translateZ(65px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale3d(1.03, 1.03, 1.03)`,
             transformStyle: 'preserve-3d',
@@ -583,7 +583,7 @@ export default function CommodityShowcase3D() {
 
         {/* Bottom Technical HUD Specifications & CTA */}
         <div
-          className="absolute bottom-0 inset-x-0 p-5 sm:p-6 pt-10 bg-gradient-to-t from-[#0B0B0C] via-[#0B0B0C]/90 to-transparent z-20 space-y-3 pointer-events-auto transition-transform duration-300"
+          className="absolute bottom-0 inset-x-0 px-6 sm:px-10 md:px-12 pb-7 sm:pb-9 pt-16 sm:pt-24 bg-gradient-to-t from-[#0B0B0C] via-[#0B0B0C]/95 to-transparent z-20 space-y-4 pointer-events-auto transition-transform duration-300"
           style={{ transform: `translateZ(35px) translate(${tilt.ry * 0.3}px, ${-tilt.rx * 0.3}px)` }}
         >
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
@@ -591,18 +591,18 @@ export default function CommodityShowcase3D() {
               <div className="text-[11px] font-mono text-[#A1A1AA] uppercase tracking-wider">
                 {activeCommodity.category}
               </div>
-              <h3 className="font-headline text-[18px] sm:text-[22px] font-bold text-white tracking-tight leading-snug">
+              <h3 className="font-headline text-[19px] sm:text-[23px] font-bold text-white tracking-tight leading-snug">
                 {activeCommodity.name}
               </h3>
             </div>
             <div className="font-mono text-[13px] text-right">
               <span className="text-[#A1A1AA] text-[11px] block">{t.fobLabel}</span>
-              <strong className="text-white text-[15px] font-bold">{activeCommodity.fob}</strong>
+              <strong className="text-white text-[15px] sm:text-[16px] font-bold">{activeCommodity.fob}</strong>
             </div>
           </div>
 
           {/* 3 Lab Parameters */}
-          <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-[#14171E]/80 backdrop-blur-md border border-white/10 text-xs font-mono">
+          <div className="grid grid-cols-3 gap-3 p-3.5 sm:p-4 rounded-xl bg-[#14171E]/85 backdrop-blur-md border border-white/10 text-xs font-mono shadow-inner">
             {activeCommodity.specs.map((sp, sIdx) => (
               <div key={sIdx} className="text-center px-1">
                 <div className="text-[10px] text-[#A1A1AA] uppercase tracking-wider truncate">
@@ -616,10 +616,10 @@ export default function CommodityShowcase3D() {
           </div>
 
           {/* Action Row */}
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1">
             <Link
               href={activeCommodity.link}
-              className="flex-1 py-2.5 px-4 rounded-xl text-on-primary-container font-headline text-[13px] font-semibold flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
+              className="flex-1 py-3 px-5 sm:px-6 rounded-xl text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 shadow-lg hover:brightness-110 transition-all cursor-pointer"
               style={{ backgroundColor: activeCommodity.accentColor }}
             >
               <span>{t.btnVerify}</span>
@@ -627,7 +627,7 @@ export default function CommodityShowcase3D() {
             </Link>
             <Link
               href="/container-planner"
-              className="py-2.5 px-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="py-3 px-5 sm:px-6 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
             >
               <Scale className="w-4 h-4 text-primary shrink-0" />
               <span>{t.btnSimulate}</span>
