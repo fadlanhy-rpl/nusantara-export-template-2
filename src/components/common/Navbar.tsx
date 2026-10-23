@@ -64,35 +64,53 @@ export default function Navbar() {
   const getCtaLabel = () => {
     switch (locale) {
       case 'id':
-        return 'Penawaran FCL';
+        return (
+          <>
+            <span>Penawaran</span>
+            <span className="hidden min-[420px]:inline"> FCL</span>
+          </>
+        );
       case 'ar':
-        return 'طلب تسعير FCL';
+        return (
+          <>
+            <span className="hidden min-[420px]:inline">طلب </span>
+            <span>تسعير</span>
+            <span className="hidden min-[420px]:inline"> FCL</span>
+          </>
+        );
       case 'zh':
-        return '集装箱报价';
+        return (
+          <>
+            <span className="hidden min-[380px]:inline">集装箱</span>
+            <span>报价</span>
+          </>
+        );
       case 'en':
       default:
         return (
           <>
-            <span className="hidden 2xl:inline">Request </span>FCL Quote
+            <span className="hidden 2xl:inline">Request </span>
+            <span className="hidden min-[420px]:inline">FCL </span>
+            <span>Quote</span>
           </>
         );
     }
   };
 
   return (
-    <header className="sticky top-2 sm:top-3.5 z-50 w-full px-2.5 sm:px-4 md:px-6">
-      {/* Floating Pill Navbar — Fully responsive across all devices and screen sizes */}
-      <div className="max-w-[1360px] mx-auto h-[60px] sm:h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-3.5 sm:px-6 md:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
+    <header className="sticky top-1.5 sm:top-2.5 md:top-3.5 z-50 w-full px-1.5 min-[360px]:px-2.5 sm:px-4 md:px-6">
+      {/* Floating Pill Navbar — Ultra-responsive down to 340px screens */}
+      <div className="max-w-[1360px] mx-auto h-[54px] sm:h-[62px] md:h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-2.5 min-[360px]:px-3.5 sm:px-6 md:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
         {/* Left: Brandmark */}
-        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 md:gap-3 group shrink-0 mr-1 sm:mr-3 lg:mr-4 xl:mr-6">
-          <div className="w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0">
-            <Flame className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-on-primary-container fill-current" />
+        <Link href="/" className="flex items-center gap-1.5 min-[360px]:gap-2 sm:gap-2.5 md:gap-3 group shrink-0 mr-1 sm:mr-3 lg:mr-4 xl:mr-6">
+          <div className="w-7.5 h-7.5 min-[360px]:w-8 min-[360px]:h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_14px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0">
+            <Flame className="w-3.5 h-3.5 min-[360px]:w-4 min-[360px]:h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-on-primary-container fill-current" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline font-extrabold text-[13.5px] sm:text-[15px] md:text-[17px] text-on-surface tracking-tight leading-none uppercase">
+            <span className="font-headline font-extrabold text-[12px] min-[360px]:text-[13px] sm:text-[15px] md:text-[17px] text-on-surface tracking-tight leading-none uppercase">
               Nusantara<span className="text-primary font-bold">Origin</span>
             </span>
-            <span className="font-mono text-[8px] sm:text-[9px] text-primary tracking-widest uppercase mt-0.5 hidden xs:block">
+            <span className="font-mono text-[7.5px] sm:text-[8.5px] md:text-[9px] text-primary tracking-widest uppercase mt-0.5 hidden sm:block">
               EXPORTERS ID • SP925
             </span>
           </div>
@@ -119,20 +137,20 @@ export default function Navbar() {
         </nav>
 
         {/* Right: Actions, Language Switcher & Primary CTA */}
-        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 shrink-0 ml-auto xl:ml-0">
+        <div className="flex items-center gap-1 min-[360px]:gap-1.5 sm:gap-2 md:gap-3 shrink-0 ml-auto xl:ml-0">
           {/* Language Selector Dropdown — Fixed uniform width across EN, ID, AR, ZH */}
           <div className="relative" ref={langDropdownRef}>
             <button
               type="button"
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="h-9 sm:h-10 px-2.5 sm:px-3 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[11px] sm:text-[12px] text-on-surface flex items-center gap-1 sm:gap-1.5 cursor-pointer transition-all select-none shadow-sm shrink-0"
+              className="h-8 sm:h-9 md:h-10 px-2 min-[360px]:px-2.5 sm:px-3 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[10.5px] sm:text-[11.5px] md:text-[12px] text-on-surface flex items-center gap-1 cursor-pointer transition-all select-none shadow-sm shrink-0"
               aria-label="Select Language"
               aria-expanded={langMenuOpen}
             >
-              <Globe className="w-3.5 h-3.5 text-primary shrink-0" />
+              <Globe className="w-3 h-3 min-[360px]:w-3.5 min-[360px]:h-3.5 text-primary shrink-0" />
               <span className="font-bold uppercase tracking-wider">{locale}</span>
               <ChevronDown
-                className={`w-3 h-3 text-outline transition-transform duration-200 shrink-0 ${
+                className={`w-3 h-3 text-outline transition-transform duration-200 shrink-0 hidden min-[360px]:inline ${
                   langMenuOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -187,29 +205,33 @@ export default function Navbar() {
             <span>TDS (.PDF)</span>
           </Link>
 
-          {/* Primary Action Button — Standardized consistent height, min-width, and balanced text across all languages */}
+          {/* Primary Action Button — Standardized consistent height, adaptive text for down to 340px screens */}
           <Link
             href="/container-planner"
-            className="h-9 sm:h-10 px-3 sm:px-4 md:px-5 rounded-full bg-primary-container text-on-primary-container font-headline text-[11.5px] sm:text-[12.5px] md:text-[13px] font-semibold tracking-normal hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 min-w-[105px] sm:min-w-[125px] shrink-0"
+            className="h-8 sm:h-9 md:h-10 px-2 min-[360px]:px-2.5 sm:px-3.5 md:px-5 rounded-full bg-primary-container text-on-primary-container font-headline text-[10.5px] min-[360px]:text-[11px] sm:text-[12px] md:text-[13px] font-semibold tracking-normal hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] whitespace-nowrap inline-flex items-center justify-center gap-1 min-[360px]:gap-1.5 sm:gap-2 shrink-0"
           >
             <span>{getCtaLabel()}</span>
-            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
+            <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 rtl:rotate-180 shrink-0 hidden min-[360px]:inline" />
           </Link>
 
           {/* Mobile / Tablet Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden h-9 w-9 sm:h-10 sm:w-10 flex items-center justify-center text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30 transition-colors shrink-0"
+            className="xl:hidden h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 flex items-center justify-center text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30 transition-colors shrink-0"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-4.5 h-4.5 sm:w-5 sm:h-5" /> : <Menu className="w-4.5 h-4.5 sm:w-5 sm:h-5" />}
+            {mobileMenuOpen ? (
+              <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
+            ) : (
+              <Menu className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5" />
+            )}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer Menu (Rounded-2xl floating card) */}
       {mobileMenuOpen && (
-        <div className="xl:hidden max-w-[1360px] mx-auto mt-2 bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-4 flex flex-col gap-3 shadow-2xl">
+        <div className="xl:hidden max-w-[1360px] mx-auto mt-2 bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl px-4 sm:px-6 py-3.5 sm:py-4 flex flex-col gap-3 shadow-2xl">
           {navLinks.map((link) => (
             <Link
               key={link.href}
