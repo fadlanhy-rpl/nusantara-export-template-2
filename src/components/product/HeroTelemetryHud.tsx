@@ -67,41 +67,63 @@ export default function HeroTelemetryHud() {
         <span className="text-primary font-semibold">100% GRADE PLATINUM SHISHA</span>
       </nav>
 
-      {/* Headline */}
-      <div className="flex flex-col gap-2 max-w-4xl">
-        <h1 className="font-headline text-[32px] sm:text-[40px] lg:text-[44px] leading-tight text-on-surface tracking-tight font-extrabold">
-          100% Briket Arang Batok Kelapa Murni{' '}
-          <span className="font-editorial italic font-normal text-secondary block sm:inline">
-            (Export Grade Shisha Platinum)
-          </span>
-        </h1>
-        <p className="font-body text-[15px] sm:text-[16px] text-on-surface-variant max-w-3xl leading-relaxed">
-          Briket arang batok kelapa tua murni kualitas ekspor standar shisha lounge internasional di Dubai, Berlin, dan Los Angeles. Tanpa campuran serbuk kayu, tanpa zat kimia pengoksidasi, dan pembakaran konsisten hingga 2.5 jam.
-        </p>
-      </div>
+      {/* Headline & Visual Stage Split */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        {/* Left Column (8 Cols) */}
+        <div className="lg:col-span-8 flex flex-col gap-3">
+          <h1 className="font-headline text-[32px] sm:text-[40px] lg:text-[44px] leading-tight text-on-surface tracking-tight font-extrabold">
+            100% Briket Arang Batok Kelapa Murni{' '}
+            <span className="font-editorial italic font-normal text-secondary block sm:inline">
+              (Export Grade Shisha Platinum)
+            </span>
+          </h1>
+          <p className="font-body text-[15px] sm:text-[16px] text-on-surface-variant max-w-2xl leading-relaxed">
+            Briket arang batok kelapa tua murni kualitas ekspor standar shisha lounge internasional di Dubai, Berlin, dan Los Angeles. Tanpa campuran serbuk kayu, tanpa zat kimia pengoksidasi, dan pembakaran konsisten hingga 2.5 jam.
+          </p>
 
-      {/* Compliance Badges Row */}
-      <div className="flex flex-wrap items-center gap-2 pt-1">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high border border-outline-variant/30 font-mono text-[11px]">
-          <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-          <span>
-            HS CODE: <strong className="text-primary font-bold">4402.90.10</strong>
-          </span>
+          {/* Compliance Badges Row */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high border border-outline-variant/30 font-mono text-[11px]">
+              <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+              <span>
+                HS CODE: <strong className="text-primary font-bold">4402.90.10</strong>
+              </span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tertiary-container/30 border border-tertiary-container/50 text-tertiary-fixed font-mono text-[11px]">
+              <ShieldCheck className="w-4 h-4 text-tertiary" />
+              <span>IMO NON-DG SPECIAL PROVISION 925 (SHTC PASSED)</span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high border border-outline-variant/30 font-mono text-[11px]">
+              <Award className="w-4 h-4 text-secondary" />
+              <span>SGS LAB CERTIFIED #SH-2026-COA</span>
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-container/20 border border-primary-container/40 text-primary-fixed font-mono text-[11px]">
+              <Flame className="w-4 h-4 text-primary" />
+              <span>ZERO WOOD COAL GUARANTEE</span>
+            </div>
+          </div>
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tertiary-container/30 border border-tertiary-container/50 text-tertiary-fixed font-mono text-[11px]">
-          <ShieldCheck className="w-4 h-4 text-tertiary" />
-          <span>IMO NON-DG SPECIAL PROVISION 925 (SHTC PASSED)</span>
-        </div>
+        {/* Right Product Photo Showcase (4 Cols) */}
+        <div className="lg:col-span-4 relative">
+          <div className="relative w-full h-56 sm:h-64 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-center p-4 overflow-hidden shadow-2xl group">
+            {/* Glowing Ember Backlight */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/25 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+            
+            <img
+              src="/img/shisha-charcoal-cutout.png"
+              alt="100% Batok Kelapa Charcoal Briquettes Cutout"
+              className="max-h-full max-w-[90%] object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-transform duration-500 z-10"
+            />
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high border border-outline-variant/30 font-mono text-[11px]">
-          <Award className="w-4 h-4 text-secondary" />
-          <span>SGS LAB CERTIFIED #SH-2026-COA</span>
-        </div>
-
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-container/20 border border-primary-container/40 text-primary-fixed font-mono text-[11px]">
-          <Flame className="w-4 h-4 text-primary" />
-          <span>ZERO WOOD COAL GUARANTEE</span>
+            <div className="absolute bottom-2.5 left-2.5 right-2.5 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md border border-white/10 flex items-center justify-between font-mono text-[10px] text-white/90 z-20">
+              <span className="text-primary font-bold">CUBE C25 (25MM)</span>
+              <span className="text-[#A1A1AA]">72 PCS / KG</span>
+            </div>
+          </div>
         </div>
       </div>
 

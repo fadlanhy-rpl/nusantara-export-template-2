@@ -44,9 +44,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        headline: ["Montserrat", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+        headline: ["Poppins", "Montserrat", "sans-serif"],
         editorial: ["EB Garamond", "serif"],
-        body: ["Inter", "sans-serif"],
+        body: ["Poppins", "Inter", "sans-serif"],
         mono: ["Geist", "monospace"],
       },
       maxWidth: {

@@ -237,6 +237,7 @@ export const ALL_COMMODITIES = [
     highlights: ['Ash < 2.2%', '7,500+ kcal/kg', 'IMO Non-DG SP925', 'Smokeless & Odorless'],
     link: '/products/100-briket-arang-batok-kelapa',
     badge: 'CORE COMMODITY',
+    image: '/img/shisha-charcoal-cutout.png',
   },
   {
     slug: 'green-coffee',
@@ -251,6 +252,7 @@ export const ALL_COMMODITIES = [
     highlights: ['Moisture 11.5%', 'Defect < 3%', 'Screen 16-18', 'SCA Score 85+'],
     link: '/products/green-coffee',
     badge: 'SPECIALTY GRADE',
+    image: '/img/green-coffee-cutout.png',
   },
   {
     slug: 'whole-spices',
@@ -265,5 +267,6 @@ export const ALL_COMMODITIES = [
     highlights: ['Eugenol > 18%', 'Head intact > 95%', 'Moisture < 12%', 'No Mould'],
     link: '/products/whole-spices',
     badge: 'EQUATORIAL HERITAGE',
+    image: '/img/cloves-spices-cutout.png',
   },
 ];

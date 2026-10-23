@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Package, Palette, Upload, ShieldCheck, Check, Eye, Download, MessageCircle, ArrowRight } from 'lucide-react';
+import { Package, Palette, Upload, ShieldCheck, Check, Eye, Download, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 
 type MaterialType = 'kraft' | 'matte_black' | 'white_duplex';
 type ViewMode = '3d' | 'flat' | 'pallet';
@@ -25,29 +25,47 @@ export default function OemConfiguratorStudio() {
   const [goldFoil, setGoldFoil] = useState(true);
   const [spotUv, setSpotUv] = useState(false);
 
-  // Material background shades for 3D box projection
-  const getMaterialColor = () => {
+  // Material textures & styles
+  const getBoxStyle = () => {
     switch (material) {
       case 'kraft':
-        return '#8A5A36';
+        return {
+          bg: '#8B5A2B',
+          bgLight: '#A66E38',
+          bgDark: '#6E451E',
+          text: '#F5EBE1',
+          accent: goldFoil ? '#F0D38D' : '#FFB59C',
+          border: '#4A2F13',
+          label: 'Eco Rustic Kraft Paperboard (275 gsm)',
+        };
       case 'white_duplex':
-        return '#EDEDEC';
+        return {
+          bg: '#F2EFEB',
+          bgLight: '#FAF8F5',
+          bgDark: '#DDD9D2',
+          text: '#1C1917',
+          accent: goldFoil ? '#B8860B' : '#C4440F',
+          border: '#C4BEB5',
+          label: 'Bright White Duplex Coated (300 gsm)',
+        };
       case 'matte_black':
       default:
-        return '#1C1D21';
+        return {
+          bg: '#1C1A18',
+          bgLight: '#2A2724',
+          bgDark: '#121110',
+          text: '#F5F2EB',
+          accent: goldFoil ? '#FFD700' : '#FF8A52',
+          border: '#38332E',
+          label: 'Matte Anthracite Black (Luxury Shisha)',
+        };
     }
   };
 
-  const getTextColor = () => {
-    return material === 'white_duplex' ? '#16110E' : '#ECE0DB';
-  };
-
-  const getFoilAccent = () => {
-    return goldFoil ? '#D4AF37' : '#C4440F';
-  };
+  const style = getBoxStyle();
 
   return (
-    <div className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8">
+    <div className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8 font-poppins">
       {/* Header */}
       <div className="flex flex-col gap-2">
         <nav className="flex items-center gap-2 font-mono text-[11px] text-outline uppercase tracking-wider">
@@ -65,11 +83,11 @@ export default function OemConfiguratorStudio() {
                 & Kemasan Ekspor Kustom
               </span>
             </h1>
-            <p className="font-body text-[14px] text-on-surface-variant max-w-2xl mt-1">
-              Simulasi interaktif kemasan brand Anda sendiri dengan presisi dieline pabrik berstandar ekspor ke Timur Tengah (GCC), Eropa, dan AS.
+            <p className="font-body text-[14px] text-on-surface-variant max-w-2xl mt-1 leading-relaxed">
+              Kustomisasi kemasan brand ekspor Anda dengan spesifikasi dieline pabrik presisi tinggi. Pilih material kardus, laminasi foil emas, dan teks regulasi Timur Tengah (GCC) maupun Eropa.
             </p>
           </div>
-          <div className="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/30 text-tertiary font-mono text-[11px]">
+          <div className="flex items-center gap-2 bg-surface-container px-3.5 py-1.5 rounded-lg border border-outline-variant/30 text-tertiary font-mono text-[11px]">
             <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
             <span>DIELINE ENGINE v4.2 LIVE</span>
           </div>
@@ -79,7 +97,7 @@ export default function OemConfiguratorStudio() {
       {/* 12-Column Split Configurator Interface */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Controls (5 Cols) */}
-        <div className="lg:col-span-5 bg-surface-container-low rounded-xl border border-outline-variant/30 p-6 flex flex-col gap-6 shadow-xl">
+        <div className="lg:col-span-5 bg-surface-container-low rounded-2xl border border-outline-variant/30 p-6 flex flex-col gap-6 shadow-xl">
           {/* Section 1: Format Kemasan */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-2">
@@ -96,20 +114,20 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setPackFormat('1kg')}
-                className={`p-3 rounded-lg text-left transition-all flex items-start gap-3 border ${
+                className={`p-3 rounded-xl text-left transition-all flex items-start gap-3 border ${
                   packFormat === '1kg'
-                    ? 'border-primary-container bg-surface-container'
+                    ? 'border-primary-container bg-surface-container shadow-md'
                     : 'border-outline-variant/30 bg-surface-container-lowest/50 hover:bg-surface-container'
                 }`}
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                   packFormat === '1kg' ? 'border-primary-container' : 'border-outline-variant'
                 }`}>
                   {packFormat === '1kg' && <div className="w-2 h-2 rounded-full bg-primary-container"></div>}
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Kotak Dalam 1kg (10x1kg per Master Box 10kg)
+                    Kotak Dalam 1kg (10x1kg per Master Box)
                   </span>
                   <span className="font-mono text-[11px] text-outline">
                     Dimensi 100×100×100 mm • Duplex 250gsm
@@ -120,20 +138,20 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setPackFormat('2kg')}
-                className={`p-3 rounded-lg text-left transition-all flex items-start gap-3 border ${
+                className={`p-3 rounded-xl text-left transition-all flex items-start gap-3 border ${
                   packFormat === '2kg'
-                    ? 'border-primary-container bg-surface-container'
+                    ? 'border-primary-container bg-surface-container shadow-md'
                     : 'border-outline-variant/30 bg-surface-container-lowest/50 hover:bg-surface-container'
                 }`}
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                   packFormat === '2kg' ? 'border-primary-container' : 'border-outline-variant'
                 }`}>
                   {packFormat === '2kg' && <div className="w-2 h-2 rounded-full bg-primary-container"></div>}
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Kotak Dalam 2kg (5x2kg per Master Box 10kg)
+                    Kotak Dalam 2kg (5x2kg per Master Box)
                   </span>
                   <span className="font-mono text-[11px] text-outline">
                     Dimensi 200×100×100 mm • Duplex 300gsm
@@ -144,23 +162,23 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setPackFormat('10kg_bulk')}
-                className={`p-3 rounded-lg text-left transition-all flex items-start gap-3 border ${
+                className={`p-3 rounded-xl text-left transition-all flex items-start gap-3 border ${
                   packFormat === '10kg_bulk'
-                    ? 'border-primary-container bg-surface-container'
+                    ? 'border-primary-container bg-surface-container shadow-md'
                     : 'border-outline-variant/30 bg-surface-container-lowest/50 hover:bg-surface-container'
                 }`}
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                <div className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                   packFormat === '10kg_bulk' ? 'border-primary-container' : 'border-outline-variant'
                 }`}>
                   {packFormat === '10kg_bulk' && <div className="w-2 h-2 rounded-full bg-primary-container"></div>}
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Master Box Polos 10kg (Bulk Packing BBQ)
+                    Master Carton 10kg (Bulk BBQ Packing)
                   </span>
                   <span className="font-mono text-[11px] text-outline">
-                    Tanpa inner box • Plastik tebal kedap udara 0.08mm
+                    Kardus tebal 5-Ply Corrugated K150
                   </span>
                 </div>
               </button>
@@ -174,7 +192,7 @@ export default function OemConfiguratorStudio() {
                 <span className="w-5 h-5 rounded-full bg-primary-container text-on-primary-container text-[11px] font-mono flex items-center justify-center font-bold">
                   2
                 </span>
-                Substrat Kertas / Karton
+                Substrat Kertas & Finishing
               </span>
               <span className="font-mono text-[11px] text-tertiary">ISO-12647-2</span>
             </div>
@@ -183,13 +201,13 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setMaterial('kraft')}
-                className={`flex flex-col items-center gap-1.5 p-2 rounded-lg border transition-all ${
+                className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border transition-all ${
                   material === 'kraft'
-                    ? 'border-2 border-primary-container bg-surface-container'
+                    ? 'border-2 border-primary-container bg-surface-container shadow'
                     : 'border-outline-variant/30 bg-surface-container hover:border-outline'
                 }`}
               >
-                <span className="w-full h-7 rounded shadow-inner" style={{ backgroundColor: '#8A5A36' }}></span>
+                <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#8B5A2B' }}></span>
                 <span className="font-mono text-[11px] text-on-surface text-center leading-tight">
                   Kraft 275g<br />
                   <span className="text-outline text-[9px]">Eco Rustic</span>
@@ -199,13 +217,13 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setMaterial('matte_black')}
-                className={`flex flex-col items-center gap-1.5 p-2 rounded-lg border transition-all ${
+                className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border transition-all ${
                   material === 'matte_black'
-                    ? 'border-2 border-primary-container bg-surface-container'
+                    ? 'border-2 border-primary-container bg-surface-container shadow'
                     : 'border-outline-variant/30 bg-surface-container hover:border-outline'
                 }`}
               >
-                <span className="w-full h-7 rounded shadow-inner" style={{ backgroundColor: '#1C1D21' }}></span>
+                <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#1C1A18' }}></span>
                 <span className="font-mono text-[11px] text-primary text-center leading-tight font-semibold">
                   Matte Black<br />
                   <span className="text-secondary text-[9px]">Luxury Shisha</span>
@@ -215,13 +233,13 @@ export default function OemConfiguratorStudio() {
               <button
                 type="button"
                 onClick={() => setMaterial('white_duplex')}
-                className={`flex flex-col items-center gap-1.5 p-2 rounded-lg border transition-all ${
+                className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border transition-all ${
                   material === 'white_duplex'
-                    ? 'border-2 border-primary-container bg-surface-container'
+                    ? 'border-2 border-primary-container bg-surface-container shadow'
                     : 'border-outline-variant/30 bg-surface-container hover:border-outline'
                 }`}
               >
-                <span className="w-full h-7 rounded shadow-inner" style={{ backgroundColor: '#EDEDEC' }}></span>
+                <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#F2EFEB' }}></span>
                 <span className="font-mono text-[11px] text-on-surface text-center leading-tight">
                   Bright White<br />
                   <span className="text-outline text-[9px]">Duplex 300g</span>
@@ -230,9 +248,9 @@ export default function OemConfiguratorStudio() {
             </div>
 
             {/* Special Finishing Options */}
-            <div className="flex flex-col gap-2 pt-2">
-              <label className="flex items-center justify-between p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
-                <span className="flex items-center gap-2 font-body text-[13px] text-on-surface">
+            <div className="flex flex-col gap-2 pt-1 text-[13px]">
+              <label className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
+                <span className="flex items-center gap-2 text-on-surface">
                   <input
                     type="checkbox"
                     checked={matteUv}
@@ -244,28 +262,28 @@ export default function OemConfiguratorStudio() {
                 <span className="font-mono text-[11px] text-tertiary">STANDAR</span>
               </label>
 
-              <label className="flex items-center justify-between p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
-                <span className="flex items-center gap-2 font-body text-[13px] text-on-surface">
+              <label className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
+                <span className="flex items-center gap-2 text-on-surface">
                   <input
                     type="checkbox"
                     checked={goldFoil}
                     onChange={(e) => setGoldFoil(e.target.checked)}
                     className="w-4 h-4 rounded accent-primary-container"
                   />
-                  <span>Hot-Stamping Foil Emas (Logo & Nama Merk)</span>
+                  <span>Hot-Stamping Foil Emas (Logo & Nama)</span>
                 </span>
                 <span className="font-mono text-[11px] text-secondary">+$0.03/pc</span>
               </label>
 
-              <label className="flex items-center justify-between p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
-                <span className="flex items-center gap-2 font-body text-[13px] text-on-surface">
+              <label className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
+                <span className="flex items-center gap-2 text-on-surface">
                   <input
                     type="checkbox"
                     checked={spotUv}
                     onChange={(e) => setSpotUv(e.target.checked)}
                     className="w-4 h-4 rounded accent-primary-container"
                   />
-                  <span>Spot UV Glossy pada Ornamen Geometris</span>
+                  <span>Spot UV Glossy Ornamen</span>
                 </span>
                 <span className="font-mono text-[11px] text-outline">+$0.015/pc</span>
               </label>
@@ -279,7 +297,7 @@ export default function OemConfiguratorStudio() {
                 <span className="w-5 h-5 rounded-full bg-primary-container text-on-primary-container text-[11px] font-mono flex items-center justify-center font-bold">
                   3
                 </span>
-                Identitas Merek & Teks Regulasi
+                Identitas Merek & Regulasi
               </span>
               <span className="font-mono text-[11px] text-outline">GCC / EU</span>
             </div>
@@ -298,7 +316,7 @@ export default function OemConfiguratorStudio() {
 
             <div className="flex flex-col gap-1">
               <label className="font-mono text-[10px] uppercase font-bold text-outline">
-                Sub-Headline / Descriptor
+                Sub-Headline / Slogan
               </label>
               <input
                 type="text"
@@ -309,61 +327,61 @@ export default function OemConfiguratorStudio() {
             </div>
 
             {/* Checkboxes */}
-            <div className="flex flex-col gap-2 pt-1">
-              <label className="flex items-center gap-2 font-body text-[12px] text-on-surface cursor-pointer">
+            <div className="flex flex-col gap-2 pt-1 text-[12px]">
+              <label className="flex items-center gap-2 text-on-surface cursor-pointer">
                 <input
                   type="checkbox"
                   checked={arabicTextEnabled}
                   onChange={(e) => setArabicTextEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Peringatan Regulasi Arab (Standar GCC / ESMA GSO 2530)</span>
+                <span>Peringatan Bahasa Arab (Standar ESMA & GCC GSO 2530)</span>
               </label>
 
-              <label className="flex items-center gap-2 font-body text-[12px] text-on-surface cursor-pointer">
+              <label className="flex items-center gap-2 text-on-surface cursor-pointer">
                 <input
                   type="checkbox"
                   checked={barcodeEnabled}
                   onChange={(e) => setBarcodeEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Cetak Barcode EAN-13 & QR Code Batch Lab</span>
+                <span>Barcode EAN-13 & QR Code Batch Lab</span>
               </label>
 
-              <label className="flex items-center gap-2 font-body text-[12px] text-on-surface cursor-pointer">
+              <label className="flex items-center gap-2 text-on-surface cursor-pointer">
                 <input
                   type="checkbox"
                   checked={certLogosEnabled}
                   onChange={(e) => setCertLogosEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Logo Sertifikasi Resmi (Halal & IMO Non-DG SP925)</span>
+                <span>Sertifikasi Resmi (Halal MUI & IMO Non-DG SP925)</span>
               </label>
             </div>
           </div>
         </div>
 
-        {/* Right Column: 2.5D Studio Canvas Viewport (7 Cols) */}
+        {/* Right Column: 3D Perspective Studio Canvas Viewport (7 Cols) */}
         <div className="lg:col-span-7 flex flex-col gap-4">
-          <div className="w-full bg-surface-container-lowest rounded-xl border border-outline-variant/30 overflow-hidden flex flex-col shadow-2xl relative">
+          <div className="w-full bg-surface-container-lowest rounded-2xl border border-outline-variant/30 overflow-hidden flex flex-col shadow-2xl relative">
             {/* Viewport Toolbar */}
             <div className="h-12 bg-surface-container-low border-b border-outline-variant/30 px-4 flex items-center justify-between">
               <div className="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/30">
                 <button
                   type="button"
                   onClick={() => setViewMode('3d')}
-                  className={`px-3 py-1 rounded font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
                     viewMode === '3d'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  Perspektif 3D
+                  Perspektif 3D Box
                 </button>
                 <button
                   type="button"
                   onClick={() => setViewMode('flat')}
-                  className={`px-3 py-1 rounded font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
                     viewMode === 'flat'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
@@ -374,7 +392,7 @@ export default function OemConfiguratorStudio() {
                 <button
                   type="button"
                   onClick={() => setViewMode('pallet')}
-                  className={`px-3 py-1 rounded font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
                     viewMode === 'pallet'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
@@ -386,91 +404,200 @@ export default function OemConfiguratorStudio() {
 
               <div className="flex items-center gap-2 font-mono text-[11px] text-outline">
                 <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                <span>REAL-TIME VECTOR SYNC</span>
+                <span>VECTOR CAD ACCU-CUT</span>
               </div>
             </div>
 
             {/* Canvas Stage */}
-            <div className="w-full min-h-[460px] sm:min-h-[500px] cad-grid relative p-6 flex items-center justify-center overflow-hidden">
+            <div className="w-full min-h-[480px] cad-grid relative p-6 flex flex-col items-center justify-center overflow-hidden">
               {viewMode === '3d' && (
-                <div className="relative w-full max-w-md h-80 flex items-center justify-center transition-all">
-                  {/* Isometric Box 3D Projection */}
-                  <svg className="w-full h-auto drop-shadow-2xl" viewBox="0 0 400 340">
-                    <defs>
-                      <linearGradient id="topShade" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor={getMaterialColor()} stopOpacity="0.9" />
-                        <stop offset="100%" stopColor={getMaterialColor()} stopOpacity="0.75" />
-                      </linearGradient>
-                      <linearGradient id="leftShade" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor={getMaterialColor()} stopOpacity="0.6" />
-                        <stop offset="100%" stopColor={getMaterialColor()} stopOpacity="0.4" />
-                      </linearGradient>
-                      <linearGradient id="rightShade" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor={getMaterialColor()} stopOpacity="0.85" />
-                        <stop offset="100%" stopColor={getMaterialColor()} stopOpacity="0.65" />
-                      </linearGradient>
-                    </defs>
+                <div className="w-full max-w-lg flex flex-col items-center gap-6 py-4">
+                  {/* REALISTIC 3D BOX PROJECTION WITH DEPTH & AMBIENT SHADOWS */}
+                  <div className="relative w-full max-w-sm h-72 flex items-center justify-center">
+                    {/* Soft Ground Contact Shadow */}
+                    <div className="absolute -bottom-4 w-64 h-8 bg-black/60 rounded-full blur-xl pointer-events-none"></div>
 
-                    {/* Top Face */}
-                    <polygon points="200,40 320,105 200,170 80,105" fill="url(#topShade)" stroke={getFoilAccent()} strokeWidth="1.5" />
-                    {/* Left Face */}
-                    <polygon points="80,105 200,170 200,300 80,235" fill="url(#leftShade)" stroke={getFoilAccent()} strokeWidth="1.5" />
-                    {/* Right Face (Main Branding Front Face) */}
-                    <polygon points="200,170 320,105 320,235 200,300" fill="url(#rightShade)" stroke={getFoilAccent()} strokeWidth="1.5" />
+                    {/* 3D Isometric Shaded Cardboard Box */}
+                    <svg className="w-full h-auto drop-shadow-2xl overflow-visible" viewBox="0 0 380 340">
+                      <defs>
+                        {/* Shading gradients */}
+                        <linearGradient id="boxTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor={style.bgLight} />
+                          <stop offset="100%" stopColor={style.bg} />
+                        </linearGradient>
+                        <linearGradient id="boxLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor={style.bgDark} />
+                          <stop offset="100%" stopColor={style.bg} />
+                        </linearGradient>
+                        <linearGradient id="boxFront" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor={style.bgLight} />
+                          <stop offset="100%" stopColor={style.bgDark} />
+                        </linearGradient>
+                        <linearGradient id="foilGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor={style.accent} />
+                          <stop offset="50%" stopColor="#FFF8DC" />
+                          <stop offset="100%" stopColor={style.accent} />
+                        </linearGradient>
+                      </defs>
 
-                    {/* Branding Text on Front Right Face (Skewed in Isometric Space) */}
-                    <g transform="translate(205, 160) skewY(28)">
-                      <text x="15" y="25" fill={getFoilAccent()} fontFamily="Montserrat" fontSize="12" fontWeight="800">
-                        {brandName.substring(0, 22)}
-                      </text>
-                      <text x="15" y="40" fill={getTextColor()} fontFamily="Inter" fontSize="8" fontWeight="500">
-                        {tagline.substring(0, 32)}
-                      </text>
-                      <text x="15" y="60" fill={getFoilAccent()} fontFamily="Geist" fontSize="10" fontWeight="700">
-                        NET WT: {packFormat.includes('1kg') ? '1.0 KG' : packFormat.includes('2kg') ? '2.0 KG' : '10.0 KG'}
-                      </text>
+                      {/* TOP FACE */}
+                      <polygon points="190,30 310,95 190,160 70,95" fill="url(#boxTop)" stroke={style.border} strokeWidth="1.5" />
+                      <line x1="72" y1="96" x2="188" y2="158" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
 
-                      {arabicTextEnabled && (
-                        <text x="15" y="80" fill={getTextColor()} fontFamily="Arial" fontSize="8">
-                          فحم جوز الهند الطبيعي للشيشة
+                      {/* LEFT SIDE FACE */}
+                      <polygon points="70,95 190,160 190,290 70,225" fill="url(#boxLeft)" stroke={style.border} strokeWidth="1.5" />
+                      {/* Left Face barcode & specs */}
+                      <g transform="translate(80, 140) skewY(28) scale(0.85)">
+                        <text x="5" y="15" fill={style.text} opacity="0.6" fontFamily="Geist" fontSize="8">
+                          SPEC: 100% COCONUT SHELL
                         </text>
-                      )}
+                        <text x="5" y="30" fill={style.text} opacity="0.6" fontFamily="Geist" fontSize="8">
+                          MADE IN INDONESIA (GRESIK)
+                        </text>
+                        {barcodeEnabled && (
+                          <g transform="translate(5, 45)">
+                            <rect width="60" height="18" fill="#FFFFFF" rx="2" />
+                            <text x="4" y="13" fill="#000000" fontFamily="Geist" fontSize="7" fontWeight="bold">
+                              899210983719
+                            </text>
+                          </g>
+                        )}
+                      </g>
 
-                      {barcodeEnabled && (
-                        <g transform="translate(15, 95)">
-                          <rect width="60" height="15" fill="#FFFFFF" />
-                          <text x="5" y="11" fill="#000000" fontFamily="Geist" fontSize="7">|||||||||||||||||</text>
-                        </g>
-                      )}
-                    </g>
-                  </svg>
-                </div>
-              )}
+                      {/* FRONT FACE (Main Branding Panel) */}
+                      <polygon points="190,160 310,95 310,225 190,290" fill="url(#boxFront)" stroke={style.border} strokeWidth="1.5" />
+                      <line x1="190" y1="160" x2="190" y2="290" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
 
-              {viewMode === 'flat' && (
-                <div className="w-full max-w-md bg-surface-container p-4 rounded-lg border border-outline-variant/40 flex flex-col items-center gap-3">
-                  <span className="font-mono text-[11px] text-tertiary">2D FLAT CAD DIELINE TEMPLATE (100×100×100 mm)</span>
-                  <div className="w-full h-64 border-2 border-dashed border-primary/40 rounded flex items-center justify-center text-center p-4">
-                    <div className="flex flex-col gap-2">
-                      <span className="font-headline font-bold text-on-surface text-[14px]">{brandName}</span>
-                      <span className="font-mono text-[11px] text-outline">Toleransi Die-cut: ±0.5 mm • Duplex 250gsm</span>
-                      <span className="font-mono text-[10px] text-primary">Bleed Line: +3mm • Crease Lines: Cyan 0.25pt</span>
+                      {/* FRONT BRANDING TEXT (Clean, legible, properly angled) */}
+                      <g transform="translate(198, 145) skewY(-28)">
+                        {/* Foil Brand Name */}
+                        <text
+                          x="10"
+                          y="22"
+                          fill="url(#foilGlow)"
+                          fontFamily="Poppins"
+                          fontSize="11"
+                          fontWeight="800"
+                          letterSpacing="0.04em"
+                        >
+                          {brandName.substring(0, 20)}
+                        </text>
+
+                        {/* Tagline */}
+                        <text
+                          x="10"
+                          y="36"
+                          fill={style.text}
+                          fontFamily="Poppins"
+                          fontSize="7.5"
+                          fontWeight="500"
+                          opacity="0.9"
+                        >
+                          {tagline.substring(0, 30)}
+                        </text>
+
+                        {/* Gold Foil Net Weight */}
+                        <rect x="10" y="46" width="65" height="14" fill={style.accent} opacity="0.2" rx="2" />
+                        <text
+                          x="14"
+                          y="57"
+                          fill={style.accent}
+                          fontFamily="Geist"
+                          fontSize="8.5"
+                          fontWeight="bold"
+                        >
+                          NET WT: {packFormat.includes('1kg') ? '1.0 KG' : packFormat.includes('2kg') ? '2.0 KG' : '10.0 KG'}
+                        </text>
+
+                        {/* Arabic Standard Text */}
+                        {arabicTextEnabled && (
+                          <text
+                            x="10"
+                            y="75"
+                            fill={style.text}
+                            fontFamily="Arial"
+                            fontSize="8"
+                            opacity="0.8"
+                          >
+                            فحم جوز هند طبيعي ممتاز للشيشة
+                          </text>
+                        )}
+
+                        {/* Compliance Seals */}
+                        {certLogosEnabled && (
+                          <g transform="translate(10, 85)">
+                            <rect width="40" height="10" fill="rgba(255,255,255,0.12)" rx="2" />
+                            <text x="3" y="7.5" fill={style.accent} fontFamily="Geist" fontSize="5.5" fontWeight="bold">
+                              SP 925 NON-DG
+                            </text>
+                          </g>
+                        )}
+                      </g>
+                    </svg>
+                  </div>
+
+                  {/* LEGIBILITY CARD: Clear Preview Below (Every detail 100% readable) */}
+                  <div className="w-full bg-surface-container p-4 rounded-xl border border-outline-variant/30 flex flex-col gap-2 shadow-md">
+                    <div className="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+                      <span className="font-headline font-bold text-[13px] text-on-surface">
+                        Pratinjau Cetak Dieline Muka Depan (Front Panel Spec)
+                      </span>
+                      <span className="font-mono text-[11px] text-tertiary font-bold">
+                        {style.label}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[12px] pt-1 font-mono">
+                      <div className="flex flex-col">
+                        <span className="text-outline text-[10px]">BRAND LOGO & MERK:</span>
+                        <strong className="text-primary truncate">{brandName}</strong>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-outline text-[10px]">TAGLINE / MUTU:</span>
+                        <span className="text-on-surface truncate">{tagline}</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-outline text-[10px]">FINISHING:</span>
+                        <span className="text-secondary font-semibold">
+                          {goldFoil ? 'Gold Foil' : 'No Foil'} • {matteUv ? 'Matte UV' : 'Standard'}
+                        </span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-outline text-[10px]">REGULASI EKSPOR:</span>
+                        <span className="text-tertiary font-semibold">GCC GSO 2530 & SP925</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               )}
 
+              {viewMode === 'flat' && (
+                <div className="w-full max-w-md bg-surface-container p-5 rounded-xl border border-outline-variant/30 flex flex-col items-center gap-3">
+                  <span className="font-mono text-[11px] text-tertiary">2D FLAT CAD DIELINE (100×100×100 mm)</span>
+                  <div className="w-full h-64 border-2 border-dashed border-primary/40 rounded-lg flex flex-col items-center justify-center p-4 text-center bg-surface-container-high/40">
+                    <span className="font-headline font-bold text-[16px] text-on-surface">{brandName}</span>
+                    <span className="font-body text-[12px] text-outline mt-1">{tagline}</span>
+                    <span className="font-mono text-[11px] text-primary mt-2">
+                      Die-cut Tolerance: ±0.5 mm • Inner Vacuum Sealed
+                    </span>
+                    <span className="font-mono text-[10px] text-tertiary mt-1">
+                      Bleed +3mm • Crease Cyan 0.25pt • CMYK + Pant. 871C (Gold)
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {viewMode === 'pallet' && (
-                <div className="w-full max-w-md bg-surface-container p-4 rounded-lg border border-outline-variant/40 flex flex-col items-center gap-3">
-                  <span className="font-mono text-[11px] text-tertiary">PALLET STUFFING CONFIGURATION</span>
-                  <div className="w-full h-64 border border-outline-variant/40 rounded flex flex-col justify-end p-4 bg-surface-container-high/40">
-                    <div className="grid grid-cols-5 gap-1 w-full h-40">
-                      {Array.from({ length: 30 }).map((_, i) => (
-                        <div key={i} className="bg-primary-container/80 rounded-sm border border-black/30"></div>
+                <div className="w-full max-w-md bg-surface-container p-5 rounded-xl border border-outline-variant/30 flex flex-col items-center gap-3">
+                  <span className="font-mono text-[11px] text-tertiary">PENATAAN PALLET MARITIM (EURO PALLET)</span>
+                  <div className="w-full h-64 border border-outline-variant/30 rounded-lg flex flex-col justify-end p-4 bg-surface-container-high/40">
+                    <div className="grid grid-cols-5 gap-1.5 w-full h-44">
+                      {Array.from({ length: 35 }).map((_, i) => (
+                        <div key={i} className="bg-primary-container/85 rounded-sm border border-black/40"></div>
                       ))}
                     </div>
-                    <div className="w-full h-6 bg-[#8A5A36] rounded mt-1 flex items-center justify-center font-mono text-[10px] text-white">
-                      EURO PALLET 1200 × 1000 mm (WRAP PLASTIC SEALED)
+                    <div className="w-full h-7 bg-[#8B5A2B] rounded mt-2 flex items-center justify-center font-mono text-[11px] text-white font-bold">
+                      EURO PALLET 1200 × 1000 mm • WRAP SHRINK FILM
                     </div>
                   </div>
                 </div>
@@ -478,7 +605,7 @@ export default function OemConfiguratorStudio() {
             </div>
 
             {/* Viewport Footer Bar */}
-            <div className="px-6 py-3 bg-surface-container-low border-t border-outline-variant/30 flex flex-wrap items-center justify-between gap-3">
+            <div className="px-6 py-3.5 bg-surface-container-low border-t border-outline-variant/30 flex flex-wrap items-center justify-between gap-3">
               <span className="font-mono text-[11px] text-outline">
                 FORMAT: {packFormat.toUpperCase()} • MATERIAL: {material.toUpperCase()}
               </span>
@@ -487,7 +614,7 @@ export default function OemConfiguratorStudio() {
                   href={`https://wa.me/628113000000?text=${encodeURIComponent(`Halo NusantaraOrigin, saya ingin meminta konfirmasi mock-up kemasan OEM brand: ${brandName} (${packFormat})`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-colors shadow"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Kirim Mock-Up ke WhatsApp Pabrik</span>

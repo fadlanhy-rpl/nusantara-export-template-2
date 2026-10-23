@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 @tailwind base;
@@ -15,10 +15,8 @@
   body {
     background-color: #17120F;
     color: #ECE0DB;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', 'Inter', sans-serif;
     overflow-x: hidden;
-    selection-background-color: #C4440F;
-    selection-color: #FFF1ED;
   }
 }
 
@@ -47,7 +45,6 @@
   background: #C4440F;
 }
 
-/* Hide scrollbar for clean UI elements */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

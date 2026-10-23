@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Hero3DScene from '@/components/home/Hero3DScene';
+import FactoryMediaReel from '@/components/home/FactoryMediaReel';
+import CommodityShowcase3D from '@/components/home/CommodityShowcase3D';
 import { ShieldCheck, ArrowRight, Flame, Scale, Package, Factory, Award, ExternalLink, Calculator } from 'lucide-react';
 import { ALL_COMMODITIES } from '@/lib/commodityData';
 
@@ -167,7 +169,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. MULTI-COMMODITY CATALOG OVERVIEW */}
+      {/* 3. FACTORY VIDEO & OPERATIONAL MEDIA REEL */}
+      <FactoryMediaReel />
+
+      {/* 4. INTERACTIVE 3D COMMODITY SHOWCASE STAGE */}
+      <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+        <div className="flex flex-col gap-1">
+          <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
+            INSPEKSI 3D FISIK PRODUK REALISTIS
+          </span>
+          <h2 className="font-headline text-[24px] sm:text-[32px] font-bold text-on-surface">
+            Etalase Visual 3D Komoditas Ekspor
+          </h2>
+          <p className="font-body text-[14px] text-outline max-w-2xl">
+            Inspeksi visual interaktif 3D tilt untuk briket batok shisha & BBQ, biji kopi hijau Mandheling, serta rempah cengkeh & kayu manis Maluku.
+          </p>
+        </div>
+
+        <CommodityShowcase3D />
+      </section>
+
+      {/* 5. MULTI-COMMODITY CATALOG OVERVIEW WITH REAL CUTOUTS */}
       <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
         <div className="flex items-center justify-between border-b border-outline-variant/30 pb-3">
           <div>
@@ -175,7 +197,7 @@ export default function HomePage() {
               PORTOFOLIO EKSPOR
             </span>
             <h2 className="font-headline text-[22px] sm:text-[28px] font-bold text-on-surface">
-              Komoditas Agro & Karbon Ekspor Indonesia
+              Katalog Lengkap Komoditas Ekspor Indonesia
             </h2>
           </div>
           <Link
@@ -191,25 +213,59 @@ export default function HomePage() {
           {ALL_COMMODITIES.map((c) => (
             <div
               key={c.slug}
-              className="p-5 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between"
+              className="p-5 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between hover:border-primary/50 transition-all shadow-lg group overflow-hidden"
             >
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-mono text-[10px] text-outline">HS: {c.hs_code}</span>
-                  <span className="font-mono text-[10px] text-tertiary">{c.grade}</span>
+              <div className="flex flex-col gap-3">
+                {/* Product Thumbnail Header */}
+                <div className="relative w-full h-44 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-center overflow-hidden p-3">
+                  <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded bg-black/75 backdrop-blur-md border border-white/10 font-mono text-[10px] text-primary font-bold">
+                    HS: {c.hs_code}
+                  </div>
+                  <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-mono text-[10px] font-bold">
+                    {c.badge}
+                  </div>
+
+                  <img
+                    src={c.image}
+                    alt={c.name}
+                    className="max-h-full max-w-[85%] object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <h4 className="font-headline font-bold text-[16px] text-on-surface">
-                  {c.name}
-                </h4>
-                <p className="font-body text-[13px] text-outline line-clamp-2">
-                  {c.desc}
-                </p>
+
+                <div className="flex flex-col gap-1 mt-1">
+                  <span className="font-mono text-[11px] text-tertiary">{c.grade}</span>
+                  <h4 className="font-headline font-bold text-[16px] text-on-surface group-hover:text-primary transition-colors">
+                    {c.name}
+                  </h4>
+                  <p className="font-body text-[13px] text-outline line-clamp-2">
+                    {c.desc}
+                  </p>
+                </div>
+
+                {/* Highlights */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {c.highlights.map((h, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px]"
+                    >
+                      {h}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-outline-variant/20 flex items-center justify-between">
-                <span className="font-mono text-[12px] font-bold text-on-surface">{c.fob}</span>
-                <Link href={c.link} className="font-headline text-[11px] uppercase font-bold text-primary hover:underline">
-                  Detail Mutu →
+              <div className="mt-5 pt-3 border-t border-outline-variant/20 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[10px] text-outline block">FOB PRICE</span>
+                  <span className="font-mono text-[13px] font-bold text-on-surface">{c.fob}</span>
+                </div>
+                <Link
+                  href={c.link}
+                  className="font-headline text-[12px] uppercase font-bold text-primary hover:underline flex items-center gap-1"
+                >
+                  <span>Detail Mutu</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
