@@ -52,6 +52,22 @@ const STUDIO_I18N = {
     lblColReg: 'EXPORT REGULATION:',
     btnSendWa: 'Send Mock-Up to Factory WhatsApp',
     waMsg: 'Hello NusantaraOrigin, I would like to request factory confirmation for OEM brand mock-up: {brand} ({format})',
+    b2bStandard: 'B2B Standard',
+    matLabelKraft: 'Eco Rustic Kraft Paperboard (275 gsm)',
+    matLabelBlack: 'Matte Anthracite Black (Luxury Shisha)',
+    matLabelWhite: 'Bright White Duplex Coated (300 gsm)',
+    cadAccuCut: 'VECTOR CAD ACCU-CUT',
+    foilYes: 'Gold Foil',
+    foilNo: 'No Foil',
+    matteYes: 'Matte UV',
+    matteNo: 'Standard',
+    flatCadTitle: '2D FLAT CAD DIELINE (100×100×100 mm)',
+    palletTitle: 'MARITIME PALLET STUFFING (EURO PALLET)',
+    palletSub: 'EURO PALLET 1200 × 1000 mm • WRAP SHRINK FILM',
+    diecutTol: 'Die-cut Tolerance: ±0.5 mm • Inner Vacuum Sealed',
+    printMarks: 'Bleed +3mm • Crease Cyan 0.25pt • CMYK + Pant. 871C (Gold)',
+    formatLabel: 'FORMAT:',
+    materialLabel: 'MATERIAL:',
   },
   id: {
     navCommodities: 'KOMODITAS EKSPOR',
@@ -94,6 +110,22 @@ const STUDIO_I18N = {
     lblColReg: 'REGULASI EKSPOR:',
     btnSendWa: 'Kirim Mock-Up ke WhatsApp Pabrik',
     waMsg: 'Halo NusantaraOrigin, saya ingin meminta konfirmasi mock-up kemasan OEM brand: {brand} ({format})',
+    b2bStandard: 'Standar B2B',
+    matLabelKraft: 'Eco Rustic Kraft Paperboard (275 gsm)',
+    matLabelBlack: 'Matte Anthracite Black (Luxury Shisha)',
+    matLabelWhite: 'Bright White Duplex Coated (300 gsm)',
+    cadAccuCut: 'AKURASI POTONG CAD VEKTOR',
+    foilYes: 'Foil Emas',
+    foilNo: 'Tinta Standar',
+    matteYes: 'Laminasi Doff',
+    matteNo: 'Tanpa Lapisan',
+    flatCadTitle: 'DIELINE CAD DATAR 2D (100×100×100 mm)',
+    palletTitle: 'PENATAAN PALLET MARITIM (EURO PALLET)',
+    palletSub: 'EURO PALLET 1200 × 1000 mm • WRAP SHRINK FILM',
+    diecutTol: 'Toleransi Pisau Pond: ±0.5 mm • Kemasan Vakum Dalam',
+    printMarks: 'Bleed +3mm • Garis Lipat Cyan 0.25pt • CMYK + Pant. 871C (Emas)',
+    formatLabel: 'FORMAT KEMASAN:',
+    materialLabel: 'MATERIAL:',
   },
   ar: {
     navCommodities: 'السلع الزراعية التصديرية',
@@ -136,6 +168,22 @@ const STUDIO_I18N = {
     lblColReg: 'اللوائح التصديرية:',
     btnSendWa: 'إرسال النموذج إلى واتساب المصنع',
     waMsg: 'مرحباً NusantaraOrigin، أود تأكيد نموذج العبوة المخصصة للماركة: {brand} ({format})',
+    b2bStandard: 'معايير B2B المعتمدة',
+    matLabelKraft: 'كرتون كرافت طبيعي صديق للبيئة (275 جم)',
+    matLabelBlack: 'أسود أنثراسيت مطفي فاخر (شيشة فاخرة)',
+    matLabelWhite: 'أبيض ناصع مطلي دوبلكس (300 جم)',
+    cadAccuCut: 'قص دقيق بمتجهات CAD',
+    foilYes: 'فويل ذهبي',
+    foilNo: 'حبر قياسي',
+    matteYes: 'طبقة مطفية UV',
+    matteNo: 'بدون طلاء',
+    flatCadTitle: 'مخطط القطع المنبسط ثنائي الأبعاد 2D CAD (100×100×100 مم)',
+    palletTitle: 'ترتيب الطبالي البحرية (EURO PALLET)',
+    palletSub: 'طبلية أوروبية 1200 × 1000 مم • تغليف غشاء حراري',
+    diecutTol: 'دقة وتفاوت القص: ±0.5 مم • تفريغ هواء داخلي',
+    printMarks: 'إزاحة ألوان +3 مم • خط طي 0.25pt • CMYK + ذهبي فاخر',
+    formatLabel: 'صيغة العبوة:',
+    materialLabel: 'الخامة:',
   },
   zh: {
     navCommodities: '出口大宗商品',
@@ -178,6 +226,22 @@ const STUDIO_I18N = {
     lblColReg: '出口法规要求:',
     btnSendWa: '发送设计效果图至工厂 WhatsApp',
     waMsg: '您好 NusantaraOrigin，我希望确认 OEM 品牌包装效果图打样: {brand} ({format})',
+    b2bStandard: '出口 B2B 工业标准',
+    matLabelKraft: '环保质朴牛皮纸板 (275 gsm)',
+    matLabelBlack: '炭黑高级哑光纸板 (高端水烟专版)',
+    matLabelWhite: '亮白高光涂布白卡 (300 gsm)',
+    cadAccuCut: '高精工业矢量 CAD 刀模',
+    foilYes: '烫金工艺',
+    foilNo: '标准印刷',
+    matteYes: '哑光防潮 UV',
+    matteNo: '出厂标准',
+    flatCadTitle: '2D 工业平面展开 CAD 刀模图 (100×100×100 mm)',
+    palletTitle: '海运托盘打托堆叠模拟 (EURO 标准欧标托盘)',
+    palletSub: '欧标托盘 1200 × 1000 mm • 工业热缩缠绕膜封装',
+    diecutTol: '模切公差: ±0.5 mm • 内置真空保鲜密封',
+    printMarks: '出血位 +3mm • 压痕线 Cyan 0.25pt • CMYK + 专金 871C',
+    formatLabel: '包装规格:',
+    materialLabel: '基材材质:',
   },
 };
 
@@ -212,7 +276,7 @@ export default function OemConfiguratorStudio() {
           text: '#F5EBE1',
           accent: goldFoil ? '#F0D38D' : '#FFB59C',
           border: '#4A2F13',
-          label: 'Eco Rustic Kraft Paperboard (275 gsm)',
+          label: t.matLabelKraft,
         };
       case 'white_duplex':
         return {
@@ -222,7 +286,7 @@ export default function OemConfiguratorStudio() {
           text: '#1C1917',
           accent: goldFoil ? '#B8860B' : '#C4440F',
           border: '#C4BEB5',
-          label: 'Bright White Duplex Coated (300 gsm)',
+          label: t.matLabelWhite,
         };
       case 'matte_black':
       default:
@@ -233,7 +297,7 @@ export default function OemConfiguratorStudio() {
           text: '#F5F2EB',
           accent: goldFoil ? '#FFD700' : '#FF8A52',
           border: '#38332E',
-          label: 'Matte Anthracite Black (Luxury Shisha)',
+          label: t.matLabelBlack,
         };
     }
   };
@@ -287,7 +351,7 @@ export default function OemConfiguratorStudio() {
                 </span>
                 {t.sec1Title}
               </span>
-              <span className="font-mono text-[11px] text-outline">B2B Standard</span>
+              <span className="font-mono text-[11px] text-outline">{t.b2bStandard}</span>
             </div>
 
             <div className="grid grid-cols-1 gap-2">
@@ -584,7 +648,7 @@ export default function OemConfiguratorStudio() {
 
               <div className="flex items-center gap-2 font-mono text-[11px] text-outline">
                 <span className="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                <span>VECTOR CAD ACCU-CUT</span>
+                <span>{t.cadAccuCut}</span>
               </div>
             </div>
 
@@ -629,7 +693,7 @@ export default function OemConfiguratorStudio() {
                       <div className="flex flex-col">
                         <span className="text-outline text-[10px]">{t.lblColFinish}</span>
                         <span className="text-secondary font-semibold">
-                          {goldFoil ? 'Gold Foil' : 'No Foil'} • {matteUv ? 'Matte UV' : 'Standard'}
+                          {goldFoil ? t.foilYes : t.foilNo} • {matteUv ? t.matteYes : t.matteNo}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -643,15 +707,15 @@ export default function OemConfiguratorStudio() {
 
               {viewMode === 'flat' && (
                 <div className="w-full max-w-md bg-surface-container p-5 rounded-xl border border-outline-variant/30 flex flex-col items-center gap-3">
-                  <span className="font-mono text-[11px] text-tertiary">2D FLAT CAD DIELINE (100×100×100 mm)</span>
+                  <span className="font-mono text-[11px] text-tertiary">{t.flatCadTitle}</span>
                   <div className="w-full h-64 border-2 border-dashed border-primary/40 rounded-lg flex flex-col items-center justify-center p-4 text-center bg-surface-container-high/40">
                     <span className="font-headline font-bold text-[16px] text-on-surface">{brandName}</span>
                     <span className="font-body text-[12px] text-outline mt-1">{tagline}</span>
                     <span className="font-mono text-[11px] text-primary mt-2">
-                      Die-cut Tolerance: ±0.5 mm • Inner Vacuum Sealed
+                      {t.diecutTol}
                     </span>
                     <span className="font-mono text-[10px] text-tertiary mt-1">
-                      Bleed +3mm • Crease Cyan 0.25pt • CMYK + Pant. 871C (Gold)
+                      {t.printMarks}
                     </span>
                   </div>
                 </div>
@@ -659,7 +723,7 @@ export default function OemConfiguratorStudio() {
 
               {viewMode === 'pallet' && (
                 <div className="w-full max-w-md bg-surface-container p-5 rounded-xl border border-outline-variant/30 flex flex-col items-center gap-3">
-                  <span className="font-mono text-[11px] text-tertiary">PENATAAN PALLET MARITIM (EURO PALLET)</span>
+                  <span className="font-mono text-[11px] text-tertiary">{t.palletTitle}</span>
                   <div className="w-full h-64 border border-outline-variant/30 rounded-lg flex flex-col justify-end p-4 bg-surface-container-high/40">
                     <div className="grid grid-cols-5 gap-1.5 w-full h-44">
                       {Array.from({ length: 35 }).map((_, i) => (
@@ -667,7 +731,7 @@ export default function OemConfiguratorStudio() {
                       ))}
                     </div>
                     <div className="w-full h-7 bg-[#8B5A2B] rounded mt-2 flex items-center justify-center font-mono text-[11px] text-white font-bold">
-                      EURO PALLET 1200 × 1000 mm • WRAP SHRINK FILM
+                      {t.palletSub}
                     </div>
                   </div>
                 </div>
@@ -677,7 +741,7 @@ export default function OemConfiguratorStudio() {
             {/* Viewport Footer Bar */}
             <div className="px-6 py-3.5 bg-surface-container-low border-t border-outline-variant/30 flex flex-wrap items-center justify-between gap-3">
               <span className="font-mono text-[11px] text-outline">
-                FORMAT: {packFormat.toUpperCase()} • MATERIAL: {material.toUpperCase()}
+                {t.formatLabel} {packFormat.toUpperCase()} • {t.materialLabel} {material.toUpperCase()}
               </span>
               <div className="flex items-center gap-3">
                 <a

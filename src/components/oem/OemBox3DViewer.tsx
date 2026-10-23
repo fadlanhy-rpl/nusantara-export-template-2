@@ -3,6 +3,66 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { RotateCw, RotateCcw, Maximize2, Play, Pause, Sparkles } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+
+const VIEWER_I18N = {
+  en: {
+    rotateHint: '360° INTERACTIVE ROTATION (DRAG / TOUCH)',
+    canvasTitle: 'Drag or rotate 3D box with mouse or touch',
+    autoSpin: 'Auto Spin',
+    paused: 'Paused',
+    autoSpinTitle: 'Toggle 3D auto rotation',
+    resetTitle: 'Reset to front view',
+    viewSideLabel: 'VIEW FACE:',
+    faceFront: 'Front (Brand)',
+    faceBarcode: 'Right (Barcode & Specs)',
+    faceArabic: 'Left (Arabic GSO 2530)',
+    faceBack: 'Back (Lab COA)',
+    faceTop: 'Top (Lid)',
+  },
+  id: {
+    rotateHint: 'PUTAR 360° (MOUSE / SENTUHAN)',
+    canvasTitle: 'Tarik atau putar kotak 3D dengan mouse/sentuhan',
+    autoSpin: 'Putar Otomatis',
+    paused: 'Dijeda',
+    autoSpinTitle: 'Alihkan putaran otomatis 3D',
+    resetTitle: 'Reset ke tampilan depan',
+    viewSideLabel: 'LIHAT SISI:',
+    faceFront: 'Depan (Brand)',
+    faceBarcode: 'Samping (Barcode)',
+    faceArabic: 'Samping (Arab GSO)',
+    faceBack: 'Belakang (Lab COA)',
+    faceTop: 'Atas (Lid)',
+  },
+  ar: {
+    rotateHint: 'تدوير تفاعلي 360° (سحب / لمس)',
+    canvasTitle: 'اسحب أو أدر الصندوق ثلاثي الأبعاد بالماوس أو اللمس',
+    autoSpin: 'دوران تلقائي',
+    paused: 'إيقاف مؤقت',
+    autoSpinTitle: 'تشغيل/إيقاف الدوران التلقائي 3D',
+    resetTitle: 'إعادة التعيين إلى الواجهة الأمامية',
+    viewSideLabel: 'معاينة الوجه:',
+    faceFront: 'الأمام (العلامة التجارية)',
+    faceBarcode: 'الجانب (الباركود والمواصفات)',
+    faceArabic: 'الجانب (اللوائح الخليجية GSO)',
+    faceBack: 'الخلف (شهادة المختبر COA)',
+    faceTop: 'الأعلى (الغطاء)',
+  },
+  zh: {
+    rotateHint: '360° 交互式自由旋转 (鼠标拖拽 / 触控)',
+    canvasTitle: '按住鼠标或触控自由旋转 3D 包装盒',
+    autoSpin: '自动旋转',
+    paused: '已暂停',
+    autoSpinTitle: '开启/暂停 3D 自动旋转',
+    resetTitle: '复位至正面主视图',
+    viewSideLabel: '切换视角:',
+    faceFront: '正面 (品牌主标)',
+    faceBarcode: '右侧 (条码与规格)',
+    faceArabic: '左侧 (海湾 GCC 法规)',
+    faceBack: '背面 (SGS 实验室指标)',
+    faceTop: '顶盖 (开启封签)',
+  },
+};
 
 export interface OemBox3DViewerProps {
   material: 'kraft' | 'matte_black' | 'white_duplex';
@@ -30,6 +90,8 @@ export default function OemBox3DViewer({
   certLogosEnabled,
 }: OemBox3DViewerProps) {
   const mountRef = useRef<HTMLDivElement>(null);
+  const { locale } = useLanguage();
+  const t = VIEWER_I18N[locale] || VIEWER_I18N.en;
   const [autoRotate, setAutoRotate] = useState(true);
   const [activeFace, setActiveFace] = useState<string>('front');
 
@@ -210,7 +272,7 @@ export default function OemBox3DViewer({
 
       ctx.font = '12px monospace';
       ctx.textAlign = 'left';
-      ctx.fillText('• Raw Material: 100% Batok Kelapa', 60, 120);
+      ctx.fillText('• Raw Material: 100% Coconut Shell', 60, 120);
       ctx.fillText('• Binder: 2.5% Organic Tapioca', 60, 150);
       ctx.fillText('• Calorific: > 7,500 kcal/kg', 60, 180);
       ctx.fillText('• Ash Color: Natural Pure White', 60, 210);
@@ -293,7 +355,7 @@ export default function OemBox3DViewer({
       ctx.fillStyle = colors.text;
       ctx.fillText('PREMIUM BRIQUETTES', 256, 315);
       ctx.font = '11px monospace';
-      ctx.fillText('OPEN HERE / BUKA DI SINI', 256, 340);
+      ctx.fillText('OPEN HERE / PULL TO OPEN', 256, 340);
 
       // Dotted tear line
       ctx.strokeStyle = colors.border;
@@ -610,14 +672,14 @@ export default function OemBox3DViewer({
       <div
         ref={mountRef}
         className="w-full h-[400px] sm:h-[450px] cursor-grab active:cursor-grabbing select-none"
-        title="Tarik atau putar kotak 3D dengan mouse/sentuhan"
+        title={t.canvasTitle}
       />
 
       {/* Floating Interactive Controls Overlay */}
       <div className="absolute top-3 left-3 right-3 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/75 backdrop-blur-md border border-white/10 text-white font-mono text-[11px] shadow-lg pointer-events-auto">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          <span>PUTAR 360° (MOUSE / SENTUHAN)</span>
+          <span>{t.rotateHint}</span>
         </div>
 
         <div className="flex items-center gap-1.5 pointer-events-auto">
@@ -629,17 +691,17 @@ export default function OemBox3DViewer({
                 ? 'bg-primary-container text-on-primary-container border-primary/50 shadow-md'
                 : 'bg-black/75 text-white/80 border-white/10 hover:text-white'
             }`}
-            title={autoRotate ? 'Hentikan putaran otomatis' : 'Putar kotak otomatis'}
+            title={t.autoSpinTitle}
           >
             {autoRotate ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span>{autoRotate ? 'Auto Spin' : 'Paused'}</span>
+            <span>{autoRotate ? t.autoSpin : t.paused}</span>
           </button>
 
           <button
             type="button"
             onClick={() => snapToFace('front')}
             className="p-1.5 rounded-lg bg-black/75 text-white/80 border border-white/10 hover:text-white transition-all cursor-pointer"
-            title="Reset ke tampilan depan"
+            title={t.resetTitle}
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -648,7 +710,7 @@ export default function OemBox3DViewer({
 
       {/* Bottom Quick-Face Jump Bar */}
       <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 p-1.5 bg-surface-container-high/80 backdrop-blur-md rounded-xl border border-outline-variant/30">
-        <span className="font-mono text-[10px] text-outline px-2 uppercase">Lihat Sisi:</span>
+        <span className="font-mono text-[10px] text-outline px-2 uppercase">{t.viewSideLabel}</span>
         <button
           type="button"
           onClick={() => snapToFace('front')}
@@ -656,7 +718,7 @@ export default function OemBox3DViewer({
             activeFace === 'front' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
           }`}
         >
-          Depan (Brand)
+          {t.faceFront}
         </button>
         <button
           type="button"
@@ -665,7 +727,7 @@ export default function OemBox3DViewer({
             activeFace === 'right' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
           }`}
         >
-          Samping (Barcode)
+          {t.faceBarcode}
         </button>
         <button
           type="button"
@@ -674,7 +736,7 @@ export default function OemBox3DViewer({
             activeFace === 'left' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
           }`}
         >
-          Samping (Arab GSO)
+          {t.faceArabic}
         </button>
         <button
           type="button"
@@ -683,7 +745,7 @@ export default function OemBox3DViewer({
             activeFace === 'back' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
           }`}
         >
-          Belakang (Lab COA)
+          {t.faceBack}
         </button>
         <button
           type="button"
@@ -692,7 +754,7 @@ export default function OemBox3DViewer({
             activeFace === 'top' ? 'bg-primary-container text-on-primary-container' : 'text-on-surface hover:bg-surface-container'
           }`}
         >
-          Atas (Lid)
+          {t.faceTop}
         </button>
       </div>
     </div>

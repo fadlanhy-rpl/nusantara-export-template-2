@@ -2,9 +2,19 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useLanguage } from '@/context/LanguageContext';
+
+const HINT_I18N = {
+  en: 'Drag or rotate 3D charcoal briquette with mouse / touch',
+  id: 'Tarik atau putar briket arang 3D dengan mouse / sentuhan',
+  ar: 'اسحب أو أدر مكعب الفحم ثلاثي الأبعاد بالماوس أو اللمس',
+  zh: '按住鼠标或触控自由旋转 3D 椰炭块',
+};
 
 export default function Hero3DScene() {
   const mountRef = useRef<HTMLDivElement>(null);
+  const { locale } = useLanguage();
+  const titleHint = HINT_I18N[locale] || HINT_I18N.en;
 
   useEffect(() => {
     const container = mountRef.current;
@@ -408,7 +418,7 @@ export default function Hero3DScene() {
     <div
       ref={mountRef}
       className="w-full h-full min-h-[400px] cursor-grab active:cursor-grabbing"
-      title="Tarik atau putar briket 3D dengan mouse/sentuhan"
+      title={titleHint}
     />
   );
 }
