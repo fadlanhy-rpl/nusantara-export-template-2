@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Flame, Globe, ChevronDown, Check } from 'lucide-react';
+import { Menu, X, ArrowRight, Flame, Globe, ChevronDown, Check, Download } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { LOCALES, LOCALE_LABELS } from '@/lib/i18n';
 
@@ -176,6 +176,16 @@ export default function Navbar() {
             )}
           </div>
 
+          {/* Quick TDS Download Link (Adaptive: Visible on wide >= 1440px 2xl screens where ample space exists) */}
+          <Link
+            href="/products/100-briket-arang-batok-kelapa#lab-specs"
+            className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/30 text-on-surface hover:text-primary hover:border-primary/50 transition-all font-mono text-[11px] bg-surface-container-high/50"
+            title="Technical Data Sheet (.PDF)"
+          >
+            <Download className="w-3.5 h-3.5 text-primary" />
+            <span>TDS (.PDF)</span>
+          </Link>
+
           {/* Primary Action Button — Well proportioned, rounded-full, with consistent styling */}
           <Link
             href="/container-planner"
@@ -242,6 +252,24 @@ export default function Navbar() {
           </div>
 
           <div className="pt-2 border-t border-outline-variant/20 flex flex-col gap-2">
+            {/* Quick Action: Direct TDS Download */}
+            <Link
+              href="/products/100-briket-arang-batok-kelapa#lab-specs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-surface-container border border-outline-variant/30 text-primary font-headline text-[13px] font-semibold hover:border-primary-container transition-all"
+            >
+              <Download className="w-4 h-4 text-primary shrink-0" />
+              <span>
+                {locale === 'id'
+                  ? 'Unduh TDS & COA (.PDF)'
+                  : locale === 'ar'
+                  ? 'تحميل وثائق TDS وCOA (.PDF)'
+                  : locale === 'zh'
+                  ? '下载官方 TDS 与 COA 报告 (.PDF)'
+                  : 'Download TDS & COA (.PDF)'}
+              </span>
+            </Link>
+
             <Link
               href="/admin/rfq"
               onClick={() => setMobileMenuOpen(false)}
