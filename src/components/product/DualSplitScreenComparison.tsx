@@ -186,7 +186,7 @@ export default function DualSplitScreenComparison() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
           {/* Clean Floating Badge */}
-          <div className="absolute bottom-5 right-5 z-10 px-3 py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-error/40 font-mono text-[11px] font-bold text-error flex items-center gap-1.5 shadow-xl">
+          <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 z-10 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-error/40 font-mono text-[9.5px] sm:text-[11px] font-bold text-error flex items-center gap-1.5 shadow-xl">
             <span className="w-2 h-2 rounded-full bg-error" />
             <span>{t.badgeDirty}</span>
           </div>
@@ -209,7 +209,7 @@ export default function DualSplitScreenComparison() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
             {/* Clean Floating Badge */}
-            <div className="absolute bottom-5 left-5 z-10 px-3 py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-tertiary/40 font-mono text-[11px] font-bold text-tertiary flex items-center gap-1.5 shadow-xl">
+            <div className="absolute top-4 left-4 sm:top-auto sm:bottom-5 sm:left-5 z-10 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-black/85 backdrop-blur-md border border-tertiary/40 font-mono text-[9.5px] sm:text-[11px] font-bold text-tertiary flex items-center gap-1.5 shadow-xl">
               <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse" />
               <span>{t.badgePure}</span>
             </div>

@@ -279,7 +279,7 @@ export default function ContainerPlannerSection() {
   const whatsappMessage = encodeURIComponent(dynamicWaText);
 
   return (
-    <section id="container-planner" className="w-full bg-[#F5F1EA] text-[#16110E] p-6 lg:p-8 rounded-xl border border-[#B9AFA4] shadow-2xl">
+    <section id="container-planner" className="w-full bg-[#F5F1EA] text-[#16110E] p-4 sm:p-6 lg:p-8 rounded-2xl border border-[#B9AFA4] shadow-2xl">
       <div className="flex flex-col gap-6">
         {/* Header */}
         <div className="flex flex-col border-b border-[#B9AFA4]/50 pb-4">
@@ -436,23 +436,23 @@ export default function ContainerPlannerSection() {
 
               {/* Schematic Box */}
               <div className="w-full bg-[#16110E] rounded-lg p-3 text-[#ECE0DB] shadow-inner">
-                <div className="flex justify-between items-center text-[10px] font-mono text-primary/80 mb-2 border-b border-[#ECE0DB]/10 pb-1">
+                <div className="flex justify-between items-center text-[10px] font-mono text-primary/80 mb-2 border-b border-[#ECE0DB]/10 pb-1 flex-wrap gap-1">
                   <span>{t.interiorDim} {singleResult.container.internalLengthM}m × {singleResult.container.internalWidthM}m × {singleResult.container.internalHeightM}m</span>
                   <span className="text-tertiary">{t.stowageFactor}</span>
                 </div>
 
                 {/* Carton Matrix Graphic */}
-                <div className="w-full h-24 bg-[#201A17] rounded border border-dashed border-[#ECE0DB]/20 p-2 flex flex-col justify-between">
+                <div className="w-full h-24 bg-[#201A17] rounded border border-dashed border-[#ECE0DB]/20 p-2 flex flex-col justify-between overflow-hidden">
                   <div className="grid grid-cols-12 gap-1 w-full h-4">
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div key={i} className="bg-primary-container/80 rounded-sm"></div>
                     ))}
                   </div>
-                  <div className="w-full h-8 bg-primary-container/20 border border-primary-container/40 rounded flex items-center justify-between px-3 text-[11px] font-mono">
-                    <span className="text-[#ECE0DB] font-semibold">
+                  <div className="w-full h-8 bg-primary-container/20 border border-primary-container/40 rounded flex items-center justify-between px-2 sm:px-3 text-[10px] sm:text-[11px] font-mono">
+                    <span className="text-[#ECE0DB] font-semibold truncate mr-1">
                       {totalBoxes.toLocaleString()} {t.exportPack10kg}
                     </span>
-                    <span className="text-tertiary font-bold">{t.floorStackTiers}</span>
+                    <span className="text-tertiary font-bold shrink-0">{t.floorStackTiers}</span>
                   </div>
                   <div className="grid grid-cols-12 gap-1 w-full h-4">
                     {Array.from({ length: 12 }).map((_, i) => (
@@ -476,7 +476,7 @@ export default function ContainerPlannerSection() {
                       style={{ width: `${singleResult.weightUtilizationPercent}%` }}
                     ></div>
                   </div>
-                  <div className="flex justify-between items-center font-mono text-[10px] text-[#59413A]">
+                  <div className="flex justify-between items-center font-mono text-[10px] text-[#59413A] flex-wrap gap-1">
                     <span>{t.grossWeight} {totalGrossMt.toFixed(2)} MT</span>
                     <span>{t.maxPayloadLimit} {(singleResult.container.maxPayloadKg * quantity / 1000).toFixed(1)} MT</span>
                   </div>
@@ -494,7 +494,7 @@ export default function ContainerPlannerSection() {
                       style={{ width: `${singleResult.cbmUtilizationPercent}%` }}
                     ></div>
                   </div>
-                  <div className="flex justify-between items-center font-mono text-[10px] text-[#59413A]">
+                  <div className="flex justify-between items-center font-mono text-[10px] text-[#59413A] flex-wrap gap-1">
                     <span>{t.utilizedCbm} {(singleResult.utilizedCbm * quantity).toFixed(1)} CBM</span>
                     <span>{t.effectiveCbm} {(singleResult.container.effectiveCbm * quantity).toFixed(1)} CBM</span>
                   </div>

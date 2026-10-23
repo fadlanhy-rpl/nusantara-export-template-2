@@ -341,7 +341,7 @@ export default function OemConfiguratorStudio() {
       {/* 12-Column Split Configurator Interface */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Controls (5 Cols) */}
-        <div className="lg:col-span-5 bg-surface-container-low rounded-2xl border border-outline-variant/30 p-6 flex flex-col gap-6 shadow-xl">
+        <div className="lg:col-span-5 bg-surface-container-low rounded-2xl border border-outline-variant/30 p-4 sm:p-6 flex flex-col gap-6 shadow-xl">
           {/* Section 1: Format Kemasan */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between border-b border-outline-variant/20 pb-2">
@@ -609,7 +609,7 @@ export default function OemConfiguratorStudio() {
         <div className="lg:col-span-7 flex flex-col gap-4">
           <div className="w-full bg-surface-container-lowest rounded-2xl border border-outline-variant/30 overflow-hidden flex flex-col shadow-2xl relative">
             {/* Viewport Toolbar */}
-            <div className="h-12 bg-surface-container-low border-b border-outline-variant/30 px-4 flex items-center justify-between">
+            <div className="min-h-12 bg-surface-container-low border-b border-outline-variant/30 px-3 sm:px-4 py-2 sm:py-0 flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/30">
                 <button
                   type="button"

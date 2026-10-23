@@ -492,7 +492,7 @@ export default function CommodityShowcase3D() {
 
         {/* Top HUD Telemetry */}
         <div
-          className="absolute top-0 inset-x-0 p-6 sm:p-8 md:p-10 flex items-start justify-between gap-3 pointer-events-none z-20 transition-transform duration-300"
+          className="absolute top-0 inset-x-0 p-4 sm:p-8 md:p-10 flex items-start justify-between gap-3 pointer-events-none z-20 transition-transform duration-300"
           style={{ transform: `translateZ(40px) translate(${tilt.ry * 0.5}px, ${-tilt.rx * 0.5}px)` }}
         >
           <div className="space-y-1">
@@ -583,7 +583,7 @@ export default function CommodityShowcase3D() {
 
         {/* Bottom Technical HUD Specifications & CTA */}
         <div
-          className="absolute bottom-0 inset-x-0 px-6 sm:px-10 md:px-12 pb-7 sm:pb-9 pt-16 sm:pt-24 bg-gradient-to-t from-[#0B0B0C] via-[#0B0B0C]/95 to-transparent z-20 space-y-4 pointer-events-auto transition-transform duration-300"
+          className="absolute bottom-0 inset-x-0 px-4 sm:px-10 md:px-12 pb-6 sm:pb-9 pt-14 sm:pt-24 bg-gradient-to-t from-[#0B0B0C] via-[#0B0B0C]/95 to-transparent z-20 space-y-3.5 sm:space-y-4 pointer-events-auto transition-transform duration-300"
           style={{ transform: `translateZ(35px) translate(${tilt.ry * 0.3}px, ${-tilt.rx * 0.3}px)` }}
         >
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">

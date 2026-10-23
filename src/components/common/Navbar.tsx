@@ -71,38 +71,42 @@ export default function Navbar() {
         return '集装箱报价';
       case 'en':
       default:
-        return 'Request FCL Quote';
+        return (
+          <>
+            <span className="hidden 2xl:inline">Request </span>FCL Quote
+          </>
+        );
     }
   };
 
   return (
-    <header className="sticky top-3.5 z-50 w-full px-3 sm:px-6">
-      {/* Floating Pill Navbar — Generous inner padding (px-6 sm:px-8) guarantees buttons never touch curved ends */}
-      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-5 sm:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
+    <header className="sticky top-2 sm:top-3.5 z-50 w-full px-2.5 sm:px-4 md:px-6">
+      {/* Floating Pill Navbar — Fully responsive across all devices and screen sizes */}
+      <div className="max-w-[1360px] mx-auto h-[60px] sm:h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-3.5 sm:px-6 md:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
         {/* Left: Brandmark */}
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-2 lg:mr-4 xl:mr-6">
-          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform">
-            <Flame className="w-5 h-5 text-on-primary-container fill-current" />
+        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 md:gap-3 group shrink-0 mr-1 sm:mr-3 lg:mr-4 xl:mr-6">
+          <div className="w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0">
+            <Flame className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-on-primary-container fill-current" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline font-extrabold text-[15px] sm:text-[17px] text-on-surface tracking-tight leading-none uppercase">
+            <span className="font-headline font-extrabold text-[13.5px] sm:text-[15px] md:text-[17px] text-on-surface tracking-tight leading-none uppercase">
               Nusantara<span className="text-primary font-bold">Origin</span>
             </span>
-            <span className="font-mono text-[9px] text-primary tracking-widest uppercase mt-0.5">
+            <span className="font-mono text-[8px] sm:text-[9px] text-primary tracking-widest uppercase mt-0.5 hidden xs:block">
               EXPORTERS ID • SP925
             </span>
           </div>
         </Link>
 
         {/* Center: Desktop Navigation with Rounded Pills */}
-        <nav className="hidden xl:flex items-center gap-1 xl:gap-2 mx-auto">
+        <nav className="hidden xl:flex items-center gap-1 xl:gap-1.5 2xl:gap-2 mx-auto">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-1.5 rounded-full font-headline text-[13px] transition-all whitespace-nowrap ${
+                className={`px-2.5 2xl:px-3 py-1.5 rounded-full font-headline text-[12.5px] 2xl:text-[13px] transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-surface-container-high text-primary font-semibold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/70'
@@ -115,23 +119,20 @@ export default function Navbar() {
         </nav>
 
         {/* Right: Actions, Language Switcher & Primary CTA */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto xl:ml-0">
-          {/* Language Selector Dropdown */}
+        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 shrink-0 ml-auto xl:ml-0">
+          {/* Language Selector Dropdown — Fixed uniform width across EN, ID, AR, ZH */}
           <div className="relative" ref={langDropdownRef}>
             <button
               type="button"
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="px-3 py-1.5 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[11px] text-on-surface flex items-center gap-1.5 cursor-pointer transition-all select-none shadow-sm"
+              className="h-9 sm:h-10 px-2.5 sm:px-3 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[11px] sm:text-[12px] text-on-surface flex items-center gap-1 sm:gap-1.5 cursor-pointer transition-all select-none shadow-sm shrink-0"
               aria-label="Select Language"
               aria-expanded={langMenuOpen}
             >
-              <Globe className="w-3.5 h-3.5 text-primary" />
+              <Globe className="w-3.5 h-3.5 text-primary shrink-0" />
               <span className="font-bold uppercase tracking-wider">{locale}</span>
-              <span className="text-outline-variant/70 text-[10px] hidden sm:inline">
-                ({LOCALE_LABELS[locale].flag})
-              </span>
               <ChevronDown
-                className={`w-3 h-3 text-outline transition-transform duration-200 ${
+                className={`w-3 h-3 text-outline transition-transform duration-200 shrink-0 ${
                   langMenuOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -179,17 +180,17 @@ export default function Navbar() {
           {/* Quick TDS Download Link (Adaptive: Visible on wide >= 1440px 2xl screens where ample space exists) */}
           <Link
             href="/products/100-briket-arang-batok-kelapa#lab-specs"
-            className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/30 text-on-surface hover:text-primary hover:border-primary/50 transition-all font-mono text-[11px] bg-surface-container-high/50"
+            className="hidden 2xl:inline-flex items-center gap-1.5 h-10 px-3 py-1.5 rounded-full border border-outline-variant/30 text-on-surface hover:text-primary hover:border-primary/50 transition-all font-mono text-[11px] bg-surface-container-high/50 shrink-0"
             title="Technical Data Sheet (.PDF)"
           >
-            <Download className="w-3.5 h-3.5 text-primary" />
+            <Download className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>TDS (.PDF)</span>
           </Link>
 
-          {/* Primary Action Button — Well proportioned, rounded-full, with consistent styling */}
+          {/* Primary Action Button — Standardized consistent height, min-width, and balanced text across all languages */}
           <Link
             href="/container-planner"
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[12px] sm:text-[13px] font-semibold tracking-normal hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] whitespace-nowrap"
+            className="h-9 sm:h-10 px-3 sm:px-4 md:px-5 rounded-full bg-primary-container text-on-primary-container font-headline text-[11.5px] sm:text-[12.5px] md:text-[13px] font-semibold tracking-normal hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 min-w-[105px] sm:min-w-[125px] shrink-0"
           >
             <span>{getCtaLabel()}</span>
             <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 shrink-0" />
@@ -198,10 +199,10 @@ export default function Navbar() {
           {/* Mobile / Tablet Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30 transition-colors"
+            className="xl:hidden h-9 w-9 sm:h-10 sm:w-10 flex items-center justify-center text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30 transition-colors shrink-0"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4.5 h-4.5 sm:w-5 sm:h-5" /> : <Menu className="w-4.5 h-4.5 sm:w-5 sm:h-5" />}
           </button>
         </div>
       </div>
