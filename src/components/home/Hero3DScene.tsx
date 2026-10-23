@@ -14,8 +14,9 @@ export default function Hero3DScene() {
     const height = container.clientHeight || 440;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 0.4, 4.2);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    // Adjusted camera and elevated root group so briquette sits cleanly above bottom HUD
+    camera.position.set(0, 0.22, 4.3);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -221,15 +222,16 @@ export default function Hero3DScene() {
     scene.add(dirRim);
 
     const emberLight = new THREE.PointLight(0xff5500, 3.8, 8);
-    emberLight.position.set(0, 0, 0.5);
+    emberLight.position.set(0, 0.24, 0.5);
     scene.add(emberLight);
 
-    // Root Pivot Group
+    // Root Pivot Group (Elevated slightly upward so it sits comfortably above bottom telemetry pill)
     const rootGroup = new THREE.Group();
+    rootGroup.position.set(0, 0.24, 0);
     scene.add(rootGroup);
 
     // Main Briquette Mesh
-    const boxGeom = new THREE.BoxGeometry(1.6, 1.6, 1.6, 16, 16, 16);
+    const boxGeom = new THREE.BoxGeometry(1.52, 1.52, 1.52, 16, 16, 16);
     const boxMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
       map: charTex,
@@ -245,7 +247,7 @@ export default function Hero3DScene() {
     rootGroup.add(briquetteMesh);
 
     // Secondary Beveled Inner Glow
-    const wireGeom = new THREE.BoxGeometry(1.62, 1.62, 1.62);
+    const wireGeom = new THREE.BoxGeometry(1.54, 1.54, 1.54);
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0xff7722,
       wireframe: true,

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Package, Palette, Upload, ShieldCheck, Check, Eye, Download, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
+import OemBox3DViewer from './OemBox3DViewer';
 
 type MaterialType = 'kraft' | 'matte_black' | 'white_duplex';
 type ViewMode = '3d' | 'flat' | 'pallet';
@@ -411,130 +412,20 @@ export default function OemConfiguratorStudio() {
             {/* Canvas Stage */}
             <div className="w-full min-h-[480px] cad-grid relative p-6 flex flex-col items-center justify-center overflow-hidden">
               {viewMode === '3d' && (
-                <div className="w-full max-w-lg flex flex-col items-center gap-6 py-4">
-                  {/* REALISTIC 3D BOX PROJECTION WITH DEPTH & AMBIENT SHADOWS */}
-                  <div className="relative w-full max-w-sm h-72 flex items-center justify-center">
-                    {/* Soft Ground Contact Shadow */}
-                    <div className="absolute -bottom-4 w-64 h-8 bg-black/60 rounded-full blur-xl pointer-events-none"></div>
-
-                    {/* 3D Isometric Shaded Cardboard Box */}
-                    <svg className="w-full h-auto drop-shadow-2xl overflow-visible" viewBox="0 0 380 340">
-                      <defs>
-                        {/* Shading gradients */}
-                        <linearGradient id="boxTop" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor={style.bgLight} />
-                          <stop offset="100%" stopColor={style.bg} />
-                        </linearGradient>
-                        <linearGradient id="boxLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor={style.bgDark} />
-                          <stop offset="100%" stopColor={style.bg} />
-                        </linearGradient>
-                        <linearGradient id="boxFront" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor={style.bgLight} />
-                          <stop offset="100%" stopColor={style.bgDark} />
-                        </linearGradient>
-                        <linearGradient id="foilGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor={style.accent} />
-                          <stop offset="50%" stopColor="#FFF8DC" />
-                          <stop offset="100%" stopColor={style.accent} />
-                        </linearGradient>
-                      </defs>
-
-                      {/* TOP FACE */}
-                      <polygon points="190,30 310,95 190,160 70,95" fill="url(#boxTop)" stroke={style.border} strokeWidth="1.5" />
-                      <line x1="72" y1="96" x2="188" y2="158" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
-
-                      {/* LEFT SIDE FACE */}
-                      <polygon points="70,95 190,160 190,290 70,225" fill="url(#boxLeft)" stroke={style.border} strokeWidth="1.5" />
-                      {/* Left Face barcode & specs */}
-                      <g transform="translate(80, 140) skewY(28) scale(0.85)">
-                        <text x="5" y="15" fill={style.text} opacity="0.6" fontFamily="Geist" fontSize="8">
-                          SPEC: 100% COCONUT SHELL
-                        </text>
-                        <text x="5" y="30" fill={style.text} opacity="0.6" fontFamily="Geist" fontSize="8">
-                          MADE IN INDONESIA (GRESIK)
-                        </text>
-                        {barcodeEnabled && (
-                          <g transform="translate(5, 45)">
-                            <rect width="60" height="18" fill="#FFFFFF" rx="2" />
-                            <text x="4" y="13" fill="#000000" fontFamily="Geist" fontSize="7" fontWeight="bold">
-                              899210983719
-                            </text>
-                          </g>
-                        )}
-                      </g>
-
-                      {/* FRONT FACE (Main Branding Panel) */}
-                      <polygon points="190,160 310,95 310,225 190,290" fill="url(#boxFront)" stroke={style.border} strokeWidth="1.5" />
-                      <line x1="190" y1="160" x2="190" y2="290" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-
-                      {/* FRONT BRANDING TEXT (Clean, legible, properly angled) */}
-                      <g transform="translate(198, 145) skewY(-28)">
-                        {/* Foil Brand Name */}
-                        <text
-                          x="10"
-                          y="22"
-                          fill="url(#foilGlow)"
-                          fontFamily="Poppins"
-                          fontSize="11"
-                          fontWeight="800"
-                          letterSpacing="0.04em"
-                        >
-                          {brandName.substring(0, 20)}
-                        </text>
-
-                        {/* Tagline */}
-                        <text
-                          x="10"
-                          y="36"
-                          fill={style.text}
-                          fontFamily="Poppins"
-                          fontSize="7.5"
-                          fontWeight="500"
-                          opacity="0.9"
-                        >
-                          {tagline.substring(0, 30)}
-                        </text>
-
-                        {/* Gold Foil Net Weight */}
-                        <rect x="10" y="46" width="65" height="14" fill={style.accent} opacity="0.2" rx="2" />
-                        <text
-                          x="14"
-                          y="57"
-                          fill={style.accent}
-                          fontFamily="Geist"
-                          fontSize="8.5"
-                          fontWeight="bold"
-                        >
-                          NET WT: {packFormat.includes('1kg') ? '1.0 KG' : packFormat.includes('2kg') ? '2.0 KG' : '10.0 KG'}
-                        </text>
-
-                        {/* Arabic Standard Text */}
-                        {arabicTextEnabled && (
-                          <text
-                            x="10"
-                            y="75"
-                            fill={style.text}
-                            fontFamily="Arial"
-                            fontSize="8"
-                            opacity="0.8"
-                          >
-                            فحم جوز هند طبيعي ممتاز للشيشة
-                          </text>
-                        )}
-
-                        {/* Compliance Seals */}
-                        {certLogosEnabled && (
-                          <g transform="translate(10, 85)">
-                            <rect width="40" height="10" fill="rgba(255,255,255,0.12)" rx="2" />
-                            <text x="3" y="7.5" fill={style.accent} fontFamily="Geist" fontSize="5.5" fontWeight="bold">
-                              SP 925 NON-DG
-                            </text>
-                          </g>
-                        )}
-                      </g>
-                    </svg>
-                  </div>
+                <div className="w-full flex flex-col items-center gap-4 py-2">
+                  {/* REALISTIC 3D ROTATABLE PACKAGING BOX (THREE.JS / WEBGL) */}
+                  <OemBox3DViewer
+                    material={material}
+                    packFormat={packFormat}
+                    brandName={brandName}
+                    tagline={tagline}
+                    goldFoil={goldFoil}
+                    matteUv={matteUv}
+                    spotUv={spotUv}
+                    arabicTextEnabled={arabicTextEnabled}
+                    barcodeEnabled={barcodeEnabled}
+                    certLogosEnabled={certLogosEnabled}
+                  />
 
                   {/* LEGIBILITY CARD: Clear Preview Below (Every detail 100% readable) */}
                   <div className="w-full bg-surface-container p-4 rounded-xl border border-outline-variant/30 flex flex-col gap-2 shadow-md">
