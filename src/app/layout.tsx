@@ -3,6 +3,7 @@ import "./globals.css";
 import TopMarquee from "@/components/common/TopMarquee";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "NusantaraOrigin — 100% Pure Coconut Charcoal & Agro Commodities Exporter",
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="id" className="dark">
       <body className="bg-background text-on-surface antialiased flex flex-col min-h-screen">
-        <TopMarquee />
-        <Navbar />
-        <main className="flex-1 w-full pt-2 sm:pt-4">{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <TopMarquee />
+          <Navbar />
+          <main className="flex-1 w-full pt-2 sm:pt-4">{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );
