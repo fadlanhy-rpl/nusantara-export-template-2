@@ -103,7 +103,7 @@ export default function Navbar() {
       {/* Floating Pill Navbar — Ultra-responsive down to 340px screens */}
       <div className="max-w-[1360px] mx-auto h-[46px] min-[360px]:h-[50px] sm:h-[58px] md:h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-2 min-[360px]:px-3 sm:px-4 md:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
         {/* Left: Brandmark — Scalable with Origin hidden on compact screens < 480px and truncate on narrow viewports */}
-        <Link href="/" className="flex items-center gap-1 sm:gap-2 md:gap-3 group min-w-0 shrink mr-1 sm:mr-3 lg:mr-4 xl:mr-8 2xl:mr-10">
+        <Link href="/" className="flex items-center gap-1 sm:gap-2 md:gap-3 group min-w-0 shrink me-1 sm:me-3 lg:me-4 xl:me-8 2xl:me-10">
           <div className="w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-8.5 sm:h-8.5 md:w-10 md:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_12px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0">
             <Flame className="w-3 h-3 min-[360px]:w-3.5 min-[360px]:h-3.5 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-on-primary-container fill-current" />
           </div>
@@ -138,7 +138,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right: Actions, Language Switcher & Primary CTA */}
-        <div className="flex items-center gap-1 min-[360px]:gap-1.5 sm:gap-2 md:gap-2.5 shrink-0 ml-auto xl:ml-8 2xl:ml-10">
+        <div className="flex items-center gap-1 min-[360px]:gap-1.5 sm:gap-2 md:gap-2.5 shrink-0 xl:ms-8 2xl:ms-10">
           {/* Language Selector Dropdown — Fixed uniform width across EN, ID, AR, ZH */}
           <div className="relative" ref={langDropdownRef}>
             <button
