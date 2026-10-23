@@ -267,6 +267,6 @@ export const ALL_COMMODITIES = [
     highlights: ['Eugenol > 18%', 'Head intact > 95%', 'Moisture < 12%', 'No Mould'],
     link: '/products/whole-spices',
     badge: 'EQUATORIAL HERITAGE',
-    image: '/img/cloves-spices-cutout.png',
+    image: '/img/assets/cloves.webp',
   },
 ];

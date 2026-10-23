@@ -131,7 +131,7 @@ export default function WholeSpicesPage() {
             <div className="relative w-full h-52 sm:h-60 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 flex items-center justify-center p-4 overflow-hidden shadow-2xl group">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-secondary/20 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
               <img
-                src="/img/cloves-spices-cutout.png"
+                src="/img/assets/cloves.webp"
                 alt="Maluku Lalpari Cloves and Cassia Vera Cinnamon"
                 className="max-h-full max-w-[90%] object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform duration-500 z-10"
               />

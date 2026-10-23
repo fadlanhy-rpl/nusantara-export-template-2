@@ -84,7 +84,7 @@ const SHOWCASE_I18N = {
         shortName: 'Whole Spices',
         category: 'Handpicked Sun-Dried Export Spices',
         hsCode: 'HS 0907.10.00',
-        image: '/img/cloves-spices-cutout.png',
+        image: '/img/assets/cloves.webp',
         secondaryImage: '/img/cinnamon-spices-cutout.png',
         secondaryName: 'Kerinci Cassia AA',
         specs: [
@@ -162,7 +162,7 @@ const SHOWCASE_I18N = {
         shortName: 'Rempah Cengkeh',
         category: 'Handpicked Sun-Dried Export Spices',
         hsCode: 'HS 0907.10.00',
-        image: '/img/cloves-spices-cutout.png',
+        image: '/img/assets/cloves.webp',
         secondaryImage: '/img/cinnamon-spices-cutout.png',
         secondaryName: 'Kerinci Cassia AA',
         specs: [
@@ -240,7 +240,7 @@ const SHOWCASE_I18N = {
         shortName: 'التوابل والقرنفل',
         category: 'توابل تصدير منتقاة ومجففة شمسياً',
         hsCode: 'HS 0907.10.00',
-        image: '/img/cloves-spices-cutout.png',
+        image: '/img/assets/cloves.webp',
         secondaryImage: '/img/cinnamon-spices-cutout.png',
         secondaryName: 'قرفة كيرينتشي AA',
         specs: [
@@ -318,7 +318,7 @@ const SHOWCASE_I18N = {
         shortName: '天然香料',
         category: '手工精选赤道纯天然出口香料',
         hsCode: 'HS 0907.10.00',
-        image: '/img/cloves-spices-cutout.png',
+        image: '/img/assets/cloves.webp',
         secondaryImage: '/img/cinnamon-spices-cutout.png',
         secondaryName: '葛林芝肉桂卷 Cassia AA',
         specs: [
