@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col gap-16 py-8">
       {/* 1. HERO SECTION WITH 3D WEBGL BRIQUETTE */}
-      <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0">
+      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Hero Content (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col items-start gap-4">
@@ -90,7 +90,7 @@ export default function HomePage() {
       </section>
 
       {/* 2. THE THREE CORE CAPABILITIES (BENTO GRID) */}
-      <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
             TIGA PILAR REKAYASA TEMPLATE 2 V2.0
@@ -173,7 +173,7 @@ export default function HomePage() {
       <FactoryMediaReel />
 
       {/* 4. INTERACTIVE 3D COMMODITY SHOWCASE STAGE */}
-      <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[11px] text-primary uppercase tracking-widest">
             INSPEKSI 3D FISIK PRODUK REALISTIS
@@ -190,7 +190,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. MULTI-COMMODITY CATALOG OVERVIEW WITH REAL CUTOUTS */}
-      <section className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
+      <section className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-6">
         <div className="flex items-center justify-between border-b border-outline-variant/30 pb-3">
           <div>
             <span className="font-mono text-[11px] text-primary uppercase tracking-widest">

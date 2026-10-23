@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContainerPlannerPage() {
   return (
-    <div className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 py-8">
+    <div className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 py-8">
       <ContainerPlannerSection />
     </div>
   );

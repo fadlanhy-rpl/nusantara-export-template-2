@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function GreenCoffeePage() {
   return (
-    <div className="w-full max-w-[1160px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8">
+    <div className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8">
       {/* Header */}
       <div className="bg-surface-container-low p-6 lg:p-8 rounded-xl border border-outline-variant/30 flex flex-col gap-6">
         <nav className="font-mono text-[11px] text-outline uppercase tracking-wider">

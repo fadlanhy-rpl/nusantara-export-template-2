@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Download, ShieldCheck, Flame } from 'lucide-react';
+import { Menu, X, ArrowRight, Download, Flame, Globe, ChevronDown } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -18,83 +18,93 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col">
-      <div className="w-full px-4 lg:px-8 py-2">
-        <div className="max-w-[1160px] mx-auto h-[60px] rounded-xl bg-[#201A17]/85 backdrop-blur-md border border-outline-variant/30 px-4 md:px-6 flex items-center justify-between shadow-[0_8px_24px_-4px_rgba(0,0,0,0.7)]">
-          {/* Brandmark */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_12px_rgba(196,68,15,0.4)]">
-              <Flame className="w-5 h-5 text-on-primary-container transform group-hover:scale-110 transition-transform" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-headline font-extrabold text-[16px] text-on-surface tracking-tight leading-none uppercase">
-                Nusantara<span className="text-primary font-bold">Origin</span>
-              </span>
-              <span className="font-mono text-[9px] text-primary tracking-widest uppercase mt-0.5">
-                EXPORTERS ID • SP925
-              </span>
-            </div>
+    <header className="sticky top-3.5 z-50 w-full px-3 sm:px-6">
+      {/* Floating Pill Navbar — Width is wider than sections (max-w-[1360px] vs max-w-[1280px]) */}
+      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/90 backdrop-blur-xl border border-white/10 px-4 sm:px-7 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
+        {/* Left: Brandmark with Rounded-Full Icon Badge */}
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
+          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform">
+            <Flame className="w-5 h-5 text-on-primary-container fill-current" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-headline font-extrabold text-[17px] text-on-surface tracking-tight leading-none uppercase">
+              Nusantara<span className="text-primary font-bold">Origin</span>
+            </span>
+            <span className="font-mono text-[9px] text-primary tracking-widest uppercase mt-0.5">
+              EXPORTERS ID • SP925
+            </span>
+          </div>
+        </Link>
+
+        {/* Center: Desktop Navigation with Rounded Pills */}
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-3.5 py-1.5 rounded-full font-headline text-[13px] transition-all ${
+                  isActive
+                    ? 'bg-surface-container-high text-primary font-semibold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/70'
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Right: Actions, Currency/Lang Pill & Rounded-Full CTA */}
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          {/* Currency & Language Indicator Pill (Style inspired by MoneFin reference) */}
+          <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high/60 border border-outline-variant/30 font-mono text-[11px] text-on-surface-variant hover:text-on-surface hover:border-primary/40 transition-all select-none">
+            <Globe className="w-3.5 h-3.5 text-primary" />
+            <span className="font-semibold text-on-surface">EN</span>
+            <span className="text-outline-variant/60">•</span>
+            <span>$ USD</span>
+            <ChevronDown className="w-3 h-3 text-outline" />
+          </div>
+
+          {/* Quick TDS Download Button */}
+          <Link
+            href="/products/100-briket-arang-batok-kelapa#lab-specs"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-outline-variant/40 text-on-surface hover:border-primary-container hover:text-primary transition-all font-mono text-[11px] bg-surface-container/40"
+          >
+            <Download className="w-3.5 h-3.5 text-primary" />
+            <span>TDS (.PDF)</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`px-3 py-1.5 rounded-lg font-headline text-[13px] transition-all ${
-                    isActive
-                      ? 'bg-surface-container-high text-primary font-semibold'
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Primary Action Button — Rounded-Full Pill */}
+          <Link
+            href="/container-planner"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_0_18px_rgba(255,138,82,0.4)] whitespace-nowrap"
+          >
+            <span>Penawaran FCL</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
 
-          {/* Right Action Buttons */}
-          <div className="flex items-center gap-3">
-            <Link
-              href="/products/100-briket-arang-batok-kelapa#lab-specs"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/40 text-on-surface hover:border-primary-container hover:text-primary transition-all font-mono text-[12px] bg-surface-container/50"
-            >
-              <Download className="w-3.5 h-3.5 text-primary" />
-              <span>TDS (.PDF)</span>
-            </Link>
-
-            <Link
-              href="/container-planner"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_0_14px_rgba(255,138,82,0.35)] whitespace-nowrap"
-            >
-              <span>Penawaran FCL</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-lg bg-surface-container"
-              aria-label="Toggle Navigation Menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-full bg-surface-container border border-outline-variant/30"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Menu (Rounded-2xl floating card) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-surface-container-low border-b border-outline-variant/30 px-6 py-4 flex flex-col gap-3 shadow-2xl">
+        <div className="lg:hidden max-w-[1360px] mx-auto mt-2 bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-4 flex flex-col gap-2 shadow-2xl">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-lg font-headline text-[14px] text-on-surface-variant hover:text-primary hover:bg-surface-container"
+              className="py-2.5 px-4 rounded-xl font-headline text-[14px] text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all"
             >
               {link.name}
             </Link>
@@ -103,7 +113,7 @@ export default function Navbar() {
             <Link
               href="/admin/rfq"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-3 rounded-lg font-mono text-[12px] text-outline hover:text-on-surface"
+              className="py-2 px-4 rounded-xl font-mono text-[12px] text-outline hover:text-on-surface"
             >
               Internal Deal Desk & RFQ Pipeline →
             </Link>

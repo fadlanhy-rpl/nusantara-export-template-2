@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className="bg-background text-on-surface antialiased flex flex-col min-h-screen">
         <TopMarquee />
         <Navbar />
-        <main className="flex-1 w-full pt-[74px]">{children}</main>
+        <main className="flex-1 w-full pt-2 sm:pt-4">{children}</main>
         <Footer />
       </body>
     </html>

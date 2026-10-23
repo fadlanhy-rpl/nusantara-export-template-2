@@ -5,7 +5,7 @@ import { ShieldCheck, Anchor, MapPin, Mail, Phone, ExternalLink } from 'lucide-r
 export default function Footer() {
   return (
     <footer className="w-full bg-[#120D0A] border-t border-outline-variant/30 text-on-surface-variant pt-16 pb-12">
-      <div className="max-w-[1160px] mx-auto px-4 lg:px-0 flex flex-col gap-12">
+      <div className="max-w-[1280px] mx-auto px-4 lg:px-0 flex flex-col gap-12">
         {/* Top 4-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Col 1: Brand & Credentials */}
