@@ -141,9 +141,6 @@ export default function Footer() {
             <Link href="/factory-audit" className="hover:text-primary transition-colors">
               {t.navFactory}
             </Link>
-            <Link href="/admin/rfq" className="hover:text-primary transition-colors font-mono text-[11px] text-outline">
-              {t.navDealDesk}
-            </Link>
           </div>
 
           {/* Col 4: Kontak Direct Trade Desk */}

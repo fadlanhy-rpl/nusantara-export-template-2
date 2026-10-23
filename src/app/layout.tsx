@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import TopMarquee from "@/components/common/TopMarquee";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
 import { LanguageProvider } from "@/context/LanguageContext";
+import AppChrome from "@/components/layout/AppChrome";
 
 export const metadata: Metadata = {
   title: "NusantaraOrigin — 100% Pure Coconut Charcoal & Agro Commodities Exporter",
@@ -28,10 +26,7 @@ export default function RootLayout({
     <html lang="id" className="dark">
       <body className="bg-background text-on-surface antialiased flex flex-col min-h-screen">
         <LanguageProvider>
-          <TopMarquee />
-          <Navbar />
-          <main className="flex-1 w-full pt-2 sm:pt-4">{children}</main>
-          <Footer />
+          <AppChrome>{children}</AppChrome>
         </LanguageProvider>
       </body>
     </html>

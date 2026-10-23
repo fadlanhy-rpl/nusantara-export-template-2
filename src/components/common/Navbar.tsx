@@ -293,14 +293,6 @@ export default function Navbar() {
                   : 'Download TDS & COA (.PDF)'}
               </span>
             </Link>
-
-            <Link
-              href="/admin/rfq"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2 px-4 rounded-xl font-mono text-[12px] text-outline hover:text-on-surface"
-            >
-              {locale === 'id' ? 'Internal Deal Desk (Admin) →' : locale === 'ar' ? 'مكتب الصفقات الداخلي (لوحة التحكم) ←' : locale === 'zh' ? '内部订单大厅 (Admin) →' : 'Internal Deal Desk (Admin) →'}
-            </Link>
           </div>
         </div>
       )}
