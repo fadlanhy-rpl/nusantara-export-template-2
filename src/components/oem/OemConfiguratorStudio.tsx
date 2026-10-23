@@ -4,12 +4,187 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Package, Palette, Upload, ShieldCheck, Check, Eye, Download, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 import OemBox3DViewer from './OemBox3DViewer';
+import { useLanguage } from '@/context/LanguageContext';
 
 type MaterialType = 'kraft' | 'matte_black' | 'white_duplex';
 type ViewMode = '3d' | 'flat' | 'pallet';
 type PackFormat = '1kg' | '2kg' | '10kg_bulk' | '20kg_bulk';
 
+const STUDIO_I18N = {
+  en: {
+    navCommodities: 'EXPORT COMMODITIES',
+    navOem: 'OEM & PRIVATE LABEL SERVICES',
+    navStudio: 'PACKAGING CONFIGURATOR STUDIO',
+    title: '2.5D OEM Private Label Studio',
+    titleAccent: '& Custom Export Packaging',
+    subtitle: 'Customize your export brand packaging with high-precision factory dieline specifications. Choose cardboard material, gold foil hot-stamping, and Middle Eastern (GCC) or European regulatory text.',
+    sec1Title: 'Export Packaging Format',
+    opt1kgTitle: '1kg Inner Box (10x1kg per Master Box)',
+    opt1kgDesc: 'Dimensions 100×100×100 mm • Duplex 250gsm',
+    opt2kgTitle: '2kg Inner Box (5x2kg per Master Box)',
+    opt2kgDesc: 'Dimensions 200×100×100 mm • Duplex 300gsm',
+    opt10kgTitle: 'Master Carton 10kg (Bulk BBQ Packing)',
+    opt10kgDesc: 'Heavy-duty 5-Ply Corrugated K150',
+    sec2Title: 'Paper Substrate & Finishing',
+    matKraft: 'Kraft 275g',
+    matKraftSub: 'Eco Rustic',
+    matBlack: 'Matte Black',
+    matBlackSub: 'Luxury Shisha',
+    matWhite: 'Bright White',
+    matWhiteSub: 'Duplex 300g',
+    finishMatte: 'Matte Doff / Matte UV (Waterproof)',
+    finishMatteTag: 'STANDARD',
+    finishGold: 'Hot-Stamping Gold Foil (Logo & Brand)',
+    finishSpotUv: 'Spot UV Glossy Ornament',
+    sec3Title: 'Brand Identity & Regulation',
+    lblBrand: 'Buyer Brand Name (Headline)',
+    lblTagline: 'Sub-Headline / Slogan',
+    chkArabic: 'Arabic Warning Text (ESMA & GCC GSO 2530 Standards)',
+    chkBarcode: 'EAN-13 Barcode & Batch Lab QR Code',
+    chkCert: 'Official Certifications (Halal & IMO Non-DG SP925)',
+    btnView3d: '3D Box Perspective',
+    btnViewFlat: '2D Flat CAD Dieline',
+    btnViewPallet: 'Pallet Stuffing',
+    legibilityTitle: 'Front Panel Dieline Print Specification',
+    lblColBrand: 'BRAND LOGO & TRADEMARK:',
+    lblColTagline: 'TAGLINE / GRADE:',
+    lblColFinish: 'FINISHING:',
+    lblColReg: 'EXPORT REGULATION:',
+    btnSendWa: 'Send Mock-Up to Factory WhatsApp',
+    waMsg: 'Hello NusantaraOrigin, I would like to request factory confirmation for OEM brand mock-up: {brand} ({format})',
+  },
+  id: {
+    navCommodities: 'KOMODITAS EKSPOR',
+    navOem: 'LAYANAN OEM & PRIVATE LABEL',
+    navStudio: 'STUDIO KONFIGURATOR KEMASAN',
+    title: '2.5D OEM Private Label Studio',
+    titleAccent: '& Kemasan Ekspor Kustom',
+    subtitle: 'Kustomisasi kemasan brand ekspor Anda dengan spesifikasi dieline pabrik presisi tinggi. Pilih material kardus, laminasi foil emas, dan teks regulasi Timur Tengah (GCC) maupun Eropa.',
+    sec1Title: 'Format Kemasan Ekspor',
+    opt1kgTitle: 'Kotak Dalam 1kg (10x1kg per Master Box)',
+    opt1kgDesc: 'Dimensi 100×100×100 mm • Duplex 250gsm',
+    opt2kgTitle: 'Kotak Dalam 2kg (5x2kg per Master Box)',
+    opt2kgDesc: 'Dimensi 200×100×100 mm • Duplex 300gsm',
+    opt10kgTitle: 'Master Carton 10kg (Bulk BBQ Packing)',
+    opt10kgDesc: 'Kardus tebal 5-Ply Corrugated K150',
+    sec2Title: 'Substrat Kertas & Finishing',
+    matKraft: 'Kraft 275g',
+    matKraftSub: 'Eco Rustic',
+    matBlack: 'Matte Black',
+    matBlackSub: 'Luxury Shisha',
+    matWhite: 'Bright White',
+    matWhiteSub: 'Duplex 300g',
+    finishMatte: 'Laminasi Doff / Matte UV (Waterproof)',
+    finishMatteTag: 'STANDAR',
+    finishGold: 'Hot-Stamping Foil Emas (Logo & Nama)',
+    finishSpotUv: 'Spot UV Glossy Ornamen',
+    sec3Title: 'Identitas Merek & Regulasi',
+    lblBrand: 'Nama Merek Buyer (Headline)',
+    lblTagline: 'Sub-Headline / Slogan',
+    chkArabic: 'Peringatan Bahasa Arab (Standar ESMA & GCC GSO 2530)',
+    chkBarcode: 'Barcode EAN-13 & QR Code Batch Lab',
+    chkCert: 'Sertifikasi Resmi (Halal MUI & IMO Non-DG SP925)',
+    btnView3d: 'Perspektif 3D Box',
+    btnViewFlat: 'Dieline Flat 2D CAD',
+    btnViewPallet: 'Pallet Stuffing',
+    legibilityTitle: 'Pratinjau Cetak Dieline Muka Depan (Front Panel Spec)',
+    lblColBrand: 'BRAND LOGO & MERK:',
+    lblColTagline: 'TAGLINE / MUTU:',
+    lblColFinish: 'FINISHING:',
+    lblColReg: 'REGULASI EKSPOR:',
+    btnSendWa: 'Kirim Mock-Up ke WhatsApp Pabrik',
+    waMsg: 'Halo NusantaraOrigin, saya ingin meminta konfirmasi mock-up kemasan OEM brand: {brand} ({format})',
+  },
+  ar: {
+    navCommodities: 'السلع الزراعية التصديرية',
+    navOem: 'خدمات OEM والعلامات التجارية الخاصة',
+    navStudio: 'استوديو تهيئة العبوات والكراتين',
+    title: 'استوديو OEM للعلامات الخاصة 2.5D',
+    titleAccent: 'وتصاميم عبوات التصدير المخصصة',
+    subtitle: 'تخصيص عبوات علامتك التجارية التصديرية وفق أدق مخططات المصنع. اختر خامات الكرتون، والفويل الذهبي الفاخر، والنصوص التحذيرية المطابقة لمعايير الخليج (GCC) وأوروبا.',
+    sec1Title: 'صيغة عبوة التصدير',
+    opt1kgTitle: 'علبة داخلية 1 كغ (10x1 كغ في الكرتون الرئيسي)',
+    opt1kgDesc: 'الأبعاد 100×100×100 مم • دوبلكس 250 جم',
+    opt2kgTitle: 'علبة داخلية 2 كغ (5x2 كغ في الكرتون الرئيسي)',
+    opt2kgDesc: 'الأبعاد 200×100×100 مم • دوبلكس 300 جم',
+    opt10kgTitle: 'كرتون شحن رئيسي 10 كغ (شواء سائب)',
+    opt10kgDesc: 'كرتون مقوى 5 طبقات فائق المتانة K150',
+    sec2Title: 'خامات الورق والتشطيبات الفاخرة',
+    matKraft: 'كرافت 275 جم',
+    matKraftSub: 'طبيعي وبيئي',
+    matBlack: 'أسود مطفي (Matte)',
+    matBlackSub: 'شيشة فاخرة',
+    matWhite: 'أبيض ناصع',
+    matWhiteSub: 'دوبلكس 300 جم',
+    finishMatte: 'طبقة حماية غير لامعة Matte UV (مقاومة للرطوبة)',
+    finishMatteTag: 'قياسي',
+    finishGold: 'بصمة فويل ذهبي بارز (شعار واسم الماركة)',
+    finishSpotUv: 'زخارف ملمعة Spot UV',
+    sec3Title: 'هوية العلامة التجارية واللوائح',
+    lblBrand: 'اسم العلامة التجارية للمشتري (الرئيسي)',
+    lblTagline: 'الشعار التسويقي الفرعي',
+    chkArabic: 'التحذيرات باللغة العربية (معايير ESMA وهيئة التقييس الخليجية 2530)',
+    chkBarcode: 'الباركود الدولي EAN-13 ورمز الاستجابة السريعة QR للدفعة',
+    chkCert: 'شهادات الاعتماد الرسمية (حلال وشهادة IMO Non-DG SP925)',
+    btnView3d: 'منظور العلبة ثلاثي الأبعاد 3D',
+    btnViewFlat: 'مخطط القطع المنبسط 2D CAD',
+    btnViewPallet: 'ترتيب الطبالي البحرية (Pallet)',
+    legibilityTitle: 'مواصفات الطباعة المعتمدة للواجهة الأمامية',
+    lblColBrand: 'شعار واسم الماركة:',
+    lblColTagline: 'الشعار / درجة الجودة:',
+    lblColFinish: 'التشطيب:',
+    lblColReg: 'اللوائح التصديرية:',
+    btnSendWa: 'إرسال النموذج إلى واتساب المصنع',
+    waMsg: 'مرحباً NusantaraOrigin، أود تأكيد نموذج العبوة المخصصة للماركة: {brand} ({format})',
+  },
+  zh: {
+    navCommodities: '出口大宗商品',
+    navOem: 'OEM 与自有品牌代工',
+    navStudio: '包装工业刀模配置工作室',
+    title: '2.5D OEM 品牌定制工作室',
+    titleAccent: '& 专属外贸出口包装',
+    subtitle: '基于工厂高精密包装刀模图规范，定制您的专属出口品牌外箱与内盒。自由选择瓦楞纸板材质、烫金工艺 (Gold Foil) 以及中东海湾 GCC 与欧洲进出口合规警示文案。',
+    sec1Title: '出口包装规格形式',
+    opt1kgTitle: '1kg 精美彩盒内盒 (每外箱装 10x1kg)',
+    opt1kgDesc: '内盒尺寸 100×100×100 mm • 白卡涂布 250gsm',
+    opt2kgTitle: '2kg 加大彩盒内盒 (每外箱装 5x2kg)',
+    opt2kgDesc: '内盒尺寸 200×100×100 mm • 白卡涂布 300gsm',
+    opt10kgTitle: '10kg 散装出口外箱 (商用烧烤散装)',
+    opt10kgDesc: '加厚五层高强瓦楞纸板 K150',
+    sec2Title: '纸张基材与表面整饰工艺',
+    matKraft: '牛皮纸 275g',
+    matKraftSub: '环保质朴',
+    matBlack: '炭黑哑光',
+    matBlackSub: '奢华水烟',
+    matWhite: '亮白涂布',
+    matWhiteSub: '双面白卡 300g',
+    finishMatte: '哑光覆膜 / 哑光防潮 UV (Waterproof)',
+    finishMatteTag: '出厂标准',
+    finishGold: '烫金工艺 Hot-Stamping (Logo 与品牌名)',
+    finishSpotUv: '局部立体 UV 晶亮图案',
+    sec3Title: '品牌标识与进出口合规文案',
+    lblBrand: '采购商品牌名称 (主标题 Headline)',
+    lblTagline: '副标题 / 广告语宣传词',
+    chkArabic: '阿拉伯语健康警示文案 (符合 ESMA 与海湾 GCC GSO 2530 法规)',
+    chkBarcode: 'EAN-13 国际商品条形码与批次溯源 QR 码',
+    chkCert: '官方合规资质认证标识 (Halal 认证与 IMO SP925 海事豁免)',
+    btnView3d: '3D 旋转立体包装盒透视',
+    btnViewFlat: '2D 展平工业矢量 CAD 刀模',
+    btnViewPallet: '集装箱托盘装载堆叠',
+    legibilityTitle: '包装正面印刷刀模面板技术指标',
+    lblColBrand: '品牌标志与商标:',
+    lblColTagline: '宣传语 / 质量等级:',
+    lblColFinish: '表面工艺:',
+    lblColReg: '出口法规要求:',
+    btnSendWa: '发送设计效果图至工厂 WhatsApp',
+    waMsg: '您好 NusantaraOrigin，我希望确认 OEM 品牌包装效果图打样: {brand} ({format})',
+  },
+};
+
 export default function OemConfiguratorStudio() {
+  const { locale } = useLanguage();
+  const t = STUDIO_I18N[locale] || STUDIO_I18N.en;
+
   const [packFormat, setPackFormat] = useState<PackFormat>('1kg');
   const [material, setMaterial] = useState<MaterialType>('matte_black');
   const [viewMode, setViewMode] = useState<ViewMode>('3d');
@@ -65,27 +240,31 @@ export default function OemConfiguratorStudio() {
 
   const style = getBoxStyle();
 
+  const dynamicWaText = t.waMsg
+    .replace('{brand}', brandName)
+    .replace('{format}', packFormat);
+
   return (
     <div className="w-full max-w-[1280px] mx-auto px-4 lg:px-0 py-8 flex flex-col gap-8 font-poppins">
       {/* Header */}
       <div className="flex flex-col gap-2">
         <nav className="flex items-center gap-2 font-mono text-[11px] text-outline uppercase tracking-wider">
-          <Link href="/products" className="hover:text-primary">KOMODITAS EKSPOR</Link>
+          <Link href="/products" className="hover:text-primary">{t.navCommodities}</Link>
           <span>/</span>
-          <span>LAYANAN OEM & PRIVATE LABEL</span>
+          <span>{t.navOem}</span>
           <span>/</span>
-          <span className="text-primary font-bold">STUDIO KONFIGURATOR KEMASAN</span>
+          <span className="text-primary font-bold">{t.navStudio}</span>
         </nav>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="font-headline text-[30px] sm:text-[36px] font-extrabold text-on-surface tracking-tight">
-              2.5D OEM Private Label Studio{' '}
+              {t.title}{' '}
               <span className="font-editorial italic font-normal text-secondary">
-                & Kemasan Ekspor Kustom
+                {t.titleAccent}
               </span>
             </h1>
             <p className="font-body text-[14px] text-on-surface-variant max-w-2xl mt-1 leading-relaxed">
-              Kustomisasi kemasan brand ekspor Anda dengan spesifikasi dieline pabrik presisi tinggi. Pilih material kardus, laminasi foil emas, dan teks regulasi Timur Tengah (GCC) maupun Eropa.
+              {t.subtitle}
             </p>
           </div>
           <div className="flex items-center gap-2 bg-surface-container px-3.5 py-1.5 rounded-lg border border-outline-variant/30 text-tertiary font-mono text-[11px]">
@@ -106,7 +285,7 @@ export default function OemConfiguratorStudio() {
                 <span className="w-5 h-5 rounded-full bg-primary-container text-on-primary-container text-[11px] font-mono flex items-center justify-center font-bold">
                   1
                 </span>
-                Format Kemasan Ekspor
+                {t.sec1Title}
               </span>
               <span className="font-mono text-[11px] text-outline">B2B Standard</span>
             </div>
@@ -128,10 +307,10 @@ export default function OemConfiguratorStudio() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Kotak Dalam 1kg (10x1kg per Master Box)
+                    {t.opt1kgTitle}
                   </span>
                   <span className="font-mono text-[11px] text-outline">
-                    Dimensi 100×100×100 mm • Duplex 250gsm
+                    {t.opt1kgDesc}
                   </span>
                 </div>
               </button>
@@ -152,10 +331,10 @@ export default function OemConfiguratorStudio() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Kotak Dalam 2kg (5x2kg per Master Box)
+                    {t.opt2kgTitle}
                   </span>
                   <span className="font-mono text-[11px] text-outline">
-                    Dimensi 200×100×100 mm • Duplex 300gsm
+                    {t.opt2kgDesc}
                   </span>
                 </div>
               </button>
@@ -176,10 +355,10 @@ export default function OemConfiguratorStudio() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-headline text-[13px] font-bold text-on-surface">
-                    Master Carton 10kg (Bulk BBQ Packing)
+                    {t.opt10kgTitle}
                   </span>
                   <span className="font-mono text-[11px] text-outline">
-                    Kardus tebal 5-Ply Corrugated K150
+                    {t.opt10kgDesc}
                   </span>
                 </div>
               </button>
@@ -193,7 +372,7 @@ export default function OemConfiguratorStudio() {
                 <span className="w-5 h-5 rounded-full bg-primary-container text-on-primary-container text-[11px] font-mono flex items-center justify-center font-bold">
                   2
                 </span>
-                Substrat Kertas & Finishing
+                {t.sec2Title}
               </span>
               <span className="font-mono text-[11px] text-tertiary">ISO-12647-2</span>
             </div>
@@ -210,8 +389,8 @@ export default function OemConfiguratorStudio() {
               >
                 <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#8B5A2B' }}></span>
                 <span className="font-mono text-[11px] text-on-surface text-center leading-tight">
-                  Kraft 275g<br />
-                  <span className="text-outline text-[9px]">Eco Rustic</span>
+                  {t.matKraft}<br />
+                  <span className="text-outline text-[9px]">{t.matKraftSub}</span>
                 </span>
               </button>
 
@@ -226,8 +405,8 @@ export default function OemConfiguratorStudio() {
               >
                 <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#1C1A18' }}></span>
                 <span className="font-mono text-[11px] text-primary text-center leading-tight font-semibold">
-                  Matte Black<br />
-                  <span className="text-secondary text-[9px]">Luxury Shisha</span>
+                  {t.matBlack}<br />
+                  <span className="text-secondary text-[9px]">{t.matBlackSub}</span>
                 </span>
               </button>
 
@@ -242,8 +421,8 @@ export default function OemConfiguratorStudio() {
               >
                 <span className="w-full h-8 rounded-lg shadow-inner" style={{ backgroundColor: '#F2EFEB' }}></span>
                 <span className="font-mono text-[11px] text-on-surface text-center leading-tight">
-                  Bright White<br />
-                  <span className="text-outline text-[9px]">Duplex 300g</span>
+                  {t.matWhite}<br />
+                  <span className="text-outline text-[9px]">{t.matWhiteSub}</span>
                 </span>
               </button>
             </div>
@@ -258,9 +437,9 @@ export default function OemConfiguratorStudio() {
                     onChange={(e) => setMatteUv(e.target.checked)}
                     className="w-4 h-4 rounded accent-primary-container"
                   />
-                  <span>Laminasi Doff / Matte UV (Waterproof)</span>
+                  <span>{t.finishMatte}</span>
                 </span>
-                <span className="font-mono text-[11px] text-tertiary">STANDAR</span>
+                <span className="font-mono text-[11px] text-tertiary">{t.finishMatteTag}</span>
               </label>
 
               <label className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors cursor-pointer">
@@ -271,7 +450,7 @@ export default function OemConfiguratorStudio() {
                     onChange={(e) => setGoldFoil(e.target.checked)}
                     className="w-4 h-4 rounded accent-primary-container"
                   />
-                  <span>Hot-Stamping Foil Emas (Logo & Nama)</span>
+                  <span>{t.finishGold}</span>
                 </span>
                 <span className="font-mono text-[11px] text-secondary">+$0.03/pc</span>
               </label>
@@ -284,7 +463,7 @@ export default function OemConfiguratorStudio() {
                     onChange={(e) => setSpotUv(e.target.checked)}
                     className="w-4 h-4 rounded accent-primary-container"
                   />
-                  <span>Spot UV Glossy Ornamen</span>
+                  <span>{t.finishSpotUv}</span>
                 </span>
                 <span className="font-mono text-[11px] text-outline">+$0.015/pc</span>
               </label>
@@ -298,14 +477,14 @@ export default function OemConfiguratorStudio() {
                 <span className="w-5 h-5 rounded-full bg-primary-container text-on-primary-container text-[11px] font-mono flex items-center justify-center font-bold">
                   3
                 </span>
-                Identitas Merek & Regulasi
+                {t.sec3Title}
               </span>
               <span className="font-mono text-[11px] text-outline">GCC / EU</span>
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="font-mono text-[10px] uppercase font-bold text-outline">
-                Nama Merek Buyer (Headline)
+                {t.lblBrand}
               </label>
               <input
                 type="text"
@@ -317,7 +496,7 @@ export default function OemConfiguratorStudio() {
 
             <div className="flex flex-col gap-1">
               <label className="font-mono text-[10px] uppercase font-bold text-outline">
-                Sub-Headline / Slogan
+                {t.lblTagline}
               </label>
               <input
                 type="text"
@@ -336,7 +515,7 @@ export default function OemConfiguratorStudio() {
                   onChange={(e) => setArabicTextEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Peringatan Bahasa Arab (Standar ESMA & GCC GSO 2530)</span>
+                <span>{t.chkArabic}</span>
               </label>
 
               <label className="flex items-center gap-2 text-on-surface cursor-pointer">
@@ -346,7 +525,7 @@ export default function OemConfiguratorStudio() {
                   onChange={(e) => setBarcodeEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Barcode EAN-13 & QR Code Batch Lab</span>
+                <span>{t.chkBarcode}</span>
               </label>
 
               <label className="flex items-center gap-2 text-on-surface cursor-pointer">
@@ -356,7 +535,7 @@ export default function OemConfiguratorStudio() {
                   onChange={(e) => setCertLogosEnabled(e.target.checked)}
                   className="w-4 h-4 rounded accent-primary-container"
                 />
-                <span>Sertifikasi Resmi (Halal MUI & IMO Non-DG SP925)</span>
+                <span>{t.chkCert}</span>
               </label>
             </div>
           </div>
@@ -371,35 +550,35 @@ export default function OemConfiguratorStudio() {
                 <button
                   type="button"
                   onClick={() => setViewMode('3d')}
-                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all cursor-pointer ${
                     viewMode === '3d'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  Perspektif 3D Box
+                  {t.btnView3d}
                 </button>
                 <button
                   type="button"
                   onClick={() => setViewMode('flat')}
-                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all cursor-pointer ${
                     viewMode === 'flat'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  Dieline Flat 2D CAD
+                  {t.btnViewFlat}
                 </button>
                 <button
                   type="button"
                   onClick={() => setViewMode('pallet')}
-                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all ${
+                  className={`px-3 py-1 rounded-md font-headline text-[12px] font-semibold transition-all cursor-pointer ${
                     viewMode === 'pallet'
                       ? 'bg-primary-container text-on-primary-container'
                       : 'text-on-surface-variant hover:text-on-surface'
                   }`}
                 >
-                  Pallet Stuffing
+                  {t.btnViewPallet}
                 </button>
               </div>
 
@@ -431,7 +610,7 @@ export default function OemConfiguratorStudio() {
                   <div className="w-full bg-surface-container p-4 rounded-xl border border-outline-variant/30 flex flex-col gap-2 shadow-md">
                     <div className="flex items-center justify-between pb-2 border-b border-outline-variant/20">
                       <span className="font-headline font-bold text-[13px] text-on-surface">
-                        Pratinjau Cetak Dieline Muka Depan (Front Panel Spec)
+                        {t.legibilityTitle}
                       </span>
                       <span className="font-mono text-[11px] text-tertiary font-bold">
                         {style.label}
@@ -440,21 +619,21 @@ export default function OemConfiguratorStudio() {
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[12px] pt-1 font-mono">
                       <div className="flex flex-col">
-                        <span className="text-outline text-[10px]">BRAND LOGO & MERK:</span>
+                        <span className="text-outline text-[10px]">{t.lblColBrand}</span>
                         <strong className="text-primary truncate">{brandName}</strong>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-outline text-[10px]">TAGLINE / MUTU:</span>
+                        <span className="text-outline text-[10px]">{t.lblColTagline}</span>
                         <span className="text-on-surface truncate">{tagline}</span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-outline text-[10px]">FINISHING:</span>
+                        <span className="text-outline text-[10px]">{t.lblColFinish}</span>
                         <span className="text-secondary font-semibold">
                           {goldFoil ? 'Gold Foil' : 'No Foil'} • {matteUv ? 'Matte UV' : 'Standard'}
                         </span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-outline text-[10px]">REGULASI EKSPOR:</span>
+                        <span className="text-outline text-[10px]">{t.lblColReg}</span>
                         <span className="text-tertiary font-semibold">GCC GSO 2530 & SP925</span>
                       </div>
                     </div>
@@ -502,13 +681,13 @@ export default function OemConfiguratorStudio() {
               </span>
               <div className="flex items-center gap-3">
                 <a
-                  href={`https://wa.me/628113000000?text=${encodeURIComponent(`Halo NusantaraOrigin, saya ingin meminta konfirmasi mock-up kemasan OEM brand: ${brandName} (${packFormat})`)}`}
+                  href={`https://wa.me/628113000000?text=${encodeURIComponent(dynamicWaText)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-colors shadow"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Kirim Mock-Up ke WhatsApp Pabrik</span>
+                  <span>{t.btnSendWa}</span>
                 </a>
               </div>
             </div>

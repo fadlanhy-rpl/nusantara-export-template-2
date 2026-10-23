@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Inbox, CheckCircle2, Clock, Truck, FileText, Search, ArrowUpRight, Filter, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface RfqItem {
   ref: string;
@@ -16,6 +17,121 @@ interface RfqItem {
   status: 'NEW' | 'CONTACTED' | 'SAMPLE_SENT' | 'OFFICIAL_QUOTE' | 'DEAL_WON';
   date: string;
 }
+
+const ADMIN_I18N = {
+  en: {
+    title: 'Internal Deal Desk & RFQ Pipeline',
+    sub: 'Gresik Processing Hub (IDMES) • Live Cluster Sync',
+    benchTag: 'FOB Tanjung Perak Benchmark:',
+    metric1Label: 'New Inquiries',
+    metric1Sub: '+3 incoming today from GCC & EU',
+    metric2Label: 'Accumulated Volume',
+    metric2Sub: 'Equivalent to 16x 40ft HC Containers',
+    metric3Label: 'Pipeline Valuation',
+    metric3Sub: 'Average $1,280/MT FOB',
+    metric4Label: 'DHL Sample Queue',
+    metric4Sub: 'Ready for dispatch at Gresik Lab',
+    searchPlaceholder: 'Search PIC or Company...',
+    thRef: 'Ref No.',
+    thBuyer: 'Buyer & Company',
+    thCountry: 'Country',
+    thContainer: 'Container / MT',
+    thIncoterm: 'Incoterm',
+    thTarget: 'Target Price',
+    thStatus: 'Status',
+    thAction: 'Action',
+    btnContact: 'Contact',
+    statusNew: 'NEW INQUIRY',
+    statusSample: 'SAMPLE SENT',
+    statusQuote: 'OFFICIAL QUOTE',
+    statusDeal: 'DEAL CLOSED',
+    statusContacted: 'CONTACTED',
+  },
+  id: {
+    title: 'Internal Deal Desk & RFQ Pipeline',
+    sub: 'Terminal Gresik Processing Hub (IDMES) • Live Cluster Sync',
+    benchTag: 'FOB Tanjung Perak Benchmark:',
+    metric1Label: 'Inquiries Baru',
+    metric1Sub: '+3 masuk hari ini dari GCC & EU',
+    metric2Label: 'Akumulasi Volume',
+    metric2Sub: 'Setara 16x Kontainer 40ft HC',
+    metric3Label: 'Valuasi Pipeline',
+    metric3Sub: 'Rata-rata $1,280/MT FOB',
+    metric4Label: 'Antrean Sampel DHL',
+    metric4Sub: 'Siap dispatch di Lab Gresik',
+    searchPlaceholder: 'Cari PIC atau Perusahaan...',
+    thRef: 'No. Referensi',
+    thBuyer: 'Buyer & Perusahaan',
+    thCountry: 'Negara',
+    thContainer: 'Kontainer / MT',
+    thIncoterm: 'Incoterm',
+    thTarget: 'Target Harga',
+    thStatus: 'Status',
+    thAction: 'Aksi',
+    btnContact: 'Hubungi',
+    statusNew: 'BARU MASUK',
+    statusSample: 'SAMPEL TERKIRIM',
+    statusQuote: 'DRAF PENAWARAN',
+    statusDeal: 'DEAL CLOSED',
+    statusContacted: 'DIHUBUNGI',
+  },
+  ar: {
+    title: 'مكتب الصفقات الداخلي ومتابعة عروض الأسعار RFQ',
+    sub: 'مركز معالجة غريسيك (IDMES) • مزامنة حية',
+    benchTag: 'مؤشر ميناء تانجونغ بيراك FOB:',
+    metric1Label: 'الطلبات الجديدة',
+    metric1Sub: '+3 طلبات واردة اليوم من الخليج وأوروبا',
+    metric2Label: 'إجمالي الحجم التراكمي',
+    metric2Sub: 'ما يعادل 16 حاوية 40 قدم HC',
+    metric3Label: 'قيمة الصفقات المتوقعة',
+    metric3Sub: 'بمتوسط 1,280 دولار/طن FOB',
+    metric4Label: 'عينات DHL المنتظرة',
+    metric4Sub: 'جاهزة للشحن من مختبر غريسيك',
+    searchPlaceholder: 'بحث عن المشتري أو الشركة...',
+    thRef: 'رقم المرجع',
+    thBuyer: 'المشتري والشركة',
+    thCountry: 'الدولة',
+    thContainer: 'الحاوية / طن',
+    thIncoterm: 'شرط الشحن',
+    thTarget: 'السعر المستهدف',
+    thStatus: 'الحالة',
+    thAction: 'الإجراء',
+    btnContact: 'تواصل',
+    statusNew: 'طلب جديد',
+    statusSample: 'عينة أرسلت',
+    statusQuote: 'مسودة رسمية',
+    statusDeal: 'صفقة مغلقة',
+    statusContacted: 'تم التواصل',
+  },
+  zh: {
+    title: '内部订单大厅与外贸 RFQ 询盘漏斗',
+    sub: '东爪哇锦石出口处理中心 (IDMES) • 实时集群同步',
+    benchTag: '泗水港基准 FOB 离岸价:',
+    metric1Label: '最新外贸询盘',
+    metric1Sub: '今日新增 3 笔来自海湾及欧洲采购商',
+    metric2Label: '累计采购容积',
+    metric2Sub: '相当于 16 个 40尺高柜 (HC)',
+    metric3Label: '在谈订单总货值',
+    metric3Sub: '平均 FOB 离岸价 $1,280/MT',
+    metric4Label: '待发 DHL 样品',
+    metric4Sub: '已于锦石实验室质检封装完毕待发',
+    searchPlaceholder: '搜索采购商代表或企业名称...',
+    thRef: '询盘参考编号',
+    thBuyer: '采购商与公司',
+    thCountry: '目标国家',
+    thContainer: '集装箱 / 吨位',
+    thIncoterm: '贸易术语',
+    thTarget: '目标报价',
+    thStatus: '当前进度',
+    thAction: '操作',
+    btnContact: '立即联系',
+    statusNew: '新询盘',
+    statusSample: '已寄送样品',
+    statusQuote: '已出官方报价草案',
+    statusDeal: '已成单成交',
+    statusContacted: '已对接洽谈',
+  },
+};
 
 const INITIAL_RFQS: RfqItem[] = [
   {
@@ -81,6 +197,9 @@ const INITIAL_RFQS: RfqItem[] = [
 ];
 
 export default function AdminRfqPage() {
+  const { locale } = useLanguage();
+  const t = ADMIN_I18N[locale] || ADMIN_I18N.en;
+
   const [filter, setFilter] = useState<string>('ALL');
   const [search, setSearch] = useState<string>('');
 
@@ -95,16 +214,16 @@ export default function AdminRfqPage() {
   const getStatusBadge = (status: RfqItem['status']) => {
     switch (status) {
       case 'NEW':
-        return <span className="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-mono text-[10px] font-bold">BARU MASUK</span>;
+        return <span className="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-mono text-[10px] font-bold">{t.statusNew}</span>;
       case 'SAMPLE_SENT':
-        return <span className="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-mono text-[10px] font-bold">SAMPEL TERKIRIM</span>;
+        return <span className="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-mono text-[10px] font-bold">{t.statusSample}</span>;
       case 'OFFICIAL_QUOTE':
-        return <span className="px-2 py-0.5 rounded bg-surface-container-high text-primary font-mono text-[10px] font-bold">DRAF PENAWARAN</span>;
+        return <span className="px-2 py-0.5 rounded bg-surface-container-high text-primary font-mono text-[10px] font-bold">{t.statusQuote}</span>;
       case 'DEAL_WON':
-        return <span className="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-mono text-[10px] font-bold">DEAL CLOSED</span>;
+        return <span className="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-mono text-[10px] font-bold">{t.statusDeal}</span>;
       case 'CONTACTED':
       default:
-        return <span className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px] font-bold">DIHUBUNGI</span>;
+        return <span className="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px] font-bold">{t.statusContacted}</span>;
     }
   };
 
@@ -116,15 +235,15 @@ export default function AdminRfqPage() {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
             <span className="font-headline font-bold text-[20px] text-on-surface uppercase">
-              Internal Deal Desk & RFQ Pipeline
+              {t.title}
             </span>
           </div>
           <span className="font-mono text-[11px] text-outline">
-            Terminal Gresik Processing Hub (IDMES) • Live Cluster Sync
+            {t.sub}
           </span>
         </div>
         <div className="flex items-center gap-2 font-mono text-[12px] bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant/30">
-          <span className="text-secondary">FOB Tanjung Perak Benchmark:</span>
+          <span className="text-secondary">{t.benchTag}</span>
           <strong className="text-on-surface">$1,320/MT</strong>
         </div>
       </div>
@@ -132,27 +251,27 @@ export default function AdminRfqPage() {
       {/* 4 Operational Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
-          <span className="font-mono text-[11px] text-outline uppercase">Inquiries Baru</span>
+          <span className="font-mono text-[11px] text-outline uppercase">{t.metric1Label}</span>
           <div className="font-mono text-[28px] font-bold text-on-surface my-1">14 Leads</div>
-          <span className="font-mono text-[11px] text-tertiary">+3 masuk hari ini dari GCC & EU</span>
+          <span className="font-mono text-[11px] text-tertiary">{t.metric1Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
-          <span className="font-mono text-[11px] text-outline uppercase">Akumulasi Volume</span>
+          <span className="font-mono text-[11px] text-outline uppercase">{t.metric2Label}</span>
           <div className="font-mono text-[28px] font-bold text-on-surface my-1">420 MT</div>
-          <span className="font-mono text-[11px] text-outline">Setara 16x Kontainer 40ft HC</span>
+          <span className="font-mono text-[11px] text-outline">{t.metric2Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
-          <span className="font-mono text-[11px] text-outline uppercase">Valuasi Pipeline</span>
+          <span className="font-mono text-[11px] text-outline uppercase">{t.metric3Label}</span>
           <div className="font-mono text-[28px] font-bold text-primary my-1">$538,000 USD</div>
-          <span className="font-mono text-[11px] text-tertiary">Rata-rata $1,280/MT FOB</span>
+          <span className="font-mono text-[11px] text-tertiary">{t.metric3Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
-          <span className="font-mono text-[11px] text-outline uppercase">Antrean Sampel DHL</span>
+          <span className="font-mono text-[11px] text-outline uppercase">{t.metric4Label}</span>
           <div className="font-mono text-[28px] font-bold text-on-surface my-1">4 Paket</div>
-          <span className="font-mono text-[11px] text-secondary">Siap dispatch di Lab Gresik</span>
+          <span className="font-mono text-[11px] text-secondary">{t.metric4Sub}</span>
         </div>
       </div>
 
@@ -164,7 +283,7 @@ export default function AdminRfqPage() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded-lg font-headline text-[11px] uppercase font-bold whitespace-nowrap transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-headline text-[11px] uppercase font-bold whitespace-nowrap transition-colors cursor-pointer ${
                 filter === f
                   ? 'bg-primary-container text-on-primary-container'
                   : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
@@ -182,7 +301,7 @@ export default function AdminRfqPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Cari PIC atau Perusahaan..."
+            placeholder={t.searchPlaceholder}
             className="h-9 pl-9 pr-3 bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-on-surface font-body text-[12px] focus:outline-none focus:border-primary-container w-full sm:w-64"
           />
         </div>
@@ -194,14 +313,14 @@ export default function AdminRfqPage() {
           <table className="w-full text-left font-body text-[13px] text-on-surface">
             <thead>
               <tr className="bg-surface-container-high font-headline text-[11px] text-outline uppercase tracking-wider border-b border-outline-variant/30">
-                <th className="py-3 px-4 font-bold">No. Referensi</th>
-                <th className="py-3 px-4 font-bold">Buyer & Perusahaan</th>
-                <th className="py-3 px-4 font-bold">Negara</th>
-                <th className="py-3 px-4 font-bold">Kontainer / MT</th>
-                <th className="py-3 px-4 font-bold">Incoterm</th>
-                <th className="py-3 px-4 font-bold">Target Harga</th>
-                <th className="py-3 px-4 font-bold">Status</th>
-                <th className="py-3 px-4 font-bold text-right">Aksi</th>
+                <th className="py-3 px-4 font-bold">{t.thRef}</th>
+                <th className="py-3 px-4 font-bold">{t.thBuyer}</th>
+                <th className="py-3 px-4 font-bold">{t.thCountry}</th>
+                <th className="py-3 px-4 font-bold">{t.thContainer}</th>
+                <th className="py-3 px-4 font-bold">{t.thIncoterm}</th>
+                <th className="py-3 px-4 font-bold">{t.thTarget}</th>
+                <th className="py-3 px-4 font-bold">{t.thStatus}</th>
+                <th className="py-3 px-4 font-bold text-right">{t.thAction}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/20 font-mono text-[12px]">
@@ -227,7 +346,7 @@ export default function AdminRfqPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline text-[11px] font-bold transition-colors"
                     >
-                      <span>Hubungi</span>
+                      <span>{t.btnContact}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   </td>

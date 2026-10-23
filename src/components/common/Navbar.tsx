@@ -64,14 +64,14 @@ export default function Navbar() {
   return (
     <header className="sticky top-3.5 z-50 w-full px-3 sm:px-6">
       {/* Floating Pill Navbar — Width is wider than sections (max-w-[1360px] vs max-w-[1280px]) */}
-      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/90 backdrop-blur-xl border border-white/10 px-5 sm:px-7 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
-        {/* Left: Brandmark with Rounded-Full Icon Badge + Generous Right Margin Space */}
-        <Link href="/" className="flex items-center gap-3 group shrink-0 mr-6 lg:mr-10 xl:mr-12">
+      <div className="max-w-[1360px] mx-auto h-[66px] rounded-full bg-[#1C1815]/90 backdrop-blur-xl border border-white/10 px-4 sm:px-6 md:px-7 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
+        {/* Left: Brandmark with Rounded-Full Icon Badge + Balanced Spacing */}
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 mr-4 lg:mr-6 xl:mr-8">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_16px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform">
             <Flame className="w-5 h-5 text-on-primary-container fill-current" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline font-extrabold text-[17px] text-on-surface tracking-tight leading-none uppercase">
+            <span className="font-headline font-extrabold text-[16px] sm:text-[17px] text-on-surface tracking-tight leading-none uppercase">
               Nusantara<span className="text-primary font-bold">Origin</span>
             </span>
             <span className="font-mono text-[9px] text-primary tracking-widest uppercase mt-0.5">
@@ -80,15 +80,15 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Center: Desktop Navigation with Rounded Pills & Comfortable Spacing */}
-        <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2.5">
+        {/* Center: Desktop Navigation with Rounded Pills */}
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3.5 py-1.5 rounded-full font-headline text-[13px] transition-all whitespace-nowrap ${
+                className={`px-3 py-1.5 xl:px-3.5 rounded-full font-headline text-[12px] xl:text-[13px] transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-surface-container-high text-primary font-semibold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container/70'
@@ -100,14 +100,14 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right: Actions, Language Switcher (Language Only) & Rounded-Full CTA + Left Margin Space */}
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0 ml-auto pl-6 lg:pl-10 xl:pl-12">
+        {/* Right: Actions, Language Switcher (Language Only) & Rounded-Full CTA */}
+        <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0 ml-auto pl-3 lg:pl-4 xl:pl-6">
           {/* Language Selector Dropdown (Language Selection Only — Clean Pill Button) */}
           <div className="relative" ref={langDropdownRef}>
             <button
               type="button"
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="px-3.5 py-1.5 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[11px] text-on-surface flex items-center gap-2 cursor-pointer transition-all select-none shadow-sm"
+              className="px-3 py-1.5 rounded-full bg-surface-container-high/60 hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 font-mono text-[11px] text-on-surface flex items-center gap-1.5 cursor-pointer transition-all select-none shadow-sm"
               aria-label="Select Language"
               aria-expanded={langMenuOpen}
             >
@@ -131,7 +131,7 @@ export default function Navbar() {
                 } bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-2 min-w-[200px] shadow-2xl z-50 flex flex-col gap-1`}
               >
                 <div className="px-3 py-1 text-[10px] font-mono text-outline uppercase tracking-wider border-b border-outline-variant/20 mb-1">
-                  PILIH BAHASA / LANGUAGE
+                  {locale === 'id' ? 'PILIH BAHASA' : locale === 'ar' ? 'اختر اللغة' : locale === 'zh' ? '选择语言' : 'SELECT LANGUAGE'}
                 </div>
                 {LOCALES.map((l) => {
                   const info = LOCALE_LABELS[l];
@@ -162,19 +162,19 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Quick TDS Download Button */}
+          {/* Quick TDS Download Button (Visible on >= 1280px xl screens to avoid crowding) */}
           <Link
             href="/products/100-briket-arang-batok-kelapa#lab-specs"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-outline-variant/40 text-on-surface hover:border-primary-container hover:text-primary transition-all font-mono text-[11px] bg-surface-container/40"
+            className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-outline-variant/40 text-on-surface hover:border-primary-container hover:text-primary transition-all font-mono text-[11px] bg-surface-container/40"
           >
             <Download className="w-3.5 h-3.5 text-primary" />
             <span>TDS (.PDF)</span>
           </Link>
 
-          {/* Primary Action Button — Rounded-Full Pill */}
+          {/* Primary Action Button — Rounded-Full Pill (Well inset from the right curve) */}
           <Link
             href="/container-planner"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_0_18px_rgba(255,138,82,0.4)] whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[11px] sm:text-[12px] uppercase font-bold tracking-wider hover:bg-[#D94E13] transition-all shadow-[0_0_18px_rgba(255,138,82,0.4)] whitespace-nowrap"
           >
             <span>
               {locale === 'id'
@@ -216,7 +216,7 @@ export default function Navbar() {
           {/* Mobile Language Switcher Row */}
           <div className="pt-3 border-t border-outline-variant/20 flex flex-col gap-2">
             <span className="font-mono text-[10px] text-outline uppercase tracking-wider px-2">
-              PILIH BAHASA / LANGUAGE:
+              {locale === 'id' ? 'PILIH BAHASA:' : locale === 'ar' ? 'اختر اللغة:' : locale === 'zh' ? '选择语言:' : 'SELECT LANGUAGE:'}
             </span>
             <div className="grid grid-cols-2 gap-2">
               {LOCALES.map((l) => {

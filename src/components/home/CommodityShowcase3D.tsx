@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Flame, Coffee, Sparkles, Scale, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Flame, Coffee, Sparkles, Scale } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export interface ShowcaseCommodity {
   id: string;
@@ -23,76 +24,325 @@ export interface ShowcaseCommodity {
   link: string;
 }
 
-export const SHOWCASE_COMMODITIES: ShowcaseCommodity[] = [
-  {
-    id: 'charcoal',
-    name: '100% Briket Arang Batok Kelapa Murni',
-    category: '100% Mature Coconut Shell Carbon',
-    hsCode: 'HS 4402.90.10',
-    image: '/img/shisha-charcoal-cutout.png',
-    secondaryImage: '/img/bbq-charcoal-cutout.png',
-    secondaryName: 'Hexagonal BBQ Grade',
-    specs: [
-      { label: 'Kadar Abu', value: '< 2.2% Snow White' },
-      { label: 'Kalori Bruto', value: '7,500+ kcal/kg' },
-      { label: 'Durasi Bara', value: '2.5 Jam Konsisten' },
+const SHOWCASE_I18N = {
+  en: {
+    fobLabel: 'FOB PRICE INDICATION',
+    btnVerify: 'Verify Quality & Lab Specs',
+    btnSimulate: 'Container Simulator',
+    primaryCutout: 'Primary Cutout',
+    interactivePill: 'INTERACTIVE 3D PARALLAX STAGE',
+    commodities: [
+      {
+        id: 'charcoal',
+        name: '100% Pure Coconut Shell Charcoal Briquettes',
+        shortName: 'Coconut Charcoal',
+        category: '100% Mature Coconut Shell Carbon',
+        hsCode: 'HS 4402.90.10',
+        image: '/img/shisha-charcoal-cutout.png',
+        secondaryImage: '/img/bbq-charcoal-cutout.png',
+        secondaryName: 'Hexagonal BBQ Grade',
+        specs: [
+          { label: 'Ash Content', value: '< 2.2% Snow White' },
+          { label: 'Gross Calorific', value: '7,500+ kcal/kg' },
+          { label: 'Burn Duration', value: '2.5 Hours Steady' },
+        ],
+        origin: 'FACTORY: GRESIK, EAST JAVA (SUB PORT)',
+        coordinates: '07°09\'23"S 112°39\'19"E',
+        glowColor: 'rgba(232, 116, 42, 0.35)',
+        accentColor: '#E8742A',
+        badge: 'IMO NON-DG SP925 PASSED • PLATINUM GRADE',
+        fob: '$1,280 – $1,340 / MT',
+        moq: '1x 20ft FCL (18 MT / 1,800 Boxes)',
+        link: '/products/100-briket-arang-batok-kelapa',
+      },
+      {
+        id: 'coffee',
+        name: 'Sumatra Mandheling & Gayo Green Coffee Beans',
+        shortName: 'Green Coffee',
+        category: 'Specialty Grade 1 Arabica (Triple Picked)',
+        hsCode: 'HS 0901.11.00',
+        image: '/img/green-coffee-cutout.png',
+        secondaryImage: '/img/assets/coffee.webp',
+        secondaryName: 'Wet-Hulled Process',
+        specs: [
+          { label: 'Moisture Content', value: '11.5% - 12.0%' },
+          { label: 'Defect Rate', value: '< 3% Triple Pick' },
+          { label: 'SCA Cupping', value: '85.5+ Points' },
+        ],
+        origin: 'GAYO & LINTONG HIGHLANDS (1,450 MASL)',
+        coordinates: '04°41\'28"N 96°51\'40"E',
+        glowColor: 'rgba(62, 142, 92, 0.32)',
+        accentColor: '#3E8E5C',
+        badge: 'SPECIALTY G1 • TRIPLE PICKED',
+        fob: '$6,800 – $7,400 / MT',
+        moq: '1x 20ft FCL (19.2 MT / 320 Bags)',
+        link: '/products/green-coffee',
+      },
+      {
+        id: 'spices',
+        name: 'Maluku Lalpari Cloves & Cassia Vera AA Quills',
+        shortName: 'Whole Spices',
+        category: 'Handpicked Sun-Dried Export Spices',
+        hsCode: 'HS 0907.10.00',
+        image: '/img/cloves-spices-cutout.png',
+        secondaryImage: '/img/cinnamon-spices-cutout.png',
+        secondaryName: 'Kerinci Cassia AA',
+        specs: [
+          { label: 'Eugenol Oil', value: '> 18.2% GC-MS' },
+          { label: 'Head Intact', value: '> 95% Plump' },
+          { label: 'Max Moisture', value: '< 12.0% Safe' },
+        ],
+        origin: 'AMBON (MALUKU) & KERINCI (SUMATRA)',
+        coordinates: '03°41\'42"S 128°10\'55"E',
+        glowColor: 'rgba(217, 148, 64, 0.32)',
+        accentColor: '#D99440',
+        badge: 'EXPORT GRADE • STEAM CLEANED',
+        fob: '$8,200 – $9,600 / MT',
+        moq: '1x 20ft FCL (10-14 MT)',
+        link: '/products/whole-spices',
+      },
     ],
-    origin: 'PABRIK: GRESIK, JAWA TIMUR (SUB PORT)',
-    coordinates: '07°09\'23"S 112°39\'19"E',
-    glowColor: 'rgba(232, 116, 42, 0.35)',
-    accentColor: '#E8742A',
-    badge: 'IMO NON-DG SP925 PASSED • PLATINUM GRADE',
-    fob: '$1,280 – $1,340 / MT',
-    moq: '1x 20ft FCL (18 MT / 1,800 Box)',
-    link: '/products/100-briket-arang-batok-kelapa',
   },
-  {
-    id: 'coffee',
-    name: 'Sumatra Mandheling & Gayo Green Coffee',
-    category: 'Specialty Grade 1 Arabica (Triple Picked)',
-    hsCode: 'HS 0901.11.00',
-    image: '/img/green-coffee-cutout.png',
-    secondaryImage: '/img/assets/coffee.webp',
-    secondaryName: 'Wet-Hulled Process',
-    specs: [
-      { label: 'Kadar Air', value: '11.5% - 12.0%' },
-      { label: 'Defect Rate', value: '< 3% Triple Pick' },
-      { label: 'SCA Cupping', value: '85.5+ Points' },
+  id: {
+    fobLabel: 'INDIKASI HARGA FOB',
+    btnVerify: 'Verifikasi Mutu & Spesifikasi Lab',
+    btnSimulate: 'Simulasi Kontainer',
+    primaryCutout: 'Tampilan Utama',
+    interactivePill: 'PANGGUNG PARALAKS 3D INTERAKTIF',
+    commodities: [
+      {
+        id: 'charcoal',
+        name: '100% Briket Arang Batok Kelapa Murni',
+        shortName: 'Briket Arang',
+        category: '100% Mature Coconut Shell Carbon',
+        hsCode: 'HS 4402.90.10',
+        image: '/img/shisha-charcoal-cutout.png',
+        secondaryImage: '/img/bbq-charcoal-cutout.png',
+        secondaryName: 'Hexagonal BBQ Grade',
+        specs: [
+          { label: 'Kadar Abu', value: '< 2.2% Abu Putih' },
+          { label: 'Kalori Bruto', value: '7,500+ kcal/kg' },
+          { label: 'Durasi Bara', value: '2.5 Jam Konsisten' },
+        ],
+        origin: 'PABRIK: GRESIK, JAWA TIMUR (PELABUHAN SUB)',
+        coordinates: '07°09\'23"S 112°39\'19"E',
+        glowColor: 'rgba(232, 116, 42, 0.35)',
+        accentColor: '#E8742A',
+        badge: 'IMO NON-DG SP925 PASSED • PLATINUM GRADE',
+        fob: '$1,280 – $1,340 / MT',
+        moq: '1x 20ft FCL (18 MT / 1,800 Box)',
+        link: '/products/100-briket-arang-batok-kelapa',
+      },
+      {
+        id: 'coffee',
+        name: 'Sumatra Mandheling & Gayo Green Coffee',
+        shortName: 'Kopi Hijau',
+        category: 'Specialty Grade 1 Arabica (Triple Picked)',
+        hsCode: 'HS 0901.11.00',
+        image: '/img/green-coffee-cutout.png',
+        secondaryImage: '/img/assets/coffee.webp',
+        secondaryName: 'Wet-Hulled Process',
+        specs: [
+          { label: 'Kadar Air', value: '11.5% - 12.0%' },
+          { label: 'Defect Rate', value: '< 3% Triple Pick' },
+          { label: 'SCA Cupping', value: '85.5+ Points' },
+        ],
+        origin: 'DATARAN TINGGI GAYO & LINTONG (1,450 MASL)',
+        coordinates: '04°41\'28"N 96°51\'40"E',
+        glowColor: 'rgba(62, 142, 92, 0.32)',
+        accentColor: '#3E8E5C',
+        badge: 'SPECIALTY G1 • TRIPLE PICKED',
+        fob: '$6,800 – $7,400 / MT',
+        moq: '1x 20ft FCL (19.2 MT / 320 Karung)',
+        link: '/products/green-coffee',
+      },
+      {
+        id: 'spices',
+        name: 'Maluku Lalpari Cloves & Cassia Vera AA',
+        shortName: 'Rempah Cengkeh',
+        category: 'Handpicked Sun-Dried Export Spices',
+        hsCode: 'HS 0907.10.00',
+        image: '/img/cloves-spices-cutout.png',
+        secondaryImage: '/img/cinnamon-spices-cutout.png',
+        secondaryName: 'Kerinci Cassia AA',
+        specs: [
+          { label: 'Minyak Eugenol', value: '> 18.2% GC-MS' },
+          { label: 'Kepala Utuh', value: '> 95% Plump' },
+          { label: 'Kadar Air', value: '< 12.0% Aman' },
+        ],
+        origin: 'AMBON (MALUKU) & KERINCI (SUMATRA)',
+        coordinates: '03°41\'42"S 128°10\'55"E',
+        glowColor: 'rgba(217, 148, 64, 0.32)',
+        accentColor: '#D99440',
+        badge: 'EXPORT GRADE • STEAM CLEANED',
+        fob: '$8,200 – $9,600 / MT',
+        moq: '1x 20ft FCL (10-14 MT)',
+        link: '/products/whole-spices',
+      },
     ],
-    origin: 'DATARAN TINGGI GAYO & LINTONG (1,450 MASL)',
-    coordinates: '04°41\'28"N 96°51\'40"E',
-    glowColor: 'rgba(62, 142, 92, 0.32)',
-    accentColor: '#3E8E5C',
-    badge: 'SPECIALTY G1 • TRIPLE PICKED',
-    fob: '$6,800 – $7,400 / MT',
-    moq: '1x 20ft FCL (19.2 MT / 320 Bags)',
-    link: '/products/green-coffee',
   },
-  {
-    id: 'spices',
-    name: 'Maluku Lalpari Cloves & Cassia Vera AA',
-    category: 'Handpicked Sun-Dried Export Spices',
-    hsCode: 'HS 0907.10.00',
-    image: '/img/cloves-spices-cutout.png',
-    secondaryImage: '/img/cinnamon-spices-cutout.png',
-    secondaryName: 'Kerinci Cassia AA',
-    specs: [
-      { label: 'Eugenol Oil', value: '> 18.2% GC-MS' },
-      { label: 'Kepala Utuh', value: '> 95% Plump' },
-      { label: 'Kadar Air', value: '< 12.0% Safe' },
+  ar: {
+    fobLabel: 'السعر الاسترشادي FOB',
+    btnVerify: 'التحقق من الجودة والمواصفات المخبرية',
+    btnSimulate: 'محاكاة حمولة الحاوية',
+    primaryCutout: 'العرض الأساسي',
+    interactivePill: 'منصة تفاعلية ثلاثية الأبعاد 3D',
+    commodities: [
+      {
+        id: 'charcoal',
+        name: 'فحم جوز الهند الطبيعي 100% للشيشة والشواء',
+        shortName: 'فحم جوز الهند',
+        category: 'كربون قشور جوز هند ناضجة 100%',
+        hsCode: 'HS 4402.90.10',
+        image: '/img/shisha-charcoal-cutout.png',
+        secondaryImage: '/img/bbq-charcoal-cutout.png',
+        secondaryName: 'درجة شواء سداسي BBQ',
+        specs: [
+          { label: 'نسبة الرماد', value: '< 2.2% أبيض ناصع' },
+          { label: 'الطاقة الحرارية', value: '7,500+ سعرة/كغ' },
+          { label: 'مدة الاشتعال', value: 'ساعتان ونصف مستمرة' },
+        ],
+        origin: 'المصنع: غريسيك، جاوة الشرقية (ميناء SUB)',
+        coordinates: '07°09\'23"S 112°39\'19"E',
+        glowColor: 'rgba(232, 116, 42, 0.35)',
+        accentColor: '#E8742A',
+        badge: 'معتمد IMO NON-DG SP925 • درجة بلاتينية',
+        fob: '$1,280 – $1,340 / طن',
+        moq: 'حاوية 20ft FCL (18 طن / 1,800 كرتون)',
+        link: '/products/100-briket-arang-batok-kelapa',
+      },
+      {
+        id: 'coffee',
+        name: 'حبوب البن الأخضر سومطرة مانديلينغ وجايو',
+        shortName: 'البن الأخضر',
+        category: 'أرابيكا مختصة أولى (فرز يدوي ثلاثي)',
+        hsCode: 'HS 0901.11.00',
+        image: '/img/green-coffee-cutout.png',
+        secondaryImage: '/img/assets/coffee.webp',
+        secondaryName: 'معالجة التجفيف الرطب التقليدي',
+        specs: [
+          { label: 'نسبة الرطوبة', value: '11.5% - 12.0%' },
+          { label: 'نسبة العيوب', value: '< 3% فرز ثلاثي' },
+          { label: 'تقييم SCA', value: '85.5+ نقطة' },
+        ],
+        origin: 'مرتفعات جايو ولينتونغ (1,450 م فوق البحر)',
+        coordinates: '04°41\'28"N 96°51\'40"E',
+        glowColor: 'rgba(62, 142, 92, 0.32)',
+        accentColor: '#3E8E5C',
+        badge: 'درجة مختصة G1 • فرز ثلاثي',
+        fob: '$6,800 – $7,400 / طن',
+        moq: 'حاوية 20ft FCL (19.2 طن / 320 كيس خيش)',
+        link: '/products/green-coffee',
+      },
+      {
+        id: 'spices',
+        name: 'قرنفل ملوكو لالباري وعيدان قرفة كاسيا فيرا AA',
+        shortName: 'التوابل والقرنفل',
+        category: 'توابل تصدير منتقاة ومجففة شمسياً',
+        hsCode: 'HS 0907.10.00',
+        image: '/img/cloves-spices-cutout.png',
+        secondaryImage: '/img/cinnamon-spices-cutout.png',
+        secondaryName: 'قرفة كيرينتشي AA',
+        specs: [
+          { label: 'زيت الأوجينول', value: '> 18.2% GC-MS' },
+          { label: 'رؤوس سليمة', value: '> 95% ممتلئة' },
+          { label: 'أقصى رطوبة', value: '< 12.0% آمنة' },
+        ],
+        origin: 'أمبون (ملوكو) وكيرينتشي (سومطرة)',
+        coordinates: '03°41\'42"S 128°10\'55"E',
+        glowColor: 'rgba(217, 148, 64, 0.32)',
+        accentColor: '#D99440',
+        badge: 'درجة تصدير • تنظيف بالبخار',
+        fob: '$8,200 – $9,600 / طن',
+        moq: 'حاوية 20ft FCL (10-14 طن)',
+        link: '/products/whole-spices',
+      },
     ],
-    origin: 'AMBON (MALUKU) & KERINCI (SUMATRA)',
-    coordinates: '03°41\'42"S 128°10\'55"E',
-    glowColor: 'rgba(217, 148, 64, 0.32)',
-    accentColor: '#D99440',
-    badge: 'EXPORT GRADE • STEAM CLEANED',
-    fob: '$8,200 – $9,600 / MT',
-    moq: '1x 20ft FCL (10-14 MT)',
-    link: '/products/whole-spices',
   },
-];
+  zh: {
+    fobLabel: 'FOB 离岸指导价',
+    btnVerify: '查验品质与实验室检测指标',
+    btnSimulate: '集装箱装载模拟',
+    primaryCutout: '主视角',
+    interactivePill: '可交互 3D 视差视觉展台',
+    commodities: [
+      {
+        id: 'charcoal',
+        name: '100% 纯椰壳炭块 (水烟白金级)',
+        shortName: '纯椰壳炭',
+        category: '100% Mature Coconut Shell Carbon',
+        hsCode: 'HS 4402.90.10',
+        image: '/img/shisha-charcoal-cutout.png',
+        secondaryImage: '/img/bbq-charcoal-cutout.png',
+        secondaryName: '六角形烧烤炭 Hexagonal BBQ',
+        specs: [
+          { label: '灰分含量', value: '< 2.2% 纯白雪灰' },
+          { label: '高位发热量', value: '7,500+ kcal/kg' },
+          { label: '恒温燃烧时长', value: '2.5 小时稳定' },
+        ],
+        origin: '生产基地: 东爪哇锦石 (丹戎佩拉港)',
+        coordinates: '07°09\'23"S 112°39\'19"E',
+        glowColor: 'rgba(232, 116, 42, 0.35)',
+        accentColor: '#E8742A',
+        badge: '通过 IMO NON-DG SP925 • 白金品质',
+        fob: '$1,280 – $1,340 / MT',
+        moq: '1x 20ft FCL (18 MT / 1,800 箱)',
+        link: '/products/100-briket-arang-batok-kelapa',
+      },
+      {
+        id: 'coffee',
+        name: '苏门答腊曼特宁与加幼精品阿拉比卡生豆',
+        shortName: '精品生豆',
+        category: '特级 Grade 1 阿拉比卡 (三次人工精选 TP)',
+        hsCode: 'HS 0901.11.00',
+        image: '/img/green-coffee-cutout.png',
+        secondaryImage: '/img/assets/coffee.webp',
+        secondaryName: '传统湿刨法处理 Wet-Hulled',
+        specs: [
+          { label: '含水率指标', value: '11.5% - 12.0%' },
+          { label: '瑕疵豆率', value: '< 3% 三次精选' },
+          { label: 'SCA 专业杯测', value: '85.5+ 分' },
+        ],
+        origin: '加幼与林东火山高地 (海拔 1,450 米)',
+        coordinates: '04°41\'28"N 96°51\'40"E',
+        glowColor: 'rgba(62, 142, 92, 0.32)',
+        accentColor: '#3E8E5C',
+        badge: '精品 G1 级 • TRIPLE PICKED',
+        fob: '$6,800 – $7,400 / MT',
+        moq: '1x 20ft FCL (19.2 MT / 320 麻袋)',
+        link: '/products/green-coffee',
+      },
+      {
+        id: 'spices',
+        name: '马鲁古 Lalpari 丁香与葛林芝 Cassia AA 肉桂卷',
+        shortName: '天然香料',
+        category: '手工精选赤道纯天然出口香料',
+        hsCode: 'HS 0907.10.00',
+        image: '/img/cloves-spices-cutout.png',
+        secondaryImage: '/img/cinnamon-spices-cutout.png',
+        secondaryName: '葛林芝肉桂卷 Cassia AA',
+        specs: [
+          { label: '丁香酚精油', value: '> 18.2% GC-MS' },
+          { label: '带头完整饱满度', value: '> 95% Plump' },
+          { label: '安全最高水分', value: '< 12.0% 安全' },
+        ],
+        origin: '安汶 (马鲁古) 与 葛林芝 (苏门答腊)',
+        coordinates: '03°41\'42"S 128°10\'55"E',
+        glowColor: 'rgba(217, 148, 64, 0.32)',
+        accentColor: '#D99440',
+        badge: '出口级品质 • 蒸汽净化无熏硫',
+        fob: '$8,200 – $9,600 / MT',
+        moq: '1x 20ft FCL (10-14 MT)',
+        link: '/products/whole-spices',
+      },
+    ],
+  },
+};
 
 export default function CommodityShowcase3D() {
+  const { locale } = useLanguage();
+  const t = SHOWCASE_I18N[locale] || SHOWCASE_I18N.en;
+
   const [activeIdx, setActiveIdx] = useState(0);
   const [subVariant, setSubVariant] = useState<0 | 1>(0);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -103,7 +353,7 @@ export default function CommodityShowcase3D() {
   const targetTilt = useRef({ rx: 0, ry: 0, gx: 50, gy: 50 });
   const currentTilt = useRef({ rx: 0, ry: 0, gx: 50, gy: 50 });
 
-  const activeCommodity = SHOWCASE_COMMODITIES[activeIdx];
+  const activeCommodity = t.commodities[activeIdx] || t.commodities[0];
 
   // 60FPS spring damping tilt physics
   useEffect(() => {
@@ -167,7 +417,7 @@ export default function CommodityShowcase3D() {
       {/* Tab Switcher */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/30 pb-3">
         <div className="flex flex-wrap gap-2">
-          {SHOWCASE_COMMODITIES.map((c, i) => {
+          {t.commodities.map((c, i) => {
             const isActive = activeIdx === i;
             return (
               <button
@@ -186,7 +436,7 @@ export default function CommodityShowcase3D() {
                 {i === 0 && <Flame className="w-4 h-4 text-primary" />}
                 {i === 1 && <Coffee className="w-4 h-4 text-tertiary" />}
                 {i === 2 && <Sparkles className="w-4 h-4 text-secondary" />}
-                <span>{c.name.split(' ')[1] || c.name.split(' ')[0]}</span>
+                <span>{c.shortName}</span>
               </button>
             );
           })}
@@ -194,7 +444,7 @@ export default function CommodityShowcase3D() {
 
         <div className="font-mono text-[11px] text-outline flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-          <span>INTERACTIVE 3D PARALLAX STAGE</span>
+          <span>{t.interactivePill}</span>
         </div>
       </div>
 
@@ -286,7 +536,7 @@ export default function CommodityShowcase3D() {
                   : 'bg-black/60 text-[#A1A1AA] hover:text-white border border-white/10'
               }`}
             >
-              Primary Cutout
+              {t.primaryCutout}
             </button>
             <button
               type="button"
@@ -346,7 +596,7 @@ export default function CommodityShowcase3D() {
               </h3>
             </div>
             <div className="font-mono text-[13px] text-right">
-              <span className="text-[#A1A1AA] text-[11px] block">FOB PRICE INDICATION</span>
+              <span className="text-[#A1A1AA] text-[11px] block">{t.fobLabel}</span>
               <strong className="text-white text-[15px] font-bold">{activeCommodity.fob}</strong>
             </div>
           </div>
@@ -372,7 +622,7 @@ export default function CommodityShowcase3D() {
               className="flex-1 py-2.5 px-4 rounded-xl text-on-primary-container font-headline text-[12px] uppercase font-bold tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer"
               style={{ backgroundColor: activeCommodity.accentColor }}
             >
-              <span>Verifikasi Mutu & Spesifikasi Lab</span>
+              <span>{t.btnVerify}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
@@ -380,7 +630,7 @@ export default function CommodityShowcase3D() {
               className="py-2.5 px-4 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 text-white font-headline text-[12px] uppercase font-bold tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Scale className="w-4 h-4 text-primary" />
-              <span>Simulasi Kontainer</span>
+              <span>{t.btnSimulate}</span>
             </Link>
           </div>
         </div>
