@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import { calculateContainerCargo, ContainerType, MASTER_BOX_10KG } from '@/lib/containerCargoCalculator';
 import { formatUsd } from '@/lib/utils';
-import { Ship, Scale, Box, Lock, Unlock, ArrowRight, MessageCircle, FileText, CheckCircle2 } from 'lucide-react';
+import { Ship, Scale, Box, Lock, Unlock, ArrowRight, MessageCircle, FileText, CheckCircle2, Printer, Download } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import ProformaInvoiceModal from './ProformaInvoiceModal';
 
 const PLANNER_I18N = {
   en: {
@@ -245,6 +246,8 @@ export default function ContainerPlannerSection() {
   const [quantity, setQuantity] = useState<number>(2);
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState<boolean>(false);
+  const [referenceNo, setReferenceNo] = useState<string>('PI-20261024-8819');
 
   // Form states
   const [buyerName, setBuyerName] = useState('');
@@ -270,7 +273,7 @@ export default function ContainerPlannerSection() {
 
     setIsSubmitting(true);
     try {
-      await fetch('/api/v1/rfq', {
+      const res = await fetch('/api/v1/rfq', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -288,6 +291,10 @@ export default function ContainerPlannerSection() {
           target_price: `$${minPricePerMt} - $${maxPricePerMt}/MT`,
         }),
       });
+      const data = await res.json();
+      if (data.success && data.data?.reference_no) {
+        setReferenceNo(data.data.reference_no);
+      }
     } catch (err) {
       console.warn('Failed to submit RFQ to API:', err);
     } finally {
@@ -657,22 +664,51 @@ export default function ContainerPlannerSection() {
                     </div>
                   </div>
 
-                  <a
-                    href={`https://wa.me/628113000000?text=${whatsappMessage}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-[#D94E13] text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
-                  >
-                    <MessageCircle className="w-5 h-5 text-on-primary-container shrink-0" />
-                    <span>{t.btnWhatsapp}</span>
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
-                  </a>
+                  {/* Dual Action: Generate Stamped Proforma Invoice & Direct WhatsApp */}
+                  <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setIsInvoiceModalOpen(true)}
+                      className="flex-1 py-3 px-4 rounded-xl bg-[#16110E] hover:bg-[#2B231E] text-white font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
+                    >
+                      <FileText className="w-4 h-4 text-primary shrink-0" />
+                      <span>Cetak Proforma Invoice (.PDF)</span>
+                    </button>
+
+                    <a
+                      href={`https://wa.me/628113000000?text=${whatsappMessage}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3 px-4 rounded-xl bg-primary-container hover:bg-[#D94E13] text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold flex items-center justify-center gap-2 transition-all shadow-md"
+                    >
+                      <MessageCircle className="w-4 h-4 text-on-primary-container shrink-0" />
+                      <span>{t.btnWhatsapp}</span>
+                      <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Official Stamped Proforma Invoice Modal Preview & Print */}
+      <ProformaInvoiceModal
+        isOpen={isInvoiceModalOpen}
+        onClose={() => setIsInvoiceModalOpen(false)}
+        buyerName={buyerName}
+        buyerCompany={buyerCompany}
+        buyerEmail={buyerEmail}
+        buyerWhatsapp={buyerWhatsapp}
+        containerType={containerType}
+        quantity={quantity}
+        totalNetMt={totalNetMt}
+        totalBoxes={totalBoxes}
+        totalMinUsd={totalMinUsd}
+        totalMaxUsd={totalMaxUsd}
+        referenceNo={referenceNo}
+      />
     </section>
   );
 }
