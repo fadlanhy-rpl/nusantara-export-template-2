@@ -18,7 +18,8 @@ export default function Navbar() {
 
   const handleFlameClick = (e: React.MouseEvent) => {
     const next = flameClicks + 1;
-    if (next >= 3) {
+    // Covert Secret Gesture: Click flame logo 10 times in rapid succession
+    if (next >= 10) {
       e.preventDefault();
       e.stopPropagation();
       window.location.href = '/terminal-925';
@@ -27,10 +28,10 @@ export default function Navbar() {
     }
     setFlameClicks(next);
     if (flameClickTimer.current) clearTimeout(flameClickTimer.current);
-    flameClickTimer.current = setTimeout(() => setFlameClicks(0), 1200);
+    flameClickTimer.current = setTimeout(() => setFlameClicks(0), 1500);
   };
 
-  // Close dropdown on outside click or Escape key
+  // Close dropdown on outside click or Escape key, and listen for covert admin hotkey
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
@@ -41,6 +42,22 @@ export default function Navbar() {
       if (e.key === 'Escape') {
         setLangMenuOpen(false);
         setMobileMenuOpen(false);
+      }
+
+      // Covert High-Security Hotkey:
+      // - Windows / Linux: Ctrl + Shift + Alt + [+]
+      // - macOS / MacBook: Cmd (⌘) + Shift (⇧) + Option (⌥) + [+] or Ctrl (⌃) + Shift (⇧) + Option (⌥) + [+]
+      const hasModifiers = (e.ctrlKey || e.metaKey) && e.shiftKey && e.altKey;
+      const isPlusKey =
+        e.key === '+' ||
+        e.key === '=' ||
+        e.code === 'Equal' ||
+        e.code === 'NumpadAdd';
+
+      if (hasModifiers && isPlusKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = '/terminal-925';
       }
     };
 

@@ -11,10 +11,19 @@ export default function AdminFloatingPill() {
   const router = useRouter();
   const { isAuthenticated, lockTerminal } = useAdminAuth();
 
-  // Covert Hotkey: Press Ctrl + Shift + D anywhere to jump straight to the secret terminal
+  // Covert High-Security Hotkey:
+  // - Windows / Linux: Ctrl + Shift + Alt + [+]
+  // - macOS / MacBook: Cmd (⌘) + Shift (⇧) + Option (⌥) + [+] or Ctrl (⌃) + Shift (⇧) + Option (⌥) + [+]
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd')) {
+      const hasModifiers = (e.ctrlKey || e.metaKey) && e.shiftKey && e.altKey;
+      const isPlusKey =
+        e.key === '+' ||
+        e.key === '=' ||
+        e.code === 'Equal' ||
+        e.code === 'NumpadAdd';
+
+      if (hasModifiers && isPlusKey) {
         e.preventDefault();
         router.push('/terminal-925');
       }
