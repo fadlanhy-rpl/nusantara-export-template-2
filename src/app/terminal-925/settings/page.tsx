@@ -19,6 +19,9 @@ import {
   ShieldAlert,
   Info,
   Calendar,
+  Lightbulb,
+  Ban,
+  X,
 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 
@@ -361,11 +364,21 @@ export default function SecuritySettingsPage() {
                     <label className="text-[10px] text-outline uppercase font-bold">Konfirmasi Password Baru</label>
                     {confirmPassword && (
                       <span
-                        className={`text-[9px] font-bold ${
+                        className={`text-[9px] font-bold flex items-center gap-1 ${
                           isPasswordMatch ? 'text-emerald-400' : 'text-error'
                         }`}
                       >
-                        {isPasswordMatch ? '✓ Password Cocok' : '✗ Belum Cocok'}
+                        {isPasswordMatch ? (
+                          <>
+                            <Check className="w-3 h-3 text-emerald-400" />
+                            <span>Password Cocok</span>
+                          </>
+                        ) : (
+                          <>
+                            <X className="w-3 h-3 text-error" />
+                            <span>Belum Cocok</span>
+                          </>
+                        )}
                       </span>
                     )}
                   </div>
@@ -525,23 +538,23 @@ export default function SecuritySettingsPage() {
               <ShieldAlert className="w-4 h-4" />
               <h3 className="font-headline text-xs uppercase tracking-wider">Syarat Password Aman</h3>
             </div>
-            <ul className="flex flex-col gap-2 text-[11px] text-on-surface-variant leading-relaxed">
+            <ul className="flex flex-col gap-2.5 text-[11px] text-on-surface-variant leading-relaxed">
               <li className="flex items-start gap-2">
-                <span className="text-primary font-bold">•</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                 <span>
-                  <strong>Panjang Karakter:</strong> Wajib minimal 8 karakter. Sangat disarankan 12-16 karakter untuk standar ekspor B2B.
+                  <strong className="text-on-surface">Panjang Karakter:</strong> Wajib minimal 8 karakter. Sangat disarankan 12-16 karakter untuk standar ekspor B2B.
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-primary font-bold">•</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                 <span>
-                  <strong>Kombinasi Karakter:</strong> Harus menggabungkan huruf besar, huruf kecil, angka, dan minimal satu simbol khusus.
+                  <strong className="text-on-surface">Kombinasi Karakter:</strong> Harus menggabungkan huruf besar, huruf kecil, angka, dan minimal satu simbol khusus.
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-primary font-bold">•</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                 <span>
-                  <strong>Kerahasiaan Mutlak:</strong> Jangan bagikan kredensial terminal kepada pihak surveyor atau buyer luar.
+                  <strong className="text-on-surface">Kerahasiaan Mutlak:</strong> Jangan bagikan kredensial terminal kepada pihak surveyor atau buyer luar.
                 </span>
               </li>
             </ul>
@@ -554,19 +567,40 @@ export default function SecuritySettingsPage() {
               <h3 className="font-headline text-xs uppercase tracking-wider">Saran Praktis Keamanan</h3>
             </div>
             <div className="flex flex-col gap-2.5 text-[11px] text-on-surface-variant leading-relaxed">
-              <div className="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
-                <strong className="text-on-surface block mb-1">💡 Gunakan Teknik Passphrase</strong>
-                Gabungkan 3-4 kata yang Anda ingat dengan pembatas simbol (contoh: <code>Arang#Gresik$Ekspor26!</code>). Lebih mudah dihafal manusia tapi mustahil dibobol bot.
+              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-md bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                    <Lightbulb className="w-3 h-3" />
+                  </div>
+                  <strong className="text-on-surface font-headline text-xs">Gunakan Teknik Passphrase</strong>
+                </div>
+                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                  Gabungkan 3-4 kata yang Anda ingat dengan pembatas simbol (contoh: <code>Arang#Gresik$Ekspor26!</code>). Lebih mudah dihafal manusia tapi mustahil dibobol bot kamus.
+                </p>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
-                <strong className="text-on-surface block mb-1">🚫 Hindari Kata yang Dapat Ditebak</strong>
-                Jangan gunakan nama komoditas umum (<code>briket123</code>, <code>kopi2026</code>), tanggal lahir, nama PT, atau urutan keyboard (<code>qwerty</code>).
+              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-md bg-error/15 text-error flex items-center justify-center shrink-0">
+                    <Ban className="w-3 h-3" />
+                  </div>
+                  <strong className="text-on-surface font-headline text-xs">Hindari Kata yang Dapat Ditebak</strong>
+                </div>
+                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                  Jangan gunakan nama komoditas umum (<code>briket123</code>, <code>kopi2026</code>), tanggal lahir, nama PT, atau urutan keyboard (<code>qwerty</code>).
+                </p>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20">
-                <strong className="text-on-surface block mb-1">🔑 Gunakan Password Manager</strong>
-                Simpan password baru Anda pada pengelola kata sandi aman seperti <em>Bitwarden</em>, <em>1Password</em>, atau <em>Apple Keychain</em>.
+              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-md bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+                    <KeyRound className="w-3 h-3" />
+                  </div>
+                  <strong className="text-on-surface font-headline text-xs">Gunakan Password Manager</strong>
+                </div>
+                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                  Simpan password baru Anda pada pengelola kata sandi aman seperti <em>Bitwarden</em>, <em>1Password</em>, atau <em>Apple Keychain</em>.
+                </p>
               </div>
             </div>
           </div>

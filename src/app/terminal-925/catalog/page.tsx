@@ -31,6 +31,9 @@ import {
   ChevronDown,
   ChevronUp,
   RefreshCw,
+  FileCode,
+  Cpu,
+  Compass,
 } from 'lucide-react';
 import ImageCropperModal from '@/components/admin/ImageCropperModal';
 import Commodity3DPreview from '@/components/admin/Commodity3DPreview';
@@ -1044,39 +1047,64 @@ export default function CatalogMediaManagerPage() {
 
                         {show3DGuide && (
                           <div className="p-4 pt-2 border-t border-outline-variant/20 flex flex-col gap-2.5 text-[11px] text-on-surface-variant leading-relaxed">
-                            <div className="p-2.5 rounded-lg bg-surface-container-high/40 border border-outline-variant/20">
-                              <strong className="text-on-surface block mb-1">
-                                📌 1. Format Rekomendasi Utama: .glb (Binary glTF)
-                              </strong>
-                              Gunakan format <code>.glb</code> karena menggabungkan mesh geometri, tekstur PBR, dan material dalam satu file biner mandiri. Format <code>.gltf</code> (teks JSON dengan file terpisah) dapat digunakan namun kurang praktis untuk web deployment.
+                            <div className="p-3 rounded-xl bg-surface-container-high/40 border border-outline-variant/20 flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <FileCode className="w-4 h-4 text-primary shrink-0" />
+                                <strong className="text-on-surface font-headline text-xs">
+                                  1. Format Rekomendasi Utama: .glb (Binary glTF)
+                                </strong>
+                              </div>
+                              <p className="text-[11px] text-outline pl-6 leading-relaxed">
+                                Gunakan format <code>.glb</code> karena menggabungkan mesh geometri, tekstur PBR, dan material dalam satu file biner mandiri tanpa resiko missing texture.
+                              </p>
                             </div>
 
-                            <div className="p-2.5 rounded-lg bg-surface-container-high/40 border border-outline-variant/20">
-                              <strong className="text-on-surface block mb-1">
-                                📐 2. Batas Poligon (Polygon / Triangle Budget): &lt; 50.000 Tris
-                              </strong>
-                              Agar rendering tetap responsif di smartphone pembeli (60 FPS tanpa lag), pastikan mesh telah di-decimate / di-optimize di bawah 50.000 poligon (20.000 - 30.000 lebih disukai).
+                            <div className="p-3 rounded-xl bg-surface-container-high/40 border border-outline-variant/20 flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <Cpu className="w-4 h-4 text-secondary shrink-0" />
+                                <strong className="text-on-surface font-headline text-xs">
+                                  2. Batas Poligon (Polygon / Triangle Budget): &lt; 50.000 Tris
+                                </strong>
+                              </div>
+                              <p className="text-[11px] text-outline pl-6 leading-relaxed">
+                                Agar rendering tetap responsif pada 60 FPS di smartphone pembeli luar negeri, pastikan mesh telah di-decimate / di-optimize di bawah 50.000 poligon (20.000 - 30.000 lebih disukai).
+                              </p>
                             </div>
 
-                            <div className="p-2.5 rounded-lg bg-surface-container-high/40 border border-outline-variant/20">
-                              <strong className="text-on-surface block mb-1">
-                                🎨 3. PBR Texture Workflow & Resolusi
-                              </strong>
-                              Gunakan alur kerja <strong>Metallic / Roughness</strong> standar. Resolusi peta tekstur (BaseColor, Roughness, Normal) disarankan <strong>1024x1024 px</strong> atau maksimal <strong>2048x2048 px</strong>.
+                            <div className="p-3 rounded-xl bg-surface-container-high/40 border border-outline-variant/20 flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <Sliders className="w-4 h-4 text-tertiary shrink-0" />
+                                <strong className="text-on-surface font-headline text-xs">
+                                  3. PBR Texture Workflow & Resolusi
+                                </strong>
+                              </div>
+                              <p className="text-[11px] text-outline pl-6 leading-relaxed">
+                                Gunakan alur kerja <strong>Metallic / Roughness</strong> standar. Resolusi peta tekstur (BaseColor, Roughness, Normal) disarankan <strong>1024x1024 px</strong> atau maksimal <strong>2048x2048 px</strong>.
+                              </p>
                             </div>
 
-                            <div className="p-2.5 rounded-lg bg-surface-container-high/40 border border-outline-variant/20">
-                              <strong className="text-on-surface block mb-1">
-                                🧭 4. Pivot Center & Orientasi Sumbu
-                              </strong>
-                              Pastikan pivot origin (0,0,0) diletakkan di bagian tengah bawah model objek dengan sumbu <strong>Y-Up</strong> agar objek tidak melayang atau miring saat dirender.
+                            <div className="p-3 rounded-xl bg-surface-container-high/40 border border-outline-variant/20 flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <Compass className="w-4 h-4 text-primary shrink-0" />
+                                <strong className="text-on-surface font-headline text-xs">
+                                  4. Pivot Center & Orientasi Sumbu
+                                </strong>
+                              </div>
+                              <p className="text-[11px] text-outline pl-6 leading-relaxed">
+                                Pastikan pivot origin (0,0,0) diletakkan di bagian tengah bawah model objek dengan sumbu <strong>Y-Up</strong> agar objek tidak melayang atau miring saat dirender.
+                              </p>
                             </div>
 
-                            <div className="p-2.5 rounded-lg bg-primary/10 border border-primary/20 text-on-surface">
-                              <strong className="text-primary block mb-1">
-                                🛡️ 5. Preset Geometri Otomatis Tanpa Upload File
-                              </strong>
-                              Jika tim 3D belum menyediakan file <code>.glb</code>, cukup pilih salah satu <strong>Preset Geometri</strong> di bawah ini (Kubus Shisha, Heksagonal BBQ, Silinder). Mesin WebGL akan otomatis merender objek secara prosedural!
+                            <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 text-on-surface flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
+                                <strong className="text-primary font-headline text-xs">
+                                  5. Preset Geometri Otomatis Tanpa Upload File
+                                </strong>
+                              </div>
+                              <p className="text-[11px] text-on-surface/90 pl-6 leading-relaxed">
+                                Jika tim 3D belum menyediakan file <code>.glb</code>, cukup pilih salah satu <strong>Preset Geometri</strong> di bawah ini (Kubus Shisha, Heksagonal BBQ, Silinder). Mesin WebGL akan otomatis merender objek secara prosedural!
+                              </p>
                             </div>
                           </div>
                         )}

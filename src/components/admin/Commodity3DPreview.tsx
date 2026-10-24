@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RotateCw, Sparkles, AlertCircle, RefreshCw } from 'lucide-react';
+import { RotateCw, Sparkles, AlertCircle, RefreshCw, MousePointer } from 'lucide-react';
 
 export interface Commodity3DPreviewProps {
   shapePreset: 'cube' | 'hexagonal' | 'cylinder' | 'pillow' | 'custom';
@@ -370,8 +370,9 @@ export default function Commodity3DPreview({
       />
 
       {/* Drag Hint Footer */}
-      <div className="w-full py-1 bg-surface-container-lowest/80 border-t border-outline-variant/20 flex items-center justify-center font-mono text-[9px] text-outline/80">
-        🖱️ Klik & geser mouse atau sentuh layar untuk rotasi 360°
+      <div className="w-full py-1.5 bg-surface-container-lowest/80 border-t border-outline-variant/20 flex items-center justify-center gap-1.5 font-mono text-[10px] text-outline/80">
+        <MousePointer className="w-3 h-3 text-outline" />
+        <span>Klik & geser mouse atau sentuh layar untuk rotasi 360°</span>
       </div>
     </div>
   );
