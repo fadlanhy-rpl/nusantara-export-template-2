@@ -642,7 +642,7 @@ export default function CatalogMediaManagerPage() {
 
       {/* Comprehensive Edit / Add Commodity Modal */}
       {editingItem && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto no-scrollbar">
           <div className="w-full max-w-[820px] bg-[#1A1613] border border-white/10 rounded-2xl shadow-2xl flex flex-col my-auto max-h-[90vh] overflow-hidden animate-scale-in">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-lowest">
@@ -669,7 +669,7 @@ export default function CatalogMediaManagerPage() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center border-b border-outline-variant/30 px-6 bg-surface-container-low/70 overflow-x-auto gap-2 text-xs font-mono font-bold">
+            <div className="flex items-center border-b border-outline-variant/30 px-6 bg-surface-container-low/70 overflow-x-auto no-scrollbar gap-2 text-xs font-mono font-bold">
               <button
                 type="button"
                 onClick={() => setActiveTab('info')}
@@ -724,7 +724,7 @@ export default function CatalogMediaManagerPage() {
             </div>
 
             {/* Modal Content Form Body */}
-            <form onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto p-6 flex flex-col gap-5">
+            <form onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto no-scrollbar p-6 flex flex-col gap-5">
               {/* TAB 1: General Info & FOB Pricing */}
               {activeTab === 'info' && (
                 <div className="flex flex-col gap-4 font-mono text-xs">

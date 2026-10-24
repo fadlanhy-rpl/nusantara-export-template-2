@@ -278,7 +278,7 @@ export default function AdminRfqPage() {
       {/* Pipeline Table Control Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-surface-container p-3 rounded-xl border border-outline-variant/30">
         {/* Filters */}
-        <div className="flex items-center gap-1 overflow-x-auto">
+        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
           {['ALL', 'NEW', 'CONTACTED', 'SAMPLE_SENT', 'OFFICIAL_QUOTE', 'DEAL_WON'].map((f) => (
             <button
               key={f}
@@ -309,7 +309,7 @@ export default function AdminRfqPage() {
 
       {/* RFQ Pipeline Data Table */}
       <div className="w-full bg-surface-container rounded-xl border border-outline-variant/30 overflow-hidden shadow-xl">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto no-scrollbar">
           <table className="w-full text-left font-body text-[13px] text-on-surface">
             <thead>
               <tr className="bg-surface-container-high font-headline text-[11px] text-outline uppercase tracking-wider border-b border-outline-variant/30">

@@ -394,7 +394,7 @@ export default function CoaWhitepaperMatrix() {
         </div>
 
         {/* Responsive Table */}
-        <div className="overflow-x-auto w-full">
+        <div className="overflow-x-auto w-full no-scrollbar">
           <table className="w-full text-left font-body text-[13px] text-[#16110E]">
             <thead>
               <tr className="bg-[#DFD7C9] font-headline text-[11px] text-[#3A3330] uppercase tracking-wider border-b border-[#B9AFA4]">

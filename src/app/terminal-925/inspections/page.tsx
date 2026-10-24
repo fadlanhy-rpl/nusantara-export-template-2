@@ -200,7 +200,7 @@ export default function FactoryInspectionsManagerPage() {
         </h3>
 
         <div className="w-full bg-surface-container rounded-2xl border border-outline-variant/30 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto no-scrollbar">
             <table className="w-full text-left font-body text-[13px] text-on-surface">
               <thead>
                 <tr className="bg-surface-container-high font-headline text-[11px] text-outline uppercase tracking-wider border-b border-outline-variant/30">

@@ -283,7 +283,7 @@ export default function ImageCropperModal({
         </div>
 
         {/* Aspect Ratio Selector Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-mono">
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 text-[11px] font-mono">
           <span className="text-[10px] text-outline uppercase mr-1">Rasio:</span>
           {[
             { label: '1:1 Persegi (Cutout)', ratio: 1 },
