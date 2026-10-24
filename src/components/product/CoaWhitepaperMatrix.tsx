@@ -361,6 +361,46 @@ export default function CoaWhitepaperMatrix() {
 
   const [sampleModalOpen, setSampleModalOpen] = useState(false);
   const [sampleSubmitted, setSampleSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Form Fields
+  const [buyerName, setBuyerName] = useState('');
+  const [buyerCompany, setBuyerCompany] = useState('');
+  const [sampleShape, setSampleShape] = useState('Cube C25 (25mm)');
+  const [buyerEmail, setBuyerEmail] = useState('');
+  const [buyerWhatsapp, setBuyerWhatsapp] = useState('');
+
+  const handleSampleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await fetch('/api/v1/rfq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          buyer_name: buyerName,
+          buyer_company: buyerCompany || 'International Trader',
+          buyer_country: 'International',
+          buyer_email: buyerEmail,
+          buyer_whatsapp: buyerWhatsapp,
+          container_size: `Sample 2kg DHL (${sampleShape})`,
+          total_metric_tons: 0.002,
+          total_master_boxes: 1,
+          incoterm: 'DHL Express Courier',
+          target_price: 'Official 2kg Lab Sample',
+          status: 'SAMPLE_SENT',
+        }),
+      });
+    } catch (err) {
+      console.warn('Failed to post sample inquiry to Supabase/API:', err);
+    } finally {
+      setIsSubmitting(false);
+      setSampleSubmitted(true);
+    }
+  };
 
   return (
     <section id="lab-specs" className="flex flex-col gap-6">
@@ -480,13 +520,7 @@ export default function CoaWhitepaperMatrix() {
             </button>
 
             {!sampleSubmitted ? (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSampleSubmitted(true);
-                }}
-                className="flex flex-col gap-4"
-              >
+              <form onSubmit={handleSampleSubmit} className="flex flex-col gap-4">
                 <div className="flex items-center gap-2">
                   <Truck className="w-5 h-5 text-primary" />
                   <h3 className="font-headline font-bold text-[18px] text-on-surface">
@@ -502,6 +536,8 @@ export default function CoaWhitepaperMatrix() {
                   <input
                     required
                     type="text"
+                    value={buyerName}
+                    onChange={(e) => setBuyerName(e.target.value)}
                     placeholder="e.g. Tariq Al-Mansoor"
                     className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container"
                   />
@@ -513,17 +549,23 @@ export default function CoaWhitepaperMatrix() {
                     <input
                       required
                       type="text"
+                      value={buyerCompany}
+                      onChange={(e) => setBuyerCompany(e.target.value)}
                       placeholder="Al-Noor Trading, Dubai"
                       className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
                     <label className="font-mono text-[10px] text-outline uppercase font-semibold">{t.lblShape}</label>
-                    <select className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container">
-                      <option>Cube C25 (25mm)</option>
-                      <option>Cube C26 (26mm)</option>
-                      <option>Hexagonal BBQ (20x50mm)</option>
-                      <option>Finger Stick (20x50mm)</option>
+                    <select
+                      value={sampleShape}
+                      onChange={(e) => setSampleShape(e.target.value)}
+                      className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container"
+                    >
+                      <option value="Cube C25 (25mm)">Cube C25 (25mm)</option>
+                      <option value="Cube C26 (26mm)">Cube C26 (26mm)</option>
+                      <option value="Hexagonal BBQ (20x50mm)">Hexagonal BBQ (20x50mm)</option>
+                      <option value="Finger Stick (20x50mm)">Finger Stick (20x50mm)</option>
                     </select>
                   </div>
                 </div>
@@ -534,6 +576,8 @@ export default function CoaWhitepaperMatrix() {
                     <input
                       required
                       type="email"
+                      value={buyerEmail}
+                      onChange={(e) => setBuyerEmail(e.target.value)}
                       placeholder="procurement@buyer.ae"
                       className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container"
                     />
@@ -543,6 +587,8 @@ export default function CoaWhitepaperMatrix() {
                     <input
                       required
                       type="tel"
+                      value={buyerWhatsapp}
+                      onChange={(e) => setBuyerWhatsapp(e.target.value)}
                       placeholder="+971 50 123 4567"
                       className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/40 rounded-lg text-on-surface text-[13px] focus:outline-none focus:border-primary-container"
                     />
@@ -551,9 +597,10 @@ export default function CoaWhitepaperMatrix() {
 
                 <button
                   type="submit"
-                  className="w-full mt-2 py-3 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold hover:bg-[#D94E13] transition-colors flex items-center justify-center gap-2 shadow-md"
+                  disabled={isSubmitting}
+                  className="w-full mt-2 py-3 rounded-xl bg-primary-container text-on-primary-container font-headline text-[13px] sm:text-[14px] font-semibold hover:bg-[#D94E13] disabled:opacity-50 transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
-                  <span>{t.btnSubmit}</span>
+                  <span>{isSubmitting ? 'Memproses ke Sistem Trade Desk...' : t.btnSubmit}</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180 shrink-0" />
                 </button>
               </form>

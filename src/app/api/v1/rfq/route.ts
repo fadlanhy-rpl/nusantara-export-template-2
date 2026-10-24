@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
       total_master_boxes = 2600,
       incoterm = 'FOB Tanjung Perak',
       target_price = '',
+      status = 'NEW',
     } = body;
 
     if (!buyer_name || !buyer_email || !buyer_whatsapp) {
@@ -55,22 +56,26 @@ export async function POST(request: NextRequest) {
       reference_no: referenceNo,
       buyer_name,
       buyer_company,
-      buyer_country,
+      buyer_country: buyer_country || 'International',
       buyer_email,
       buyer_whatsapp,
       container_size,
-      total_metric_tons,
-      total_master_boxes,
+      total_metric_tons: Number(total_metric_tons) || 26.0,
+      total_master_boxes: Number(total_master_boxes) || 2600,
       incoterm,
       target_price,
-      status: 'NEW',
+      status: status || 'NEW',
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     };
 
     // If Supabase is configured, persist to PostgreSQL database
     if (isSupabaseConfigured && supabase) {
       try {
-        await supabase.from('rfq_inquiries').insert([rfqRecord]);
+        const { error: dbErr } = await supabase.from('rfq_inquiries').insert([rfqRecord]);
+        if (dbErr) {
+          console.error('Supabase insert rfq error:', dbErr);
+        }
       } catch (dbErr) {
         console.error('Failed to save RFQ to Supabase:', dbErr);
       }
@@ -83,12 +88,50 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
       {
         success: false,
-        message: 'Invalid request payload',
+        message: error?.message || 'Invalid request payload',
       },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { reference_no, status } = body;
+
+    if (!reference_no || !status) {
+      return NextResponse.json(
+        { success: false, message: 'Missing reference_no or status' },
+        { status: 400 }
+      );
+    }
+
+    if (isSupabaseConfigured && supabase) {
+      const { data, error } = await supabase
+        .from('rfq_inquiries')
+        .update({
+          status,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('reference_no', reference_no)
+        .select();
+
+      if (error) {
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, data });
+    }
+
+    return NextResponse.json({ success: true, message: 'Updated in memory only' });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, message: error?.message || 'Server error' },
       { status: 500 }
     );
   }

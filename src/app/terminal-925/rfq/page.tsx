@@ -245,6 +245,28 @@ export default function AdminRfqPage() {
     return true;
   });
 
+  const handleUpdateStatus = async (ref: string, newStatus: RfqItem['status']) => {
+    setRfqs((prev) =>
+      prev.map((item) => (item.ref === ref ? { ...item, status: newStatus } : item))
+    );
+
+    try {
+      await fetch('/api/v1/rfq', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reference_no: ref, status: newStatus }),
+      });
+    } catch (err) {
+      console.warn('Failed to update RFQ status in Supabase:', err);
+    }
+  };
+
+  // Live Metric Computations
+  const totalLeads = rfqs.length;
+  const totalVolumeMt = rfqs.reduce((acc, r) => acc + (r.tonnage || 0), 0);
+  const totalValuation = rfqs.reduce((acc, r) => acc + (r.tonnage || 0) * 1280, 0);
+  const sampleCount = rfqs.filter((r) => r.status === 'SAMPLE_SENT').length;
+
   const getStatusBadge = (status: RfqItem['status']) => {
     switch (status) {
       case 'NEW':
@@ -286,25 +308,25 @@ export default function AdminRfqPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
           <span className="font-mono text-[11px] text-outline uppercase">{t.metric1Label}</span>
-          <div className="font-mono text-[28px] font-bold text-on-surface my-1">14 Leads</div>
+          <div className="font-mono text-[28px] font-bold text-on-surface my-1">{totalLeads} Leads</div>
           <span className="font-mono text-[11px] text-tertiary">{t.metric1Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
           <span className="font-mono text-[11px] text-outline uppercase">{t.metric2Label}</span>
-          <div className="font-mono text-[28px] font-bold text-on-surface my-1">420 MT</div>
+          <div className="font-mono text-[28px] font-bold text-on-surface my-1">{totalVolumeMt.toFixed(1)} MT</div>
           <span className="font-mono text-[11px] text-outline">{t.metric2Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
           <span className="font-mono text-[11px] text-outline uppercase">{t.metric3Label}</span>
-          <div className="font-mono text-[28px] font-bold text-primary my-1">$538,000 USD</div>
+          <div className="font-mono text-[28px] font-bold text-primary my-1">${Math.round(totalValuation).toLocaleString('en-US')} USD</div>
           <span className="font-mono text-[11px] text-tertiary">{t.metric3Sub}</span>
         </div>
 
         <div className="p-4 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col justify-between">
           <span className="font-mono text-[11px] text-outline uppercase">{t.metric4Label}</span>
-          <div className="font-mono text-[28px] font-bold text-on-surface my-1">4 Paket</div>
+          <div className="font-mono text-[28px] font-bold text-on-surface my-1">{sampleCount} Paket</div>
           <span className="font-mono text-[11px] text-secondary">{t.metric4Sub}</span>
         </div>
       </div>
@@ -372,7 +394,19 @@ export default function AdminRfqPage() {
                   </td>
                   <td className="py-3.5 px-4 text-on-surface-variant">{r.incoterm}</td>
                   <td className="py-3.5 px-4 font-bold text-secondary">{r.targetPrice}</td>
-                  <td className="py-3.5 px-4">{getStatusBadge(r.status)}</td>
+                  <td className="py-3.5 px-4">
+                    <select
+                      value={r.status}
+                      onChange={(e) => handleUpdateStatus(r.ref, e.target.value as RfqItem['status'])}
+                      className="bg-surface-container-high text-on-surface font-mono text-[11px] font-bold px-2 py-1 rounded-lg border border-outline-variant/40 focus:outline-none focus:border-primary-container cursor-pointer transition-colors"
+                    >
+                      <option value="NEW">{t.statusNew}</option>
+                      <option value="CONTACTED">{t.statusContacted}</option>
+                      <option value="SAMPLE_SENT">{t.statusSample}</option>
+                      <option value="OFFICIAL_QUOTE">{t.statusQuote}</option>
+                      <option value="DEAL_WON">{t.statusDeal}</option>
+                    </select>
+                  </td>
                   <td className="py-3.5 px-4 text-right">
                     <a
                       href={`https://wa.me/628113000000?text=${encodeURIComponent(`Follow-up RFQ ${r.ref} untuk ${r.company}`)}`}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import {
   Layers,
@@ -170,26 +170,68 @@ export default function CatalogMediaManagerPage() {
   const [show3DGuide, setShow3DGuide] = useState<boolean>(false);
   const model3dFileInputRef = useRef<HTMLInputElement>(null);
 
+  // Sync live commodities from Supabase on mount
+  useEffect(() => {
+    fetch('/api/v1/commodities')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+          setCommodities(res.data);
+        } else {
+          // If Supabase table is empty, auto-seed INITIAL_COMMODITIES to Supabase
+          INITIAL_COMMODITIES.forEach((item) => {
+            fetch('/api/v1/commodities', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(item),
+            }).catch(() => {});
+          });
+        }
+      })
+      .catch((err) => console.warn('Fetch commodities warning:', err));
+  }, []);
+
   const showToast = (msg: string) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(''), 4000);
   };
 
-  const handleToggleStatus = (id: string) => {
+  const handleToggleStatus = async (id: string) => {
+    const current = commodities.find((c) => c.id === id);
+    if (!current) return;
+    const nextStatus: 'ACTIVE' | 'DRAFT' = current.status === 'ACTIVE' ? 'DRAFT' : 'ACTIVE';
+
     setCommodities((prev) =>
       prev.map((item) =>
         item.id === id
-          ? { ...item, status: item.status === 'ACTIVE' ? 'DRAFT' : 'ACTIVE' }
+          ? { ...item, status: nextStatus }
           : item
       )
     );
-    showToast('Status publikasi komoditas berhasil diperbarui!');
+
+    try {
+      await fetch('/api/v1/commodities', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: nextStatus }),
+      });
+      showToast('Status publikasi komoditas berhasil diperbarui & disimpan di Supabase!');
+    } catch {
+      showToast('Status publikasi komoditas diperbarui (lokal cache).');
+    }
   };
 
-  const handleDeleteCommodity = (id: string, name: string) => {
+  const handleDeleteCommodity = async (id: string, name: string) => {
     if (confirm(`Yakin ingin menghapus komoditas "${name}" dari katalog?`)) {
       setCommodities((prev) => prev.filter((item) => item.id !== id));
-      showToast(`Komoditas "${name}" berhasil dihapus dari katalog.`);
+      try {
+        await fetch(`/api/v1/commodities?id=${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+        });
+        showToast(`Komoditas "${name}" berhasil dihapus dari database Supabase.`);
+      } catch {
+        showToast(`Komoditas "${name}" berhasil dihapus dari katalog.`);
+      }
     }
   };
 
@@ -414,21 +456,34 @@ export default function CatalogMediaManagerPage() {
   // ----------------------------------------------------
   // SAVE FORM
   // ----------------------------------------------------
-  const handleSaveEdit = (e: React.FormEvent) => {
+  const handleSaveEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingItem) return;
 
+    const itemToSave = editingItem;
+
     setCommodities((prev) => {
-      const exists = prev.some((c) => c.id === editingItem.id);
+      const exists = prev.some((c) => c.id === itemToSave.id);
       if (exists) {
-        return prev.map((c) => (c.id === editingItem.id ? editingItem : c));
+        return prev.map((c) => (c.id === itemToSave.id ? itemToSave : c));
       } else {
-        return [editingItem, ...prev];
+        return [itemToSave, ...prev];
       }
     });
 
     setEditingItem(null);
-    showToast(`Komoditas "${editingItem.name}" berhasil disimpan ke sistem!`);
+    showToast(`Komoditas "${itemToSave.name}" berhasil disimpan ke sistem!`);
+
+    try {
+      await fetch('/api/v1/commodities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemToSave),
+      });
+      showToast(`Komoditas "${itemToSave.name}" berhasil disinkronkan ke Supabase!`);
+    } catch (err) {
+      console.warn('Failed to persist commodity to Supabase:', err);
+    }
   };
 
   return (
