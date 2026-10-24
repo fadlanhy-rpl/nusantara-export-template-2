@@ -315,11 +315,11 @@ export default function SecuritySettingsPage() {
                 <button
                   type="button"
                   onClick={handleGenerateStrongPassword}
-                  className="px-3 py-1.5 rounded-lg bg-primary/15 hover:bg-primary/25 text-primary border border-primary/30 font-mono text-[10px] font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg bg-primary/15 hover:bg-primary/25 text-primary border border-primary/30 font-mono text-[10px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0"
                   title="Generate password acak berkekuatan tinggi otomatis"
                 >
-                  <Sparkles className="w-3.5 h-3.5 animate-spin" />
-                  <span>Generate Password Kuat (1-Klik)</span>
+                  <Sparkles className="w-3.5 h-3.5 animate-spin shrink-0" />
+                  <span className="whitespace-nowrap">Generate Password Kuat (1-Klik)</span>
                 </button>
               </div>
 
@@ -492,12 +492,12 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* Form Action Controls */}
-            <div className="flex items-center justify-between pt-4 border-t border-outline-variant/30">
-              <span className="font-mono text-[10px] text-outline hidden sm:inline">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-outline-variant/30">
+              <span className="font-mono text-[11px] text-outline leading-tight">
                 Kredensial baru langsung aktif untuk login sesi berikutnya.
               </span>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={() => {
@@ -508,7 +508,7 @@ export default function SecuritySettingsPage() {
                     setNewPassword('');
                     setConfirmPassword('');
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center justify-center"
                 >
                   Reset Form
                 </button>
@@ -516,14 +516,14 @@ export default function SecuritySettingsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 whitespace-nowrap shrink-0"
                 >
                   {isSubmitting ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <RefreshCw className="w-4 h-4 animate-spin shrink-0" />
                   ) : (
-                    <Check className="w-4 h-4" />
+                    <Check className="w-4 h-4 shrink-0" />
                   )}
-                  <span>Simpan Kredensial Baru</span>
+                  <span className="whitespace-nowrap">Simpan Kredensial Baru</span>
                 </button>
               </div>
             </div>
