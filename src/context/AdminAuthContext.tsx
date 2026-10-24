@@ -66,6 +66,7 @@ const AdminAuthContext = createContext<AdminAuthContextType>({
 
 const SESSION_KEY = 'nusantara_admin_session_v3';
 const CUSTOM_CREDS_KEY = 'nusantara_admin_credentials_vault_v1';
+const NOTICE_KEY = 'nusantara_auth_notice_v1';
 
 // Default fallback credentials for fresh setup
 const DEFAULT_PASSKEYS = ['nusantara2026', 'admin2026', '8819'];
@@ -78,13 +79,26 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [authNotification, setAuthNotification] = useState<AuthNotification | null>(null);
 
-  const dismissNotification = () => setAuthNotification(null);
+  const dismissNotification = () => {
+    setAuthNotification(null);
+    try {
+      sessionStorage.removeItem(NOTICE_KEY);
+    } catch {}
+  };
 
   const triggerNotification = (type: 'login' | 'logout', message: string, sub?: string) => {
-    setAuthNotification({ type, message, sub });
+    const notice: AuthNotification = { type, message, sub };
+    setAuthNotification(notice);
+    try {
+      sessionStorage.setItem(NOTICE_KEY, JSON.stringify(notice));
+    } catch {}
+
     setTimeout(() => {
       setAuthNotification((curr) => (curr?.message === message ? null : curr));
-    }, 4500);
+      try {
+        sessionStorage.removeItem(NOTICE_KEY);
+      } catch {}
+    }, 5000);
   };
 
   // Helper to read custom credentials from persistent storage
@@ -116,6 +130,21 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
       // 2. Check throttle
       setThrottle(getThrottleStatus());
+
+      // 3. Restore any pending auth notice (e.g. from logout or redirect)
+      const storedNotice = sessionStorage.getItem(NOTICE_KEY);
+      if (storedNotice) {
+        try {
+          const parsedNotice = JSON.parse(storedNotice);
+          setAuthNotification(parsedNotice);
+          setTimeout(() => {
+            setAuthNotification(null);
+            try {
+              sessionStorage.removeItem(NOTICE_KEY);
+            } catch {}
+          }, 5000);
+        } catch {}
+      }
 
       // 3. Sync credentials from Supabase if configured
       if (isSupabaseConfigured && supabase) {
@@ -410,8 +439,8 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
     triggerNotification(
       'logout',
-      'Logout Berhasil',
-      'Sesi operator telah diakhiri dengan aman. Terminal akses telah dikunci.'
+      'Logout Berhasil — Terminal Terkunci',
+      'Sesi operator telah diakhiri dengan aman. Kredensial telah diamankan.'
     );
   };
 
@@ -442,14 +471,19 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         dismissNotification,
       }}
     >
-      {/* Global Auth Notification Toast */}
+      {children}
+
+      {/* Global High-Visibility Auth Notification Toast */}
       {authNotification && (
-        <div className="fixed top-5 right-4 sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] p-4 rounded-2xl bg-[#1C1815]/95 border border-white/15 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex items-start gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div
+          style={{ zIndex: 99999999 }}
+          className="fixed top-20 right-4 sm:right-6 z-[99999999] max-w-sm w-[calc(100%-2rem)] p-4 rounded-2xl bg-[#1C1815] border-2 border-primary/40 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.95)] flex items-start gap-3.5 transition-all duration-300 select-none"
+        >
           <div
-            className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
               authNotification.type === 'login'
-                ? 'bg-tertiary-container text-on-tertiary-container shadow-[0_0_15px_rgba(63,123,94,0.3)]'
-                : 'bg-primary-container text-on-primary-container shadow-[0_0_15px_rgba(255,138,82,0.3)]'
+                ? 'bg-tertiary-container text-on-tertiary-container shadow-[0_0_20px_rgba(63,123,94,0.4)]'
+                : 'bg-primary-container text-on-primary-container shadow-[0_0_20px_rgba(255,138,82,0.4)]'
             }`}
           >
             {authNotification.type === 'login' ? (
@@ -460,11 +494,18 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-            <span className="font-headline font-bold text-xs text-on-surface">
-              {authNotification.message}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`w-2 h-2 rounded-full animate-pulse ${
+                  authNotification.type === 'login' ? 'bg-tertiary' : 'bg-primary'
+                }`}
+              />
+              <span className="font-headline font-bold text-[13px] text-on-surface uppercase tracking-wide">
+                {authNotification.message}
+              </span>
+            </div>
             {authNotification.sub && (
-              <p className="font-body text-[11px] text-outline leading-snug">
+              <p className="font-body text-[11px] text-outline leading-snug mt-0.5">
                 {authNotification.sub}
               </p>
             )}
@@ -473,15 +514,13 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
           <button
             type="button"
             onClick={dismissNotification}
-            className="p-1 text-outline hover:text-on-surface rounded-lg transition-colors cursor-pointer"
+            className="p-1.5 text-outline hover:text-on-surface hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
             title="Tutup Notifikasi"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
-
-      {children}
     </AdminAuthContext.Provider>
   );
 }

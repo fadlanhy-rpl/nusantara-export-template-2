@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Lock, KeyRound, Eye, EyeOff, ArrowRight, ShieldCheck, Flame, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { Lock, KeyRound, Eye, EyeOff, ArrowRight, ShieldCheck, Flame, AlertTriangle, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 
 interface AdminAuthGuardProps {
@@ -10,7 +10,7 @@ interface AdminAuthGuardProps {
 }
 
 export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
-  const { isAuthenticated, login, throttle } = useAdminAuth();
+  const { isAuthenticated, login, throttle, authNotification } = useAdminAuth();
 
   const [username, setUsername] = useState<string>('');
   const [passkey, setPasskey] = useState<string>('');
@@ -167,6 +167,19 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
               <p className="text-[11px] text-error/95 leading-relaxed font-body">
                 {errorMsg}
               </p>
+            </div>
+          </div>
+        ) : authNotification?.type === 'logout' ? (
+          /* Logout Success Notice */
+          <div className="p-3.5 rounded-xl bg-primary-container/20 border border-primary-container/50 text-on-surface flex items-start gap-2.5 text-xs font-mono shadow-md animate-fade-in">
+            <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+            <div className="flex flex-col gap-0.5">
+              <strong className="text-primary font-bold text-[11px] uppercase tracking-wider">
+                LOGOUT BERHASIL — TERMINAL TERKUNCI
+              </strong>
+              <span className="text-[11px] text-outline leading-snug">
+                Sesi operator telah diakhiri dengan aman. Silakan masukkan kredensial untuk otorisasi kembali.
+              </span>
             </div>
           </div>
         ) : null}
