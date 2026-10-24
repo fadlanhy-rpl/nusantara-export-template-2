@@ -642,10 +642,10 @@ export default function CatalogMediaManagerPage() {
 
       {/* Comprehensive Edit / Add Commodity Modal */}
       {editingItem && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto no-scrollbar">
-          <div className="w-full max-w-[820px] bg-[#1A1613] border border-white/10 rounded-2xl shadow-2xl flex flex-col my-auto max-h-[90vh] overflow-hidden animate-scale-in">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-lowest">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 select-none">
+          <div className="w-full max-w-[880px] h-[88vh] max-h-[740px] min-h-[580px] bg-[#1A1613] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-scale-in">
+            {/* Modal Header - Fixed Top */}
+            <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-lowest">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
                   <Package className="w-4 h-4" />
@@ -668,63 +668,63 @@ export default function CatalogMediaManagerPage() {
               </button>
             </div>
 
-            {/* Navigation Tabs */}
-            <div className="flex items-center border-b border-outline-variant/30 px-6 bg-surface-container-low/70 overflow-x-auto no-scrollbar gap-2 text-xs font-mono font-bold">
+            {/* Navigation Tabs - Consistent 4-Column Grid with Fixed Padding */}
+            <div className="grid grid-cols-4 border-b border-outline-variant/30 bg-surface-container-low/80 shrink-0 font-mono text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setActiveTab('info')}
-                className={`py-3 px-3 border-b-2 flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'info'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-outline hover:text-on-surface'
+                    ? 'border-primary text-primary bg-primary/5'
+                    : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <FileText className="w-4 h-4" />
-                <span>1. Data Produk & FOB</span>
+                <FileText className="w-4 h-4 shrink-0" />
+                <span className="truncate">1. Data Produk & FOB</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('image')}
-                className={`py-3 px-3 border-b-2 flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'image'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-outline hover:text-on-surface'
+                    ? 'border-primary text-primary bg-primary/5'
+                    : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Crop className="w-4 h-4" />
-                <span>2. Foto Produk & Crop</span>
+                <Crop className="w-4 h-4 shrink-0" />
+                <span className="truncate">2. Foto Produk & Crop</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('3d')}
-                className={`py-3 px-3 border-b-2 flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
                   activeTab === '3d'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-outline hover:text-on-surface'
+                    ? 'border-primary text-primary bg-primary/5'
+                    : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Box className="w-4 h-4" />
-                <span>3. Asset 3D & Konfigurasi</span>
+                <Box className="w-4 h-4 shrink-0" />
+                <span className="truncate">3. Asset 3D Studio</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('specs')}
-                className={`py-3 px-3 border-b-2 flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'specs'
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-outline hover:text-on-surface'
+                    ? 'border-primary text-primary bg-primary/5'
+                    : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Sliders className="w-4 h-4" />
-                <span>4. Spesifikasi Lab & Video</span>
+                <Sliders className="w-4 h-4 shrink-0" />
+                <span className="truncate">4. Spesifikasi & Video</span>
               </button>
             </div>
 
-            {/* Modal Content Form Body */}
-            <form onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto no-scrollbar p-6 flex flex-col gap-5">
+            {/* Modal Content Form Body - Smoothly Scrollable with Zero Scrollbar */}
+            <form id="commodity-edit-form" onSubmit={handleSaveEdit} className="flex-1 overflow-y-auto no-scrollbar p-6 flex flex-col gap-6">
               {/* TAB 1: General Info & FOB Pricing */}
               {activeTab === 'info' && (
                 <div className="flex flex-col gap-4 font-mono text-xs">
@@ -1085,9 +1085,9 @@ export default function CatalogMediaManagerPage() {
                       {/* 3D Geometry Preset Selection */}
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] text-outline uppercase font-bold">
-                          Pilih Bentuk Geometri Model 3D:
+                          PILIH BENTUK GEOMETRI MODEL 3D:
                         </label>
-                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
                           {[
                             { id: 'cube', label: 'Kubus 25mm', sub: 'Shisha Grade' },
                             { id: 'hexagonal', label: 'Heksagonal', sub: 'BBQ 50x150mm' },
@@ -1117,7 +1117,7 @@ export default function CatalogMediaManagerPage() {
                                     },
                                   });
                                 }}
-                                className={`p-2.5 rounded-xl border flex flex-col items-center justify-center text-center transition-all cursor-pointer ${
+                                className={`p-3 rounded-xl border flex flex-col items-center justify-center text-center transition-all cursor-pointer min-h-[66px] ${
                                   isSelected
                                     ? 'border-primary bg-primary/20 text-on-surface shadow-md'
                                     : isCustomDisabled
@@ -1126,7 +1126,7 @@ export default function CatalogMediaManagerPage() {
                                 }`}
                               >
                                 <strong className="text-[11px] block">{shape.label}</strong>
-                                <span className="text-[9px] text-outline">{shape.sub}</span>
+                                <span className="text-[9px] text-outline block mt-0.5">{shape.sub}</span>
                               </button>
                             );
                           })}
@@ -1136,9 +1136,9 @@ export default function CatalogMediaManagerPage() {
                       {/* Surface Finish / PBR Texture Preset */}
                       <div className="flex flex-col gap-2">
                         <label className="text-[10px] text-outline uppercase font-bold">
-                          Material & PBR Surface Finish:
+                          MATERIAL & PBR SURFACE FINISH:
                         </label>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                           {[
                             {
                               id: 'matte_charcoal',
@@ -1176,7 +1176,7 @@ export default function CatalogMediaManagerPage() {
                                     },
                                   });
                                 }}
-                                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                                className={`p-3 rounded-xl border text-left transition-all cursor-pointer min-h-[66px] flex flex-col justify-center ${
                                   isSelected
                                     ? 'border-primary bg-primary/15 shadow-sm'
                                     : 'border-outline-variant/30 bg-surface-container-lowest hover:border-outline'
@@ -1395,31 +1395,32 @@ export default function CatalogMediaManagerPage() {
                   </div>
                 </div>
               )}
-
-              {/* Modal Footer Controls */}
-              <div className="flex items-center justify-between pt-4 border-t border-outline-variant/30 mt-2">
-                <span className="font-mono text-[10px] text-outline">
-                  Perubahan akan langsung disimpan ke data katalog aktif.
-                </span>
-
-                <div className="flex items-center gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setEditingItem(null)}
-                    className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center gap-2"
-                  >
-                    <Check className="w-4 h-4" />
-                    <span>Simpan Perubahan</span>
-                  </button>
-                </div>
-              </div>
             </form>
+
+            {/* Modal Footer Controls - Fixed Bottom Bar Always Visible */}
+            <div className="shrink-0 flex items-center justify-between px-6 py-3.5 border-t border-outline-variant/30 bg-surface-container-lowest">
+              <span className="font-mono text-[10px] text-outline">
+                Perubahan akan langsung disimpan ke data katalog aktif.
+              </span>
+
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setEditingItem(null)}
+                  className="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  form="commodity-edit-form"
+                  className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center gap-2"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>Simpan Perubahan</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
