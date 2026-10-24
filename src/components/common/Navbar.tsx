@@ -22,6 +22,11 @@ export default function Navbar() {
     if (next >= 10) {
       e.preventDefault();
       e.stopPropagation();
+      try {
+        sessionStorage.setItem('terminal_gate_pass_sp925', Date.now().toString());
+      } catch {
+        // Fallback for private mode
+      }
       window.location.href = '/terminal-925';
       setFlameClicks(0);
       return;
@@ -57,6 +62,11 @@ export default function Navbar() {
       if (hasModifiers && isPlusKey) {
         e.preventDefault();
         e.stopPropagation();
+        try {
+          sessionStorage.setItem('terminal_gate_pass_sp925', Date.now().toString());
+        } catch {
+          // Fallback
+        }
         window.location.href = '/terminal-925';
       }
     };

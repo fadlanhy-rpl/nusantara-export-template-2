@@ -25,6 +25,11 @@ export default function AdminFloatingPill() {
 
       if (hasModifiers && isPlusKey) {
         e.preventDefault();
+        try {
+          sessionStorage.setItem('terminal_gate_pass_sp925', Date.now().toString());
+        } catch {
+          // Fallback
+        }
         router.push('/terminal-925');
       }
     };
@@ -36,6 +41,14 @@ export default function AdminFloatingPill() {
   if (!isAuthenticated || pathname?.startsWith('/terminal-925')) {
     return null;
   }
+
+  const handleReturnClick = () => {
+    try {
+      sessionStorage.setItem('terminal_gate_pass_sp925', Date.now().toString());
+    } catch {
+      // Fallback
+    }
+  };
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex items-center gap-1.5 p-1.5 pl-3 rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-primary/50 shadow-[0_8px_32px_rgba(0,0,0,0.7)] text-on-surface animate-fade-in select-none">
@@ -49,6 +62,7 @@ export default function AdminFloatingPill() {
 
       <Link
         href="/terminal-925"
+        onClick={handleReturnClick}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container text-on-primary-container font-headline text-[11px] font-bold hover:bg-[#D94E13] transition-all shadow-md"
       >
         <span>Kembali ke Dashboard</span>

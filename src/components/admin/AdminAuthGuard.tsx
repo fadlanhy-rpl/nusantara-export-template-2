@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Lock, KeyRound, Eye, EyeOff, ArrowRight, ShieldCheck, Flame, AlertTriangle, ShieldAlert } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
@@ -17,10 +17,55 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
   const [showPasskey, setShowPasskey] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [hasGatePass, setHasGatePass] = useState<boolean | null>(null);
 
-  // If already authenticated, render dashboard children
+  // Check Ephemeral Gate Pass (issued via 10-click flame gesture or quad-key hotkey)
+  useEffect(() => {
+    try {
+      const pass = sessionStorage.getItem('terminal_gate_pass_sp925');
+      setHasGatePass(Boolean(pass));
+    } catch {
+      setHasGatePass(false);
+    }
+  }, []);
+
+  // 1. If already authenticated, allow full access immediately (renders dashboard)
   if (isAuthenticated) {
     return <>{children}</>;
+  }
+
+  // 2. Synchronizing handshake status
+  if (hasGatePass === null) {
+    return (
+      <div className="min-h-screen bg-[#120D0A] flex items-center justify-center text-outline font-mono text-xs select-none">
+        <span className="opacity-40 animate-pulse">VERIFYING GATE PROTOCOL...</span>
+      </div>
+    );
+  }
+
+  // 3. COLD DIRECT URL ACCESS (No gate pass handshake token):
+  // Render authentic 404 Not Found stealth camouflage!
+  // Anyone typing http://localhost:3000/terminal-925 directly into address bar will see this 404!
+  if (!hasGatePass) {
+    return (
+      <div className="min-h-screen bg-[#17120F] text-[#ECE0DB] flex flex-col items-center justify-center p-6 text-center select-none font-mono">
+        <div className="p-8 max-w-[480px] flex flex-col items-center gap-4">
+          <span className="text-7xl font-headline font-black text-primary/80 tracking-tight">404</span>
+          <h1 className="text-xl font-headline font-bold text-on-surface uppercase tracking-wider">
+            Halaman Tidak Ditemukan
+          </h1>
+          <p className="text-xs text-outline leading-relaxed font-body">
+            Halaman yang Anda tuju tidak tersedia, telah dipindahkan, atau rute akses langsung tidak diizinkan. Silakan kembali ke beranda portal ekspor utama.
+          </p>
+          <Link
+            href="/"
+            className="mt-2 px-6 py-2.5 rounded-full bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all shadow-lg cursor-pointer"
+          >
+            Kembali ke Beranda
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -142,7 +142,12 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem(SESSION_KEY);
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem('terminal_gate_pass_sp925');
+    } catch {
+      // Fallback
+    }
   };
 
   const lockTerminal = () => {
