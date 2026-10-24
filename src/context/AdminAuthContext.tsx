@@ -7,6 +7,7 @@ import {
   clearFailedAttempts,
   ThrottleStatus
 } from '@/lib/securityThrottle';
+import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
 export interface AdminCredentialsInfo {
   username: string;
@@ -24,7 +25,7 @@ export interface UpdateCredentialsPayload {
 interface AdminAuthContextType {
   isAuthenticated: boolean;
   officerName: string;
-  login: (secret: string, username?: string) => Promise<{ success: boolean; message?: string }>;
+  login: (secret: string, username?: string) => Promise<{ success: boolean; message?: string; field?: 'user' | 'password' | 'general' }>;
   logout: () => void;
   lockTerminal: () => void;
   throttle: ThrottleStatus;
@@ -94,6 +95,31 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
       // 2. Check throttle
       setThrottle(getThrottleStatus());
+
+      // 3. Sync credentials from Supabase if configured
+      if (isSupabaseConfigured && supabase) {
+        (async () => {
+          try {
+            const { data, error } = await supabase
+              .from('admin_credentials')
+              .select('username, email, password, updated_at')
+              .limit(1)
+              .maybeSingle();
+
+            if (!error && data) {
+              const cloudVault = {
+                username: data.username,
+                email: data.email,
+                password: data.password,
+                updatedAt: data.updated_at ? new Date(data.updated_at).getTime() : Date.now(),
+              };
+              localStorage.setItem(CUSTOM_CREDS_KEY, JSON.stringify(cloudVault));
+            }
+          } catch (err) {
+            console.warn('Supabase credentials sync error:', err);
+          }
+        })();
+      }
     } catch {
       // Ignore parse errors
     } finally {
@@ -127,7 +153,10 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     };
   };
 
-  const login = async (secret: string, username?: string): Promise<{ success: boolean; message?: string }> => {
+  const login = async (
+    secret: string,
+    username?: string
+  ): Promise<{ success: boolean; message?: string; field?: 'user' | 'password' | 'general' }> => {
     // 1. Verify throttle status before processing
     const currentThrottle = getThrottleStatus();
     setThrottle(currentThrottle);
@@ -135,74 +164,113 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     if (currentThrottle.isBlocked) {
       return {
         success: false,
+        field: 'general',
         message: `Akses terminal diblokir sementara karena aktivitas mencurigakan. Sisa waktu: ${currentThrottle.formattedTime}.`,
       };
     }
 
     const trimmedSecret = secret.trim();
     const trimmedUser = (username || '').trim().toLowerCase();
-    const vault = getStoredVault();
+    let vault = getStoredVault();
 
-    let isSecretValid = false;
-    let isUserValid = false;
+    // 2. If Supabase is configured, check live database first
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data: cloudCreds } = await supabase
+          .from('admin_credentials')
+          .select('username, email, password')
+          .limit(1)
+          .maybeSingle();
 
-    if (vault?.password) {
-      // Check custom configured credentials first
-      const matchesCustomSecret = trimmedSecret === vault.password;
-      const matchesCustomUser =
-        !trimmedUser ||
-        (vault.username && trimmedUser === vault.username.toLowerCase()) ||
-        (vault.email && trimmedUser === vault.email.toLowerCase());
-
-      if (matchesCustomSecret && matchesCustomUser) {
-        isSecretValid = true;
-        isUserValid = true;
+        if (cloudCreds) {
+          vault = {
+            username: cloudCreds.username,
+            email: cloudCreds.email,
+            password: cloudCreds.password,
+            updatedAt: Date.now(),
+          };
+          localStorage.setItem(CUSTOM_CREDS_KEY, JSON.stringify(vault));
+        }
+      } catch (err) {
+        console.warn('Supabase direct query fallback:', err);
       }
     }
 
-    // Fallback to default passkeys if custom did not match or not yet set
-    if (!isSecretValid) {
-      isSecretValid = DEFAULT_PASSKEYS.includes(trimmedSecret);
-      isUserValid = !trimmedUser || DEFAULT_USERS.includes(trimmedUser);
-    }
+    const effectiveUsername = (vault?.username || 'admin').toLowerCase();
+    const effectiveEmail = (vault?.email || 'export@nusantaraorigin.com').toLowerCase();
+    const effectivePassword = vault?.password || 'nusantara2026';
 
-    if (isSecretValid && isUserValid) {
-      // Clear security penalty on success
-      clearFailedAttempts();
-      setThrottle(getThrottleStatus());
+    const allAllowedUsers = Array.from(new Set([effectiveUsername, effectiveEmail, ...DEFAULT_USERS]));
+    const allAllowedPasswords = Array.from(new Set([effectivePassword, ...DEFAULT_PASSKEYS]));
 
-      setIsAuthenticated(true);
-      const name = trimmedUser
-        ? `Officer: ${trimmedUser.toUpperCase()}`
-        : vault?.username
-        ? `Officer: ${vault.username.toUpperCase()}`
-        : 'Export Officer ID-SUB-01';
-      setOfficerName(name);
-
-      const sessionData = {
-        authenticated: true,
-        officer: name,
-        expiresAt: Date.now() + 1000 * 60 * 60 * 12, // 12 hours
-      };
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
-      return { success: true };
-    } else {
-      // Record failed attempt and compute new progressive penalty
+    // 3. Check Username / Email Validity
+    const isUserValid = !trimmedUser || allAllowedUsers.includes(trimmedUser);
+    if (!isUserValid) {
       const updatedThrottle = recordFailedAttempt();
       setThrottle(updatedThrottle);
 
       if (updatedThrottle.isBlocked) {
         return {
           success: false,
+          field: 'general',
           message: `Sisa percobaan telah habis. Akses terminal diblokir selama ${updatedThrottle.formattedTime}.`,
         };
       }
 
       return {
         success: false,
-        message: `Kredensial tidak valid. Sisa percobaan: ${updatedThrottle.remainingAttempts}.`,
+        field: 'user',
+        message: `Username atau Email "${username}" tidak terdaftar dalam sistem terminal.`,
       };
     }
+
+    // 4. Check Password Validity
+    let isPasswordCorrect = false;
+    if (vault?.password) {
+      isPasswordCorrect = trimmedSecret === vault.password;
+    }
+    if (!isPasswordCorrect) {
+      isPasswordCorrect = allAllowedPasswords.includes(trimmedSecret);
+    }
+
+    if (!isPasswordCorrect) {
+      const updatedThrottle = recordFailedAttempt();
+      setThrottle(updatedThrottle);
+
+      if (updatedThrottle.isBlocked) {
+        return {
+          success: false,
+          field: 'general',
+          message: `Sisa percobaan telah habis. Akses terminal diblokir selama ${updatedThrottle.formattedTime}.`,
+        };
+      }
+
+      return {
+        success: false,
+        field: 'password',
+        message: 'Password yang Anda masukkan salah. Periksa kembali huruf besar, huruf kecil, dan angka.',
+      };
+    }
+
+    // 5. Auth Success: Reset penalty & establish session
+    clearFailedAttempts();
+    setThrottle(getThrottleStatus());
+
+    setIsAuthenticated(true);
+    const name = trimmedUser
+      ? `Officer: ${trimmedUser.toUpperCase()}`
+      : vault?.username
+      ? `Officer: ${vault.username.toUpperCase()}`
+      : 'Export Officer ID-SUB-01';
+    setOfficerName(name);
+
+    const sessionData = {
+      authenticated: true,
+      officer: name,
+      expiresAt: Date.now() + 1000 * 60 * 60 * 12, // 12 hours
+    };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+    return { success: true };
   };
 
   const updateCredentials = async (
@@ -275,19 +343,25 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       // Fallback in case localStorage is restricted
     }
 
-    // 5. Update active session officer name
-    const newOfficerName = `Officer: ${effectiveUsername.toUpperCase()}`;
-    setOfficerName(newOfficerName);
-
-    try {
-      const currentSession = sessionStorage.getItem(SESSION_KEY);
-      if (currentSession) {
-        const parsed = JSON.parse(currentSession);
-        parsed.officer = newOfficerName;
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(parsed));
+    // 5. If Supabase is configured, sync to cloud database table admin_credentials
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase
+          .from('admin_credentials')
+          .upsert(
+            [
+              {
+                username: effectiveUsername,
+                email: effectiveEmail,
+                password: effectivePassword,
+                updated_at: new Date().toISOString(),
+              },
+            ],
+            { onConflict: 'username' }
+          );
+      } catch (err) {
+        console.warn('Failed to sync updated credentials to Supabase:', err);
       }
-    } catch {
-      // Ignore
     }
 
     return {

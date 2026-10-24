@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
+import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient';
 
 // Strict Whitelist of Allowed Extensions & MIME Types
 const ALLOWED_IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
@@ -75,14 +76,50 @@ export async function POST(req: NextRequest) {
     const safePrefix = uploadType === '3d-model' ? 'model' : 'img';
     const randomHex = crypto.randomBytes(6).toString('hex');
     const safeFilename = `${safePrefix}_${Date.now()}_${randomHex}${ext}`;
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
 
+    // 3. Check if Supabase Storage is configured (Cloud Storage Mode)
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const bucketName = 'commodity-assets';
+        const storagePath = `${targetFolder}/${safeFilename}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from(bucketName)
+          .upload(storagePath, buffer, {
+            contentType: file.type || 'application/octet-stream',
+            upsert: true,
+          });
+
+        if (!uploadError) {
+          const { data: publicUrlData } = supabase.storage
+            .from(bucketName)
+            .getPublicUrl(storagePath);
+
+          if (publicUrlData?.publicUrl) {
+            return NextResponse.json({
+              success: true,
+              url: publicUrlData.publicUrl,
+              filename: safeFilename,
+              size: file.size,
+              type: uploadType,
+              storage: 'supabase',
+            });
+          }
+        } else {
+          console.warn('Supabase storage upload error, falling back to local:', uploadError.message);
+        }
+      } catch (storageErr) {
+        console.warn('Supabase storage exception, falling back to local:', storageErr);
+      }
+    }
+
+    // 4. Fallback: Save to Local Filesystem
     const uploadsDir = path.join(process.cwd(), 'public', 'uploads', targetFolder);
     await fs.mkdir(uploadsDir, { recursive: true });
 
     const filePath = path.join(uploadsDir, safeFilename);
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     await fs.writeFile(filePath, buffer);
 
     const publicUrl = `/uploads/${targetFolder}/${safeFilename}`;
@@ -93,6 +130,7 @@ export async function POST(req: NextRequest) {
       filename: safeFilename,
       size: file.size,
       type: uploadType,
+      storage: 'local',
     });
   } catch (error) {
     console.error('File Upload Error:', error);

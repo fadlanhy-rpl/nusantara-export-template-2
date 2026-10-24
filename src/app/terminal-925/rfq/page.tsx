@@ -200,10 +200,44 @@ export default function AdminRfqPage() {
   const { locale } = useLanguage();
   const t = ADMIN_I18N[locale] || ADMIN_I18N.en;
 
+  const [rfqs, setRfqs] = useState<RfqItem[]>(INITIAL_RFQS);
   const [filter, setFilter] = useState<string>('ALL');
   const [search, setSearch] = useState<string>('');
 
-  const filteredRfqs = INITIAL_RFQS.filter((item) => {
+  // Sync live RFQs from API / Supabase
+  React.useEffect(() => {
+    fetch('/api/v1/rfq')
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+          const mapped: RfqItem[] = res.data.map((d: any) => ({
+            ref: d.reference_no,
+            buyer: d.buyer_name,
+            company: d.buyer_company,
+            country: d.buyer_country || 'International',
+            container: `${d.container_size || '40HC'}`,
+            tonnage: Number(d.total_metric_tons) || 26.0,
+            incoterm: d.incoterm || 'FOB Tanjung Perak',
+            targetPrice: d.target_price || 'Market FOB',
+            status: d.status || 'NEW',
+            date: new Date(d.created_at).toLocaleDateString('id-ID', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric',
+            }),
+          }));
+
+          setRfqs((prev) => {
+            const existingRefs = new Set(prev.map((p) => p.ref));
+            const newItems = mapped.filter((m) => !existingRefs.has(m.ref));
+            return [...newItems, ...prev];
+          });
+        }
+      })
+      .catch((err) => console.warn('Fetch live RFQs warning:', err));
+  }, []);
+
+  const filteredRfqs = rfqs.filter((item) => {
     if (filter !== 'ALL' && item.status !== filter) return false;
     if (search && !item.buyer.toLowerCase().includes(search.toLowerCase()) && !item.company.toLowerCase().includes(search.toLowerCase())) {
       return false;

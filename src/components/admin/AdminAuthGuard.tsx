@@ -16,6 +16,8 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
   const [passkey, setPasskey] = useState<string>('');
   const [showPasskey, setShowPasskey] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [errorField, setErrorField] = useState<'user' | 'password' | 'general' | null>(null);
+  const [isShaking, setIsShaking] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [hasGatePass, setHasGatePass] = useState<boolean | null>(null);
 
@@ -82,9 +84,15 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
       const res = await login(passkey, username);
       if (!res.success) {
         setErrorMsg(res.message || 'Kredensial ditolak oleh sistem keamanan.');
+        setErrorField(res.field || 'general');
+        setIsShaking(true);
+        setTimeout(() => setIsShaking(false), 500);
       }
     } catch {
       setErrorMsg('Terjadi kesalahan verifikasi terminal.');
+      setErrorField('general');
+      setIsShaking(true);
+      setTimeout(() => setIsShaking(false), 500);
     } finally {
       setIsSubmitting(false);
     }
@@ -97,7 +105,15 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
       <div className="absolute w-[500px] h-[500px] rounded-full bg-primary/10 blur-[130px] pointer-events-none" />
 
       {/* Security Terminal Card — Stealth, Zero-Clue Interface */}
-      <div className="w-full max-w-[420px] bg-[#1C1815]/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.85)] relative z-10 flex flex-col gap-6">
+      <div
+        className={`w-full max-w-[420px] bg-[#1C1815]/95 backdrop-blur-2xl border ${
+          errorField
+            ? 'border-error/50 shadow-[0_0_30px_rgba(239,68,68,0.25)]'
+            : 'border-white/10 shadow-[0_24px_64px_-12px_rgba(0,0,0,0.85)]'
+        } rounded-2xl p-6 sm:p-8 relative z-10 flex flex-col gap-6 transition-all duration-300 ${
+          isShaking ? 'animate-shake' : ''
+        }`}
+      >
         {/* Terminal Header */}
         <div className="flex flex-col items-center text-center gap-2">
           <div className="w-12 h-12 rounded-2xl bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-primary shadow-[0_0_20px_rgba(196,68,15,0.25)]">
@@ -132,14 +148,25 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
             </div>
           </div>
         ) : errorMsg ? (
-          /* Error Message with Remaining Attempts */
-          <div className="p-3 rounded-xl bg-error/10 border border-error/30 text-error flex items-start gap-2.5 text-xs font-mono">
+          /* Error Message with Specific Field Label & Remaining Attempts */
+          <div className="p-3.5 rounded-xl bg-error/15 border border-error/40 text-error flex items-start gap-2.5 text-xs font-mono animate-fade-in shadow-md">
             <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-            <div className="flex flex-col gap-0.5">
-              <span>{errorMsg}</span>
-              {!errorMsg.includes('Sisa percobaan') && (
-                <span className="text-[10px] opacity-80">Sisa percobaan: {throttle.remainingAttempts}</span>
-              )}
+            <div className="flex flex-col gap-1 w-full">
+              <div className="flex items-center justify-between font-bold text-[11px] tracking-wider uppercase">
+                <span>
+                  {errorField === 'user'
+                    ? 'IDENTIFIER TIDAK COCOK'
+                    : errorField === 'password'
+                    ? 'PASSWORD PASSKEY SALAH'
+                    : 'OTORISASI DITOLAK'}
+                </span>
+                <span className="text-[10px] opacity-80 font-normal">
+                  Sisa: {throttle.remainingAttempts}x
+                </span>
+              </div>
+              <p className="text-[11px] text-error/95 leading-relaxed font-body">
+                {errorMsg}
+              </p>
             </div>
           </div>
         ) : null}
@@ -147,33 +174,57 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
         {/* Stealth Form — No hints, no default values */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="font-mono text-[11px] text-outline uppercase tracking-wider">
-              Identifier / Operator ID / Email
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="font-mono text-[11px] text-outline uppercase tracking-wider">
+                Identifier / Operator ID / Email
+              </label>
+              {errorField === 'user' && (
+                <span className="font-mono text-[9px] text-error font-bold">Wajib Diperiksa</span>
+              )}
+            </div>
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Operator ID / Email Login"
+              onChange={(e) => {
+                setUsername(e.target.value);
+                if (errorField === 'user') setErrorField(null);
+              }}
+              placeholder="Operator ID / Email Login (default: admin)"
               disabled={throttle.isBlocked || isSubmitting}
               autoComplete="off"
-              className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface font-mono text-xs focus:outline-none focus:border-primary transition-colors disabled:opacity-40"
+              className={`h-10 px-3 bg-surface-container-lowest border rounded-xl text-on-surface font-mono text-xs focus:outline-none transition-colors disabled:opacity-40 ${
+                errorField === 'user'
+                  ? 'border-error/80 focus:border-error bg-error/5 text-on-surface ring-1 ring-error/50'
+                  : 'border-outline-variant/30 focus:border-primary'
+              }`}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="font-mono text-[11px] text-outline uppercase tracking-wider">
-              Passkey Token
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="font-mono text-[11px] text-outline uppercase tracking-wider">
+                Passkey Token
+              </label>
+              {errorField === 'password' && (
+                <span className="font-mono text-[9px] text-error font-bold">Password Salah</span>
+              )}
+            </div>
             <div className="relative">
               <input
                 type={showPasskey ? 'text' : 'password'}
                 value={passkey}
-                onChange={(e) => setPasskey(e.target.value)}
-                placeholder="••••••••••••"
+                onChange={(e) => {
+                  setPasskey(e.target.value);
+                  if (errorField === 'password') setErrorField(null);
+                }}
+                placeholder="•••••••••••• (default: nusantara2026)"
                 disabled={throttle.isBlocked || isSubmitting}
                 autoComplete="new-password"
-                className="h-10 pl-3 pr-10 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface font-mono text-xs focus:outline-none focus:border-primary transition-colors w-full disabled:opacity-40"
+                className={`h-10 pl-3 pr-10 bg-surface-container-lowest border rounded-xl text-on-surface font-mono text-xs focus:outline-none transition-colors w-full disabled:opacity-40 ${
+                  errorField === 'password'
+                    ? 'border-error/80 focus:border-error bg-error/5 text-on-surface ring-1 ring-error/50'
+                    : 'border-outline-variant/30 focus:border-primary'
+                }`}
               />
               <button
                 type="button"
