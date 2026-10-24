@@ -185,45 +185,45 @@ export default function SecuritySettingsPage() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-outline-variant/30 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-outline-variant/30 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <KeyRound className="w-5 h-5 text-primary" />
-            <h1 className="font-headline font-bold text-[22px] text-on-surface uppercase tracking-tight">
+            <KeyRound className="w-4 h-4 sm:w-5 sm:h-5 text-primary shrink-0" />
+            <h1 className="font-headline font-bold text-lg sm:text-[22px] text-on-surface uppercase tracking-tight">
               Manajemen Kredensial & Keamanan Akun
             </h1>
           </div>
-          <span className="font-mono text-[11px] text-outline">
+          <span className="font-mono text-[10px] sm:text-[11px] text-outline mt-1 block">
             Atur username/email login baru, ubah password akses terminal rahasia, dan terapkan standar password aman.
           </span>
         </div>
 
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant/30 text-[11px] font-mono text-primary self-start sm:self-auto">
-          <ShieldCheck className="w-4 h-4 text-primary" />
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-outline-variant/30 text-[10px] sm:text-[11px] font-mono text-primary self-start sm:self-auto shrink-0">
+          <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary shrink-0" />
           <span>VAULT SHA-256 PROTECTED</span>
         </div>
       </div>
 
       {/* Grid: Form and Security Guidelines */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         {/* Left Column: Form Settings (8 Cols) */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           <form
             onSubmit={handleSubmit}
-            className="p-6 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-6 shadow-xl"
+            className="p-4 sm:p-6 lg:p-7 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-5 sm:gap-6 shadow-xl"
           >
             {/* Section 1: Username & Email Identifier */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3.5 sm:gap-4">
               <div className="flex items-center gap-2 border-b border-outline-variant/20 pb-2">
-                <User className="w-4 h-4 text-primary" />
-                <h2 className="font-headline font-bold text-sm text-on-surface uppercase tracking-wider">
+                <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary shrink-0" />
+                <h2 className="font-headline font-bold text-xs sm:text-sm text-on-surface uppercase tracking-wider">
                   1. Identitas Login Operator
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-mono text-xs">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] text-outline uppercase font-bold">
+                  <label className="text-[9.5px] sm:text-[10px] text-outline uppercase font-bold">
                     Username / Operator Identifier
                   </label>
                   <div className="relative">
@@ -231,19 +231,19 @@ export default function SecuritySettingsPage() {
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="w-full h-10 pl-9 pr-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface focus:border-primary outline-none"
+                      className="w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface text-xs focus:border-primary outline-none"
                       placeholder="Contoh: admin, officer-gresik"
                       required
                     />
-                    <User className="w-4 h-4 text-outline absolute left-3 top-3" />
+                    <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline absolute left-2.5 sm:left-3 top-2.5 sm:top-3" />
                   </div>
-                  <span className="text-[9px] text-outline">
+                  <span className="text-[8.5px] sm:text-[9px] text-outline">
                     Digunakan saat login di terminal atau passkey field.
                   </span>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] text-outline uppercase font-bold">
+                  <label className="text-[9.5px] sm:text-[10px] text-outline uppercase font-bold">
                     Alamat Email Login / Pemulihan
                   </label>
                   <div className="relative">
@@ -251,13 +251,13 @@ export default function SecuritySettingsPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full h-10 pl-9 pr-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface focus:border-primary outline-none"
+                      className="w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface text-xs focus:border-primary outline-none"
                       placeholder="Contoh: admin@nusantaraorigin.com"
                       required
                     />
-                    <Mail className="w-4 h-4 text-outline absolute left-3 top-3" />
+                    <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline absolute left-2.5 sm:left-3 top-2.5 sm:top-3" />
                   </div>
-                  <span className="text-[9px] text-outline">
+                  <span className="text-[8.5px] sm:text-[9px] text-outline">
                     Bisa digunakan sebagai login identifier alternatif.
                   </span>
                 </div>
@@ -267,14 +267,14 @@ export default function SecuritySettingsPage() {
             {/* Section 2: Password Saat Ini (Verifikasi Keamanan) */}
             <div className="flex flex-col gap-3 pt-2 border-t border-outline-variant/20">
               <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-secondary" />
-                <h2 className="font-headline font-bold text-sm text-on-surface uppercase tracking-wider">
+                <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary shrink-0" />
+                <h2 className="font-headline font-bold text-xs sm:text-sm text-on-surface uppercase tracking-wider">
                   2. Verifikasi Password Saat Ini (Lama)
                 </h2>
               </div>
 
               <div className="flex flex-col gap-1.5 font-mono text-xs">
-                <label className="text-[10px] text-outline uppercase font-bold">
+                <label className="text-[9.5px] sm:text-[10px] text-outline uppercase font-bold">
                   Password Saat Ini (Wajib untuk Otorisasi)
                 </label>
                 <div className="relative">
@@ -282,31 +282,31 @@ export default function SecuritySettingsPage() {
                     type={showCurrentPass ? 'text' : 'password'}
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full h-10 pl-9 pr-10 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface focus:border-primary outline-none"
+                    className="w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-9 sm:pr-10 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface text-xs focus:border-primary outline-none"
                     placeholder="Masukkan password saat ini (default: nusantara2026)"
                     required
                   />
-                  <Lock className="w-4 h-4 text-outline absolute left-3 top-3" />
+                  <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline absolute left-2.5 sm:left-3 top-2.5 sm:top-3" />
                   <button
                     type="button"
                     onClick={() => setShowCurrentPass(!showCurrentPass)}
-                    className="p-1 text-outline hover:text-on-surface absolute right-3 top-2.5 transition-colors cursor-pointer"
+                    className="p-1 text-outline hover:text-on-surface absolute right-2.5 sm:right-3 top-2 sm:top-2.5 transition-colors cursor-pointer"
                   >
-                    {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showCurrentPass ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                   </button>
                 </div>
-                <span className="text-[9px] text-outline">
+                <span className="text-[8.5px] sm:text-[9px] text-outline">
                   Konfirmasi password lama Anda sebelum sistem menyetujui perubahan apapun.
                 </span>
               </div>
             </div>
 
             {/* Section 3: Password Baru & Generator */}
-            <div className="flex flex-col gap-4 pt-2 border-t border-outline-variant/20">
-              <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3.5 sm:gap-4 pt-2 border-t border-outline-variant/20">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                 <div className="flex items-center gap-2">
-                  <KeyRound className="w-4 h-4 text-primary" />
-                  <h2 className="font-headline font-bold text-sm text-on-surface uppercase tracking-wider">
+                  <KeyRound className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary shrink-0" />
+                  <h2 className="font-headline font-bold text-xs sm:text-sm text-on-surface uppercase tracking-wider">
                     3. Password Login Baru
                   </h2>
                 </div>
@@ -315,24 +315,24 @@ export default function SecuritySettingsPage() {
                 <button
                   type="button"
                   onClick={handleGenerateStrongPassword}
-                  className="px-3 py-1.5 rounded-lg bg-primary/15 hover:bg-primary/25 text-primary border border-primary/30 font-mono text-[10px] font-bold flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0"
+                  className="w-full sm:w-auto px-3 py-1.5 rounded-lg bg-primary/15 hover:bg-primary/25 text-primary border border-primary/30 font-mono text-[9.5px] sm:text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                   title="Generate password acak berkekuatan tinggi otomatis"
                 >
-                  <Sparkles className="w-3.5 h-3.5 animate-spin shrink-0" />
-                  <span className="whitespace-nowrap">Generate Password Kuat (1-Klik)</span>
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 animate-spin shrink-0" />
+                  <span>Generate Password Kuat (1-Klik)</span>
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-mono text-xs">
                 {/* New Password Input */}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-[10px] text-outline uppercase font-bold">Password Baru</label>
+                    <label className="text-[9.5px] sm:text-[10px] text-outline uppercase font-bold">Password Baru</label>
                     {newPassword && (
                       <button
                         type="button"
                         onClick={handleCopyPassword}
-                        className="text-[9px] text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                        className="text-[8.5px] sm:text-[9px] text-primary hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         {isCopied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                         <span>{isCopied ? 'Tersalin' : 'Salin'}</span>
@@ -344,16 +344,16 @@ export default function SecuritySettingsPage() {
                       type={showNewPass ? 'text' : 'password'}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full h-10 pl-9 pr-10 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface focus:border-primary outline-none"
+                      className="w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-9 sm:pr-10 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface text-xs focus:border-primary outline-none"
                       placeholder="Biarkan kosong jika hanya ubah username"
                     />
-                    <KeyRound className="w-4 h-4 text-outline absolute left-3 top-3" />
+                    <KeyRound className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline absolute left-2.5 sm:left-3 top-2.5 sm:top-3" />
                     <button
                       type="button"
                       onClick={() => setShowNewPass(!showNewPass)}
-                      className="p-1 text-outline hover:text-on-surface absolute right-3 top-2.5 transition-colors cursor-pointer"
+                      className="p-1 text-outline hover:text-on-surface absolute right-2.5 sm:right-3 top-2 sm:top-2.5 transition-colors cursor-pointer"
                     >
-                      {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showNewPass ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                     </button>
                   </div>
                 </div>
@@ -361,10 +361,10 @@ export default function SecuritySettingsPage() {
                 {/* Confirm Password Input */}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-[10px] text-outline uppercase font-bold">Konfirmasi Password Baru</label>
+                    <label className="text-[9.5px] sm:text-[10px] text-outline uppercase font-bold">Konfirmasi Password Baru</label>
                     {confirmPassword && (
                       <span
-                        className={`text-[9px] font-bold flex items-center gap-1 ${
+                        className={`text-[8.5px] sm:text-[9px] font-bold flex items-center gap-1 ${
                           isPasswordMatch ? 'text-emerald-400' : 'text-error'
                         }`}
                       >
@@ -387,7 +387,7 @@ export default function SecuritySettingsPage() {
                       type={showConfirmPass ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={`w-full h-10 pl-9 pr-10 bg-surface-container-lowest border rounded-xl text-on-surface outline-none transition-colors ${
+                      className={`w-full h-9 sm:h-10 pl-8 sm:pl-9 pr-9 sm:pr-10 bg-surface-container-lowest border rounded-xl text-on-surface text-xs outline-none transition-colors ${
                         confirmPassword
                           ? isPasswordMatch
                             ? 'border-emerald-500/60 focus:border-emerald-500'
@@ -396,13 +396,13 @@ export default function SecuritySettingsPage() {
                       }`}
                       placeholder="Ulangi password baru Anda"
                     />
-                    <KeyRound className="w-4 h-4 text-outline absolute left-3 top-3" />
+                    <KeyRound className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-outline absolute left-2.5 sm:left-3 top-2.5 sm:top-3" />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      className="p-1 text-outline hover:text-on-surface absolute right-3 top-2.5 transition-colors cursor-pointer"
+                      className="p-1 text-outline hover:text-on-surface absolute right-2.5 sm:right-3 top-2 sm:top-2.5 transition-colors cursor-pointer"
                     >
-                      {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showConfirmPass ? <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                     </button>
                   </div>
                 </div>
@@ -410,8 +410,8 @@ export default function SecuritySettingsPage() {
 
               {/* Real-time Password Strength Meter */}
               {newPassword && (
-                <div className="p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-2 font-mono text-xs">
-                  <div className="flex items-center justify-between text-[11px]">
+                <div className="p-3 sm:p-3.5 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-2 font-mono text-xs">
+                  <div className="flex items-center justify-between text-[10px] sm:text-[11px]">
                     <span className="text-outline">Kekuatan Password:</span>
                     <strong className={getStrengthLabel().text}>{getStrengthLabel().label}</strong>
                   </div>
@@ -432,7 +432,7 @@ export default function SecuritySettingsPage() {
 
               {/* Dynamic Security Checklist */}
               {newPassword && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-surface-container-lowest/60 border border-outline-variant/20 font-mono text-[11px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 rounded-xl bg-surface-container-lowest/60 border border-outline-variant/20 font-mono text-[10px] sm:text-[11px]">
                   <div className="flex items-center gap-2">
                     {hasMinLength ? (
                       <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -492,12 +492,12 @@ export default function SecuritySettingsPage() {
             </div>
 
             {/* Form Action Controls */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-outline-variant/30">
-              <span className="font-mono text-[11px] text-outline leading-tight">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-outline-variant/30">
+              <span className="font-mono text-[10px] sm:text-[11px] text-outline leading-tight">
                 Kredensial baru langsung aktif untuk login sesi berikutnya.
               </span>
 
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={() => {
@@ -508,7 +508,7 @@ export default function SecuritySettingsPage() {
                     setNewPassword('');
                     setConfirmPassword('');
                   }}
-                  className="px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 flex items-center justify-center"
+                  className="w-full sm:w-auto px-4 py-2 sm:py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-[11px] sm:text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center justify-center order-2 sm:order-1"
                 >
                   Reset Form
                 </button>
@@ -516,14 +516,14 @@ export default function SecuritySettingsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 whitespace-nowrap shrink-0"
+                  className="w-full sm:w-auto px-4 sm:px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-[11px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 whitespace-nowrap order-1 sm:order-2"
                 >
                   {isSubmitting ? (
-                    <RefreshCw className="w-4 h-4 animate-spin shrink-0" />
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
                   ) : (
-                    <Check className="w-4 h-4 shrink-0" />
+                    <Check className="w-3.5 h-3.5 shrink-0" />
                   )}
-                  <span className="whitespace-nowrap">Simpan Kredensial Baru</span>
+                  <span>Simpan Kredensial Baru</span>
                 </button>
               </div>
             </div>
@@ -533,12 +533,12 @@ export default function SecuritySettingsPage() {
         {/* Right Column: Security Best Practices & Suggestions (4 Cols) */}
         <div className="lg:col-span-4 flex flex-col gap-4 font-mono text-xs">
           {/* Card 1: Syarat Password Aman */}
-          <div className="p-5 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-3 shadow-md">
+          <div className="p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-3 shadow-md">
             <div className="flex items-center gap-2 text-primary font-bold">
-              <ShieldAlert className="w-4 h-4" />
-              <h3 className="font-headline text-xs uppercase tracking-wider">Syarat Password Aman</h3>
+              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              <h3 className="font-headline text-[11px] sm:text-xs uppercase tracking-wider">Syarat Password Aman</h3>
             </div>
-            <ul className="flex flex-col gap-2.5 text-[11px] text-on-surface-variant leading-relaxed">
+            <ul className="flex flex-col gap-2.5 text-[10px] sm:text-[11px] text-on-surface-variant leading-relaxed">
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                 <span>
@@ -561,44 +561,44 @@ export default function SecuritySettingsPage() {
           </div>
 
           {/* Card 2: Saran & Rekomendasi Pemilihan Password */}
-          <div className="p-5 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-3 shadow-md">
+          <div className="p-4 sm:p-5 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-3 shadow-md">
             <div className="flex items-center gap-2 text-secondary font-bold">
-              <HelpCircle className="w-4 h-4" />
-              <h3 className="font-headline text-xs uppercase tracking-wider">Saran Praktis Keamanan</h3>
+              <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              <h3 className="font-headline text-[11px] sm:text-xs uppercase tracking-wider">Saran Praktis Keamanan</h3>
             </div>
-            <div className="flex flex-col gap-2.5 text-[11px] text-on-surface-variant leading-relaxed">
-              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2.5 text-[10px] sm:text-[11px] text-on-surface-variant leading-relaxed">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-primary/15 text-primary flex items-center justify-center shrink-0">
                     <Lightbulb className="w-3 h-3" />
                   </div>
-                  <strong className="text-on-surface font-headline text-xs">Gunakan Teknik Passphrase</strong>
+                  <strong className="text-on-surface font-headline text-[11px] sm:text-xs">Gunakan Teknik Passphrase</strong>
                 </div>
-                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                <p className="text-[10px] sm:text-[11px] text-outline leading-relaxed pl-7">
                   Gabungkan 3-4 kata yang Anda ingat dengan pembatas simbol (contoh: <code>Arang#Gresik$Ekspor26!</code>). Lebih mudah dihafal manusia tapi mustahil dibobol bot kamus.
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-error/15 text-error flex items-center justify-center shrink-0">
                     <Ban className="w-3 h-3" />
                   </div>
-                  <strong className="text-on-surface font-headline text-xs">Hindari Kata yang Dapat Ditebak</strong>
+                  <strong className="text-on-surface font-headline text-[11px] sm:text-xs">Hindari Kata yang Dapat Ditebak</strong>
                 </div>
-                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                <p className="text-[10px] sm:text-[11px] text-outline leading-relaxed pl-7">
                   Jangan gunakan nama komoditas umum (<code>briket123</code>, <code>kopi2026</code>), tanggal lahir, nama PT, atau urutan keyboard (<code>qwerty</code>).
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
+              <div className="p-2.5 sm:p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 rounded-md bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
                     <KeyRound className="w-3 h-3" />
                   </div>
-                  <strong className="text-on-surface font-headline text-xs">Gunakan Password Manager</strong>
+                  <strong className="text-on-surface font-headline text-[11px] sm:text-xs">Gunakan Password Manager</strong>
                 </div>
-                <p className="text-[11px] text-outline leading-relaxed pl-7">
+                <p className="text-[10px] sm:text-[11px] text-outline leading-relaxed pl-7">
                   Simpan password baru Anda pada pengelola kata sandi aman seperti <em>Bitwarden</em>, <em>1Password</em>, atau <em>Apple Keychain</em>.
                 </p>
               </div>

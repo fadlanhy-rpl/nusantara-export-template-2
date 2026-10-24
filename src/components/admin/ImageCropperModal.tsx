@@ -258,18 +258,18 @@ export default function ImageCropperModal({
 
   return (
     <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-5 select-none animate-fade-in">
-      <div className="w-full max-w-[520px] bg-[#1C1815] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-[0_24px_64px_rgba(0,0,0,0.9)] flex flex-col gap-4">
+      <div className="w-full max-w-[520px] bg-[#1C1815] border border-white/10 rounded-2xl p-4 sm:p-6 shadow-[0_24px_64px_rgba(0,0,0,0.9)] flex flex-col gap-3.5 sm:gap-4">
         {/* Top Header */}
         <div className="flex items-center justify-between pb-3 border-b border-outline-variant/30">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shrink-0">
               <Crop className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-headline font-bold text-[15px] text-on-surface">
+              <h3 className="font-headline font-bold text-[13px] sm:text-[15px] text-on-surface">
                 Potong & Sesuaikan Gambar Produk
               </h3>
-              <span className="font-mono text-[10px] text-outline">
+              <span className="font-mono text-[9px] sm:text-[10px] text-outline">
                 Geser, perbesar, atau putar gambar sesuai proporsi katalog
               </span>
             </div>
@@ -311,7 +311,7 @@ export default function ImageCropperModal({
 
         {/* Crop Stage Container */}
         <div
-          className="relative w-full h-[320px] bg-[#120D0A] rounded-2xl overflow-hidden border border-outline-variant/30 flex items-center justify-center cursor-move"
+          className="relative w-full h-[260px] sm:h-[320px] bg-[#120D0A] rounded-2xl overflow-hidden border border-outline-variant/30 flex items-center justify-center cursor-move"
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -425,7 +425,7 @@ export default function ImageCropperModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold"
+            className="px-3.5 sm:px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold text-[11px] sm:text-xs transition-colors cursor-pointer"
           >
             Batal
           </button>
@@ -434,9 +434,9 @@ export default function ImageCropperModal({
             type="button"
             onClick={handleExecuteCrop}
             disabled={isProcessing}
-            className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] disabled:opacity-50 cursor-pointer"
+            className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-primary-container text-on-primary-container font-bold uppercase tracking-wider flex items-center gap-1.5 sm:gap-2 hover:bg-[#D94E13] transition-all shadow-[0_0_16px_rgba(255,138,82,0.35)] disabled:opacity-50 cursor-pointer text-[11px] sm:text-xs"
           >
-            <Check className="w-4 h-4" />
+            <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             <span>{isProcessing ? 'MEMPROSES CROP...' : 'TERAPKAN & SIMPAN'}</span>
           </button>
         </div>

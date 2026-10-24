@@ -661,57 +661,57 @@ export default function CatalogMediaManagerPage() {
             </div>
 
             {/* Navigation Tabs - Consistent 4-Column Grid with Fixed Padding */}
-            <div className="grid grid-cols-4 border-b border-outline-variant/30 bg-surface-container-low/80 shrink-0 font-mono text-xs font-bold">
+            <div className="grid grid-cols-4 border-b border-outline-variant/30 bg-surface-container-low/80 shrink-0 font-mono text-[10px] sm:text-xs font-bold">
               <button
                 type="button"
                 onClick={() => setActiveTab('info')}
-                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
+                className={`py-2.5 sm:py-3.5 px-1.5 sm:px-3 border-b-2 flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'info'
                     ? 'border-primary text-primary bg-primary/5'
                     : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <FileText className="w-4 h-4 shrink-0" />
-                <span className="truncate">1. Data Produk & FOB</span>
+                <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">1. Info & FOB</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('image')}
-                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
+                className={`py-2.5 sm:py-3.5 px-1.5 sm:px-3 border-b-2 flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'image'
                     ? 'border-primary text-primary bg-primary/5'
                     : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Crop className="w-4 h-4 shrink-0" />
-                <span className="truncate">2. Foto Produk & Crop</span>
+                <Crop className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">2. Foto & Crop</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('3d')}
-                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
+                className={`py-2.5 sm:py-3.5 px-1.5 sm:px-3 border-b-2 flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-center ${
                   activeTab === '3d'
                     ? 'border-primary text-primary bg-primary/5'
                     : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Box className="w-4 h-4 shrink-0" />
-                <span className="truncate">3. Asset 3D Studio</span>
+                <Box className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">3. Studio 3D</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('specs')}
-                className={`py-3.5 px-3 border-b-2 flex items-center justify-center gap-2 transition-all cursor-pointer text-center ${
+                className={`py-2.5 sm:py-3.5 px-1.5 sm:px-3 border-b-2 flex items-center justify-center gap-1.5 sm:gap-2 transition-all cursor-pointer text-center ${
                   activeTab === 'specs'
                     ? 'border-primary text-primary bg-primary/5'
                     : 'border-transparent text-outline hover:text-on-surface hover:bg-white/5'
                 }`}
               >
-                <Sliders className="w-4 h-4 shrink-0" />
-                <span className="truncate">4. Spesifikasi & Video</span>
+                <Sliders className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span className="truncate">4. Spek & Video</span>
               </button>
             </div>
 
@@ -1415,25 +1415,25 @@ export default function CatalogMediaManagerPage() {
             </form>
 
             {/* Modal Footer Controls - Fixed Bottom Bar Always Visible */}
-            <div className="shrink-0 flex items-center justify-between px-6 py-3.5 border-t border-outline-variant/30 bg-surface-container-lowest">
-              <span className="font-mono text-[10px] text-outline">
+            <div className="shrink-0 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 border-t border-outline-variant/30 bg-surface-container-lowest gap-3">
+              <span className="font-mono text-[9.5px] sm:text-[10px] text-outline truncate hidden xs:inline sm:inline">
                 Perubahan akan langsung disimpan ke data katalog aktif.
               </span>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2 sm:gap-2.5 ml-auto">
                 <button
                   type="button"
                   onClick={() => setEditingItem(null)}
-                  className="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-xs font-bold transition-all cursor-pointer"
+                  className="px-3 sm:px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-headline text-[11px] sm:text-xs font-bold transition-all cursor-pointer whitespace-nowrap"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   form="commodity-edit-form"
-                  className="px-5 py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center gap-2"
+                  className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-primary-container text-on-primary-container font-headline text-[11px] sm:text-xs font-bold uppercase tracking-wider hover:bg-[#D94E13] transition-all cursor-pointer shadow-lg flex items-center gap-1.5 sm:gap-2 whitespace-nowrap"
                 >
-                  <Check className="w-4 h-4" />
+                  <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                   <span>Simpan Perubahan</span>
                 </button>
               </div>
