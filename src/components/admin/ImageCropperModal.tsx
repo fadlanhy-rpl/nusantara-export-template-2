@@ -257,7 +257,7 @@ export default function ImageCropperModal({
   const baseDims = getBaseDisplayDims();
 
   return (
-    <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 select-none animate-fade-in">
+    <div className="fixed inset-0 bg-black/85 backdrop-blur-md z-[100] flex items-center justify-center p-3 sm:p-5 select-none animate-fade-in">
       <div className="w-full max-w-[520px] bg-[#1C1815] border border-white/10 rounded-2xl p-5 sm:p-6 shadow-[0_24px_64px_rgba(0,0,0,0.9)] flex flex-col gap-4">
         {/* Top Header */}
         <div className="flex items-center justify-between pb-3 border-b border-outline-variant/30">

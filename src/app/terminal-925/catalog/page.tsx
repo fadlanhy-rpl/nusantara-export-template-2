@@ -449,20 +449,9 @@ export default function CatalogMediaManagerPage() {
         className="hidden"
       />
 
-      {/* Interactive Crop Modal */}
-      {isCropperOpen && (
-        <ImageCropperModal
-          isOpen={isCropperOpen}
-          imageSrc={tempImageForCrop}
-          onClose={() => setIsCropperOpen(false)}
-          onCropComplete={handleCropComplete}
-          initialAspectRatio={1}
-        />
-      )}
-
       {/* Floating Toast Notification */}
       {toastMsg && (
-        <div className="fixed top-20 right-6 z-50 p-4 px-5 rounded-xl bg-primary text-on-primary font-mono text-xs font-bold shadow-2xl flex items-center gap-2.5 animate-bounce border border-white/20">
+        <div className="fixed top-20 right-6 z-[110] p-4 px-5 rounded-xl bg-primary text-on-primary font-mono text-xs font-bold shadow-2xl flex items-center gap-2.5 animate-bounce border border-white/20">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{toastMsg}</span>
         </div>
@@ -1451,6 +1440,17 @@ export default function CatalogMediaManagerPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Interactive Crop Modal - Mounted at Root Layer for Highest Stacking Order */}
+      {isCropperOpen && (
+        <ImageCropperModal
+          isOpen={isCropperOpen}
+          imageSrc={tempImageForCrop}
+          onClose={() => setIsCropperOpen(false)}
+          onCropComplete={handleCropComplete}
+          initialAspectRatio={1}
+        />
       )}
     </div>
   );
