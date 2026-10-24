@@ -244,6 +244,7 @@ export default function ContainerPlannerSection() {
   const [containerType, setContainerType] = useState<ContainerType>('40HC');
   const [quantity, setQuantity] = useState<number>(2);
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Form states
   const [buyerName, setBuyerName] = useState('');
@@ -263,10 +264,36 @@ export default function ContainerPlannerSection() {
   const totalMinUsd = totalNetMt * minPricePerMt;
   const totalMaxUsd = totalNetMt * maxPricePerMt;
 
-  const handleUnlock = (e: React.FormEvent) => {
+  const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!buyerName || !buyerEmail || !buyerWhatsapp) return;
-    setIsUnlocked(true);
+
+    setIsSubmitting(true);
+    try {
+      await fetch('/api/v1/rfq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          buyer_name: buyerName,
+          buyer_company: buyerCompany || 'International Trader',
+          buyer_country: 'International',
+          buyer_email: buyerEmail,
+          buyer_whatsapp: buyerWhatsapp,
+          container_size: `${quantity}x ${containerType}`,
+          total_metric_tons: Number(totalNetMt.toFixed(1)),
+          total_master_boxes: totalBoxes,
+          incoterm: 'FOB Tanjung Perak',
+          target_price: `$${minPricePerMt} - $${maxPricePerMt}/MT`,
+        }),
+      });
+    } catch (err) {
+      console.warn('Failed to submit RFQ to API:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsUnlocked(true);
+    }
   };
 
   const dynamicWaText = t.waMsg
@@ -582,10 +609,11 @@ export default function ContainerPlannerSection() {
                     <div className="sm:col-span-2 pt-1">
                       <button
                         type="submit"
-                        className="w-full py-3 px-4 rounded-xl bg-[#16110E] hover:bg-[#2B231E] text-white font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-colors shadow-md"
+                        disabled={isSubmitting}
+                        className="w-full py-3 px-4 rounded-xl bg-[#16110E] hover:bg-[#2B231E] text-white font-headline text-[13px] font-semibold flex items-center justify-center gap-2 transition-colors shadow-md disabled:opacity-50 cursor-pointer"
                       >
                         <Unlock className="w-4 h-4 text-primary shrink-0" />
-                        <span>{t.btnUnlock}</span>
+                        <span>{isSubmitting ? 'Menghubungkan ke Database...' : t.btnUnlock}</span>
                       </button>
                     </div>
                   </form>
