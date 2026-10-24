@@ -148,13 +148,13 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="font-mono text-[11px] text-outline uppercase tracking-wider">
-              Identifier / Operator ID
+              Identifier / Operator ID / Email
             </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Operator Identifier"
+              placeholder="Operator ID / Email Login"
               disabled={throttle.isBlocked || isSubmitting}
               autoComplete="off"
               className="h-10 px-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl text-on-surface font-mono text-xs focus:outline-none focus:border-primary transition-colors disabled:opacity-40"

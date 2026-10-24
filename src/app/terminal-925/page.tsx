@@ -15,7 +15,8 @@ import {
   CheckCircle2,
   Clock,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  KeyRound
 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -221,6 +222,32 @@ export default function TerminalOverviewPage() {
           </div>
           <p className="font-body text-[12.5px] text-on-surface-variant">
             Tabel komprehensif inquiry buyer: filter status deal, kontak WhatsApp langsung terformat, riwayat sampel DHL, dan negosiasi harga FOB Tanjung Perak.
+          </p>
+        </Link>
+
+        {/* Module 5: Security & Account Credentials */}
+        <Link
+          href="/terminal-925/settings"
+          className="p-6 rounded-2xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 hover:border-primary/50 transition-all flex flex-col justify-between gap-4 group shadow-md sm:col-span-2 lg:col-span-1"
+        >
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center group-hover:scale-105 transition-transform">
+                <KeyRound className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-headline font-bold text-[16px] text-on-surface group-hover:text-primary transition-colors">
+                  Keamanan Akun & Kredensial Login
+                </h3>
+                <span className="font-mono text-[11px] text-outline">
+                  Sesuaikan username/email dan perbarui password akses terminal
+                </span>
+              </div>
+            </div>
+            <ArrowRight className="w-5 h-5 text-outline group-hover:text-primary group-hover:translate-x-1 transition-all" />
+          </div>
+          <p className="font-body text-[12.5px] text-on-surface-variant">
+            Ubah username login, email pemulihan, dan password operator ekspor. Dilengkapi checklist syarat password aman, strength meter, dan generator password acak 1-klik.
           </p>
         </Link>
       </div>

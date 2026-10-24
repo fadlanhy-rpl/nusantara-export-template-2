@@ -18,7 +18,8 @@ import {
   X,
   FileCheck2,
   Ship,
-  Sparkles
+  Sparkles,
+  KeyRound
 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -73,6 +74,13 @@ export default function AdminSidebar({
       icon: FileCheck2,
       badge: 'SGS Lab',
       badgeColor: 'bg-tertiary-container text-on-tertiary-container',
+    },
+    {
+      name: locale === 'id' ? 'Keamanan Akun' : locale === 'ar' ? 'أمان الحساب' : locale === 'zh' ? '账号安全' : 'Security Settings',
+      href: '/terminal-925/settings',
+      icon: KeyRound,
+      badge: 'Vault',
+      badgeColor: 'bg-primary/20 text-primary',
     },
   ];
 

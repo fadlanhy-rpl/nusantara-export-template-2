@@ -47,6 +47,7 @@ export default function AdminNavbar({ onToggleMobileSidebar }: AdminNavbarProps)
     if (pathname.includes('/terminal-925/catalog')) return 'Katalog Komoditas & Media Showcase';
     if (pathname.includes('/terminal-925/cargo')) return 'Kargo, Kontainer & Tarif FOB/CIF';
     if (pathname.includes('/terminal-925/inspections')) return 'Audit Pabrik & Laporan Lab SGS';
+    if (pathname.includes('/terminal-925/settings')) return 'Keamanan Akun & Kredensial';
     return 'Ringkasan Terminal Ekspor';
   };
 
@@ -128,12 +129,16 @@ export default function AdminNavbar({ onToggleMobileSidebar }: AdminNavbarProps)
         </div>
 
         {/* Officer Profile Badge */}
-        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant/30 text-[11px] font-mono text-on-surface">
+        <Link
+          href="/terminal-925/settings"
+          className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-[11px] font-mono text-on-surface transition-colors cursor-pointer"
+          title="Buka Pengaturan Keamanan Akun & Kredensial"
+        >
           <div className="w-5 h-5 rounded bg-primary-container flex items-center justify-center text-on-primary-container text-[10px] font-bold">
             <Flame className="w-3 h-3 fill-current" />
           </div>
           <span className="max-w-[120px] truncate">{officerName}</span>
-        </div>
+        </Link>
 
         {/* Lock Terminal (Logout) */}
         <button
