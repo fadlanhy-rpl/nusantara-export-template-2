@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { CheckCircle2, Lock, X } from 'lucide-react';
 import {
   getThrottleStatus,
   recordFailedAttempt,
@@ -22,6 +23,12 @@ export interface UpdateCredentialsPayload {
   newPassword?: string;
 }
 
+export interface AuthNotification {
+  type: 'login' | 'logout';
+  message: string;
+  sub?: string;
+}
+
 interface AdminAuthContextType {
   isAuthenticated: boolean;
   officerName: string;
@@ -31,6 +38,8 @@ interface AdminAuthContextType {
   throttle: ThrottleStatus;
   getCredentialsInfo: () => AdminCredentialsInfo;
   updateCredentials: (payload: UpdateCredentialsPayload) => Promise<{ success: boolean; message?: string }>;
+  authNotification: AuthNotification | null;
+  dismissNotification: () => void;
 }
 
 const defaultThrottle: ThrottleStatus = {
@@ -51,6 +60,8 @@ const AdminAuthContext = createContext<AdminAuthContextType>({
   throttle: defaultThrottle,
   getCredentialsInfo: () => ({ username: 'admin', email: 'export@nusantaraorigin.com' }),
   updateCredentials: async () => ({ success: false }),
+  authNotification: null,
+  dismissNotification: () => {},
 });
 
 const SESSION_KEY = 'nusantara_admin_session_v3';
@@ -65,6 +76,16 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [officerName, setOfficerName] = useState<string>('Export Officer ID-SUB-01');
   const [throttle, setThrottle] = useState<ThrottleStatus>(defaultThrottle);
   const [loading, setLoading] = useState<boolean>(true);
+  const [authNotification, setAuthNotification] = useState<AuthNotification | null>(null);
+
+  const dismissNotification = () => setAuthNotification(null);
+
+  const triggerNotification = (type: 'login' | 'logout', message: string, sub?: string) => {
+    setAuthNotification({ type, message, sub });
+    setTimeout(() => {
+      setAuthNotification((curr) => (curr?.message === message ? null : curr));
+    }, 4500);
+  };
 
   // Helper to read custom credentials from persistent storage
   const getStoredVault = (): { username?: string; email?: string; password?: string; updatedAt?: number } | null => {
@@ -270,6 +291,14 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       expiresAt: Date.now() + 1000 * 60 * 60 * 12, // 12 hours
     };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
+    sessionStorage.setItem('terminal_gate_pass_sp925', 'active');
+
+    triggerNotification(
+      'login',
+      'Login Berhasil!',
+      `Sesi operator aktif untuk ${name}. Selamat datang di Terminal-925.`
+    );
+
     return { success: true };
   };
 
@@ -374,10 +403,16 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     setIsAuthenticated(false);
     try {
       sessionStorage.removeItem(SESSION_KEY);
-      sessionStorage.removeItem('terminal_gate_pass_sp925');
+      sessionStorage.setItem('terminal_gate_pass_sp925', 'active');
     } catch {
       // Fallback
     }
+
+    triggerNotification(
+      'logout',
+      'Logout Berhasil',
+      'Sesi operator telah diakhiri dengan aman. Terminal akses telah dikunci.'
+    );
   };
 
   const lockTerminal = () => {
@@ -403,8 +438,49 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         throttle,
         getCredentialsInfo,
         updateCredentials,
+        authNotification,
+        dismissNotification,
       }}
     >
+      {/* Global Auth Notification Toast */}
+      {authNotification && (
+        <div className="fixed top-5 right-4 sm:right-6 z-[9999] max-w-sm w-[calc(100%-2rem)] p-4 rounded-2xl bg-[#1C1815]/95 border border-white/15 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex items-start gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div
+            className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+              authNotification.type === 'login'
+                ? 'bg-tertiary-container text-on-tertiary-container shadow-[0_0_15px_rgba(63,123,94,0.3)]'
+                : 'bg-primary-container text-on-primary-container shadow-[0_0_15px_rgba(255,138,82,0.3)]'
+            }`}
+          >
+            {authNotification.type === 'login' ? (
+              <CheckCircle2 className="w-5 h-5 text-tertiary" />
+            ) : (
+              <Lock className="w-5 h-5 text-primary" />
+            )}
+          </div>
+
+          <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+            <span className="font-headline font-bold text-xs text-on-surface">
+              {authNotification.message}
+            </span>
+            {authNotification.sub && (
+              <p className="font-body text-[11px] text-outline leading-snug">
+                {authNotification.sub}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={dismissNotification}
+            className="p-1 text-outline hover:text-on-surface rounded-lg transition-colors cursor-pointer"
+            title="Tutup Notifikasi"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {children}
     </AdminAuthContext.Provider>
   );

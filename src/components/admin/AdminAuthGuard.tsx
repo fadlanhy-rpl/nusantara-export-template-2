@@ -29,7 +29,7 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
     } catch {
       setHasGatePass(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   // 1. If already authenticated, allow full access immediately (renders dashboard)
   if (isAuthenticated) {
