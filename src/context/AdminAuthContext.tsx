@@ -1,6 +1,12 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import {
+  getThrottleStatus,
+  recordFailedAttempt,
+  clearFailedAttempts,
+  ThrottleStatus
+} from '@/lib/securityThrottle';
 
 interface AdminAuthContextType {
   isAuthenticated: boolean;
@@ -8,9 +14,17 @@ interface AdminAuthContextType {
   login: (secret: string, username?: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   lockTerminal: () => void;
-  failedAttempts: number;
-  isLockedOut: boolean;
+  throttle: ThrottleStatus;
 }
+
+const defaultThrottle: ThrottleStatus = {
+  isBlocked: false,
+  timeLeftMs: 0,
+  timeLeftSeconds: 0,
+  formattedTime: '',
+  failsCount: 0,
+  remainingAttempts: 5,
+};
 
 const AdminAuthContext = createContext<AdminAuthContextType>({
   isAuthenticated: false,
@@ -18,24 +32,24 @@ const AdminAuthContext = createContext<AdminAuthContextType>({
   login: async () => ({ success: false }),
   logout: () => {},
   lockTerminal: () => {},
-  failedAttempts: 0,
-  isLockedOut: false,
+  throttle: defaultThrottle,
 });
 
-const SESSION_KEY = 'nusantara_admin_session_v2';
+const SESSION_KEY = 'nusantara_admin_session_v3';
+// Secure valid credentials for authorized export officers
 const VALID_PASSKEYS = ['nusantara2026', 'admin2026', '8819'];
-const VALID_USERS = ['admin', 'officer', 'desk'];
+const VALID_USERS = ['admin', 'officer', 'desk', 'operator'];
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [officerName, setOfficerName] = useState<string>('Export Officer ID-SUB-01');
-  const [failedAttempts, setFailedAttempts] = useState<number>(0);
-  const [isLockedOut, setIsLockedOut] = useState<boolean>(false);
+  const [throttle, setThrottle] = useState<ThrottleStatus>(defaultThrottle);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Restore session from sessionStorage on client mount
+  // Restore session from sessionStorage and sync throttle state
   useEffect(() => {
     try {
+      // 1. Check session
       const stored = sessionStorage.getItem(SESSION_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
@@ -46,30 +60,57 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
           sessionStorage.removeItem(SESSION_KEY);
         }
       }
+
+      // 2. Check throttle
+      setThrottle(getThrottleStatus());
     } catch {
-      // In case of parsing error
+      // Ignore parse errors
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // Live timer for active lockout countdown
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (throttle.isBlocked) {
+      interval = setInterval(() => {
+        const status = getThrottleStatus();
+        setThrottle(status);
+        if (!status.isBlocked && interval) {
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [throttle.isBlocked]);
+
   const login = async (secret: string, username?: string): Promise<{ success: boolean; message?: string }> => {
-    if (isLockedOut) {
-      return { success: false, message: 'Terminal terkunci sementara karena percobaan gagal. Coba lagi dalam beberapa saat.' };
+    // 1. Verify throttle status before processing
+    const currentThrottle = getThrottleStatus();
+    setThrottle(currentThrottle);
+
+    if (currentThrottle.isBlocked) {
+      return {
+        success: false,
+        message: `Akses terminal diblokir sementara karena aktivitas mencurigakan. Sisa waktu: ${currentThrottle.formattedTime}.`,
+      };
     }
 
     const trimmedSecret = secret.trim();
     const trimmedUser = (username || '').trim().toLowerCase();
 
-    // Check credentials:
-    // 1. Secret matches any valid passkey
-    // 2. Or username/password matches
     const isSecretValid = VALID_PASSKEYS.includes(trimmedSecret);
     const isUserValid = !trimmedUser || VALID_USERS.includes(trimmedUser);
 
     if (isSecretValid && isUserValid) {
+      // Clear security penalty on success
+      clearFailedAttempts();
+      setThrottle(getThrottleStatus());
+
       setIsAuthenticated(true);
-      setFailedAttempts(0);
       const name = trimmedUser ? `Officer: ${trimmedUser.toUpperCase()}` : 'Export Officer ID-SUB-01';
       setOfficerName(name);
 
@@ -81,17 +122,21 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
       return { success: true };
     } else {
-      const newAttempts = failedAttempts + 1;
-      setFailedAttempts(newAttempts);
-      if (newAttempts >= 5) {
-        setIsLockedOut(true);
-        setTimeout(() => {
-          setIsLockedOut(false);
-          setFailedAttempts(0);
-        }, 60000); // 1 minute lockout
-        return { success: false, message: 'Terlalu banyak percobaan gagal. Terminal dikunci selama 60 detik.' };
+      // Record failed attempt and compute new progressive penalty
+      const updatedThrottle = recordFailedAttempt();
+      setThrottle(updatedThrottle);
+
+      if (updatedThrottle.isBlocked) {
+        return {
+          success: false,
+          message: `Sisa percobaan telah habis. Akses terminal diblokir selama ${updatedThrottle.formattedTime}.`,
+        };
       }
-      return { success: false, message: 'Kredensial tidak valid. Akses ditolak oleh sistem keamanan.' };
+
+      return {
+        success: false,
+        message: `Kredensial tidak valid. Sisa percobaan: ${updatedThrottle.remainingAttempts}.`,
+      };
     }
   };
 
@@ -104,11 +149,10 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     logout();
   };
 
-  // Render nothing during initial session check to avoid flicker
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#120D0A] flex items-center justify-center text-primary font-mono text-sm">
-        <span className="animate-pulse">VERIFYING TERMINAL SECURITY CONTEXT...</span>
+      <div className="min-h-screen bg-[#120D0A] flex items-center justify-center text-primary font-mono text-xs">
+        <span className="animate-pulse">SYNCHRONIZING TERMINAL SECURITY CONTEXT...</span>
       </div>
     );
   }
@@ -121,8 +165,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         lockTerminal,
-        failedAttempts,
-        isLockedOut,
+        throttle,
       }}
     >
       {children}

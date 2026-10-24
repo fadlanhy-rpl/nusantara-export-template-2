@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AdminAuthProvider } from "@/context/AdminAuthContext";
 import AppChrome from "@/components/layout/AppChrome";
 
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ export default function RootLayout({
     <html lang="id" className="dark">
       <body className="bg-background text-on-surface antialiased flex flex-col min-h-screen">
         <LanguageProvider>
-          <AppChrome>{children}</AppChrome>
+          <AdminAuthProvider>
+            <AppChrome>{children}</AppChrome>
+          </AdminAuthProvider>
         </LanguageProvider>
       </body>
     </html>

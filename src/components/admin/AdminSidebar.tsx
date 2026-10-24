@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   Flame,
   LayoutDashboard,
+  Inbox,
   Container,
   ShieldCheck,
   Package,
@@ -15,8 +16,9 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  Activity,
-  HardDrive
+  FileCheck2,
+  Ship,
+  Sparkles
 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -40,45 +42,47 @@ export default function AdminSidebar({
 
   const navItems = [
     {
-      name: locale === 'id' ? 'RFQ Pipeline' : locale === 'ar' ? 'عروض الأسعار RFQ' : locale === 'zh' ? '外贸 RFQ 漏斗' : 'RFQ Pipeline',
-      href: '/admin/rfq',
+      name: locale === 'id' ? 'Ringkasan Terminal' : locale === 'ar' ? 'لوحة التحكم الرئيسية' : locale === 'zh' ? '总控大厅' : 'Terminal Overview',
+      href: '/terminal-925',
       icon: LayoutDashboard,
+    },
+    {
+      name: locale === 'id' ? 'RFQ & Inquiries' : locale === 'ar' ? 'عروض الأسعار RFQ' : locale === 'zh' ? '外贸 RFQ 漏斗' : 'RFQ Pipeline',
+      href: '/terminal-925/rfq',
+      icon: Inbox,
       badge: '14',
       badgeColor: 'bg-primary-container text-on-primary-container',
     },
     {
-      name: locale === 'id' ? 'Kalkulator Kontainer' : locale === 'ar' ? 'حاسبة الحاويات' : locale === 'zh' ? '集装箱测算' : 'Cargo Planner',
-      href: '/container-planner',
-      icon: Container,
+      name: locale === 'id' ? 'Katalog & Media' : locale === 'ar' ? 'إدارة المنتجات والوسائط' : locale === 'zh' ? '产品图文与视频管理' : 'Catalog & Media',
+      href: '/terminal-925/catalog',
+      icon: Layers,
+      badge: '3 Active',
+      badgeColor: 'bg-surface-container-high text-primary',
+    },
+    {
+      name: locale === 'id' ? 'Kargo & Kontainer' : locale === 'ar' ? 'إدارة الحاويات والشحن' : locale === 'zh' ? '集装箱与运价管理' : 'Cargo & Freight Rates',
+      href: '/terminal-925/cargo',
+      icon: Ship,
       badge: 'FCL',
       badgeColor: 'bg-secondary-container text-on-secondary-container',
     },
     {
-      name: locale === 'id' ? 'Audit Mutu & SGS' : locale === 'ar' ? 'فحص الجودة SGS' : locale === 'zh' ? 'SGS 验资报告' : 'Factory & SGS Audit',
-      href: '/factory-audit',
-      icon: ShieldCheck,
-      badge: 'SGS',
+      name: locale === 'id' ? 'Audit Pabrik & SGS' : locale === 'ar' ? 'شهادات الجودة وتدقيق SGS' : locale === 'zh' ? 'SGS 质检与官方认证' : 'Factory & SGS Audit',
+      href: '/terminal-925/inspections',
+      icon: FileCheck2,
+      badge: 'SGS Lab',
       badgeColor: 'bg-tertiary-container text-on-tertiary-container',
-    },
-    {
-      name: locale === 'id' ? 'OEM Box Studio' : locale === 'ar' ? 'استوديو OEM' : locale === 'zh' ? 'OEM 包装设计' : 'OEM Box Studio',
-      href: '/oem-studio',
-      icon: Package,
-    },
-    {
-      name: locale === 'id' ? 'Katalog Komoditas' : locale === 'ar' ? 'كتالوج المنتجات' : locale === 'zh' ? '大宗商品目录' : 'Commodity Catalog',
-      href: '/products',
-      icon: Layers,
     },
   ];
 
   const sidebarContent = (
     <div className="flex flex-col h-full justify-between p-3.5 bg-[#17120F] text-on-surface">
       {/* Top Header & Brandmark */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between pb-3 border-b border-outline-variant/30">
           <Link
-            href="/admin/rfq"
+            href="/terminal-925"
             className="flex items-center gap-2.5 group overflow-hidden"
             onClick={() => setMobileOpen(false)}
           >
@@ -91,7 +95,7 @@ export default function AdminSidebar({
                   Nusantara<span className="text-primary font-bold">Origin</span>
                 </span>
                 <span className="font-mono text-[8.5px] text-primary tracking-widest uppercase mt-0.5">
-                  DEAL DESK • IDMES
+                  DEAL DESK • TERMINAL-925
                 </span>
               </div>
             )}
@@ -101,6 +105,7 @@ export default function AdminSidebar({
           <button
             onClick={() => setMobileOpen(false)}
             className="lg:hidden p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
+            aria-label="Close Sidebar"
           >
             <X className="w-4 h-4" />
           </button>
@@ -109,8 +114,8 @@ export default function AdminSidebar({
         {/* Main Nav Items */}
         <div className="flex flex-col gap-1.5">
           {!collapsed && (
-            <span className="font-mono text-[9.5px] text-outline uppercase tracking-wider px-2.5 mb-1">
-              {locale === 'id' ? 'NAVIGASI UTAMA' : locale === 'ar' ? 'القائمة الرئيسية' : locale === 'zh' ? '系统导航' : 'MAIN NAVIGATION'}
+            <span className="font-mono text-[9px] text-outline uppercase tracking-wider px-2.5 mb-1">
+              {locale === 'id' ? 'MODUL OPERASIONAL' : locale === 'ar' ? 'الوحدات التشغيلية' : locale === 'zh' ? '管理模块' : 'OPERATIONAL MODULES'}
             </span>
           )}
 
@@ -123,7 +128,7 @@ export default function AdminSidebar({
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
                 title={collapsed ? item.name : undefined}
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-headline text-[12.5px] font-medium transition-all group ${
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-headline text-[12px] font-medium transition-all group ${
                   isActive
                     ? 'bg-primary-container text-on-primary-container font-semibold shadow-md'
                     : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
@@ -134,7 +139,7 @@ export default function AdminSidebar({
                   <span className="truncate flex-1">{item.name}</span>
                 )}
                 {!collapsed && item.badge && (
-                  <span className={`px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold shrink-0 ${item.badgeColor || 'bg-surface-container text-on-surface'}`}>
+                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold shrink-0 ${item.badgeColor || 'bg-surface-container text-on-surface'}`}>
                     {item.badge}
                   </span>
                 )}
@@ -153,7 +158,7 @@ export default function AdminSidebar({
                 <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse" />
                 <span>Gresik Node: Online</span>
               </span>
-              <span className="text-secondary font-bold">IDMES</span>
+              <span className="text-secondary font-bold">SP925</span>
             </div>
             <div className="text-on-surface truncate font-semibold">
               {officerName}

@@ -10,9 +10,12 @@ import {
   ChevronDown,
   Check,
   ShieldCheck,
-  Radio,
-  ExternalLink,
-  Flame
+  Flame,
+  Layers,
+  Inbox,
+  Ship,
+  FileCheck2,
+  LayoutDashboard
 } from 'lucide-react';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -40,8 +43,11 @@ export default function AdminNavbar({ onToggleMobileSidebar }: AdminNavbarProps)
   }, []);
 
   const getBreadcrumb = () => {
-    if (pathname.includes('/admin/rfq')) return 'RFQ Pipeline & Deal Desk';
-    return 'Admin Dashboard';
+    if (pathname.includes('/terminal-925/rfq')) return 'RFQ Pipeline & Inquiries';
+    if (pathname.includes('/terminal-925/catalog')) return 'Katalog Komoditas & Media Showcase';
+    if (pathname.includes('/terminal-925/cargo')) return 'Kargo, Kontainer & Tarif FOB/CIF';
+    if (pathname.includes('/terminal-925/inspections')) return 'Audit Pabrik & Laporan Lab SGS';
+    return 'Ringkasan Terminal Ekspor';
   };
 
   return (

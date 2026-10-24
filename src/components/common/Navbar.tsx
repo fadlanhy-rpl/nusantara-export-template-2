@@ -13,6 +13,22 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
+  const flameClickTimer = useRef<NodeJS.Timeout | null>(null);
+  const [flameClicks, setFlameClicks] = useState(0);
+
+  const handleFlameClick = (e: React.MouseEvent) => {
+    const next = flameClicks + 1;
+    if (next >= 3) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = '/terminal-925';
+      setFlameClicks(0);
+      return;
+    }
+    setFlameClicks(next);
+    if (flameClickTimer.current) clearTimeout(flameClickTimer.current);
+    flameClickTimer.current = setTimeout(() => setFlameClicks(0), 1200);
+  };
 
   // Close dropdown on outside click or Escape key
   useEffect(() => {
@@ -104,7 +120,11 @@ export default function Navbar() {
       <div className="max-w-[1360px] mx-auto h-[46px] min-[360px]:h-[50px] sm:h-[58px] md:h-[66px] rounded-full bg-[#1C1815]/95 backdrop-blur-xl border border-white/10 px-2 min-[360px]:px-3 sm:px-4 md:px-8 flex items-center justify-between shadow-[0_12px_36px_-6px_rgba(0,0,0,0.65)] transition-all">
         {/* Left: Brandmark — Scalable with Origin hidden on compact screens < 480px and truncate on narrow viewports */}
         <Link href="/" className="flex items-center gap-1 sm:gap-2 md:gap-3 group min-w-0 shrink me-1 sm:me-3 lg:me-4 xl:me-8 2xl:me-10">
-          <div className="w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-8.5 sm:h-8.5 md:w-10 md:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_12px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0">
+          <div
+            onClick={handleFlameClick}
+            className="w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-8.5 sm:h-8.5 md:w-10 md:h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_0_12px_rgba(196,68,15,0.45)] group-hover:scale-105 transition-transform shrink-0"
+            title="NusantaraOrigin"
+          >
             <Flame className="w-3 h-3 min-[360px]:w-3.5 min-[360px]:h-3.5 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-on-primary-container fill-current" />
           </div>
           <div className="flex flex-col min-w-0">
